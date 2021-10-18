@@ -1,6 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 
-module Palantype.DE.RawSteno where
+module Palantype.Common.RawSteno where
 
 import           Control.Applicative (Alternative (empty))
 import           Control.Monad       (MonadPlus (mzero), guard, when)
