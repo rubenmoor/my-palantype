@@ -1,6 +1,6 @@
 let
   hostNix = import <nixpkgs> {};
-  compiler = "ghc865";
+  compiler = "ghc884";
 
   easy-hls-src = hostNix.pkgs.fetchFromGitHub {
     owner = "jkachmar";
@@ -8,7 +8,7 @@ let
     rev = "db85cac9d0405b4769b75cba0b004aed3beaf2de";
     sha256 = "10nff6mqflrd6dz1fp2l9vmfwbgk0r7zm81qh2xnjj19a47pd7v3";
   };
-  easy-hls = hostNix.callPackage easy-hls-src { ghcVersions = [ "${compiler}" ]; };
+  easy-hls = hostNix.callPackage easy-hls-src { ghcVersions = [ "8.8.4" ]; };
   
   config = {
     packageOverrides = pkgs: rec {
@@ -48,8 +48,8 @@ in
       drv.env.overrideAttrs ( oldAttrs: rec {
         nativeBuildInputs =
           oldAttrs.nativeBuildInputs ++ [
-            easy-hls
             cabal-install
+            easy-hls
           ];
       });
     exec = drv;
