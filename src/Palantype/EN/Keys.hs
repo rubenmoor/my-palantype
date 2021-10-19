@@ -1,10 +1,13 @@
 {-# LANGUAGE LambdaCase #-}
 
+{-# LANGUAGE DeriveDataTypeable #-}
 module Palantype.EN.Keys where
 
 import Palantype.Common (Palantype (..), Finger (..))
 import TextShow (TextShow (..))
 import qualified Data.Map as Map
+import Data.Typeable (Typeable)
+import Data.Data (Data)
 
 -- the palantype.en keyboard
 --
@@ -24,8 +27,11 @@ data Key =
   | LeftN
   | LeftL
   | LeftY
+  | Unused1
   | LeftO
   | LeftE
+  | Unused2
+  | Unused3
   | RightA
   | RightU
   | MiddleI
@@ -41,40 +47,9 @@ data Key =
   | RightCross
   | RightS
   | RightH
-  deriving (Eq, Ord)
+  deriving (Eq, Ord, Typeable, Data)
 
 instance Palantype Key where
-  toFinger = \case
-    LeftS      -> LeftPinky
-    LeftC      -> LeftPinky
-    LeftP      -> LeftPinky
-    LeftT      -> LeftRing
-    LeftH      -> LeftRing
-    LeftCross  -> LeftRing
-    LeftM      -> LeftMiddle
-    LeftF      -> LeftMiddle
-    LeftR      -> LeftMiddle
-    LeftN      -> LeftIndex
-    LeftL      -> LeftIndex
-    LeftY      -> LeftIndex
-    LeftO      -> LeftThumb
-    LeftE      -> LeftThumb
-    RightA     -> RightThumb
-    RightU     -> RightThumb
-    MiddleI    -> RightThumb
-    RightPoint -> RightIndex
-    RightN     -> RightIndex
-    RightL     -> RightIndex
-    RightC     -> RightMiddle
-    RightM     -> RightMiddle
-    RightF     -> RightMiddle
-    RightR     -> RightRing
-    RightP     -> RightRing
-    RightT     -> RightRing
-    RightCross -> RightPinky
-    RightS     -> RightPinky
-    RightH     -> RightPinky
-
   keyCode = \case
     LeftS      -> 'S'
     LeftC      -> 'C'
@@ -88,8 +63,11 @@ instance Palantype Key where
     LeftN      -> 'N'
     LeftL      -> 'L'
     LeftY      -> 'Y'
+    Unused1    -> '_'
     LeftO      -> 'O'
     LeftE      -> 'E'
+    Unused2    -> '_'
+    Unused3    -> '_'
     RightA     -> 'A'
     RightU     -> 'U'
     MiddleI    -> 'I'
@@ -105,27 +83,6 @@ instance Palantype Key where
     RightCross -> '+'
     RightS     -> 'S'
     RightH     -> 'H'
-
-  toKeys = \case
-    'S' -> [LeftS, RightS]
-    'C' -> [LeftC, RightC]
-    'P' -> [LeftP, RightP]
-    'T' -> [LeftT, RightT]
-    'H' -> [LeftH, RightH]
-    '+' -> [LeftCross, RightCross]
-    'M' -> [LeftM, RightM]
-    'F' -> [LeftF, RightF]
-    'R' -> [LeftR, RightR]
-    'N' -> [LeftN, RightN]
-    'L' -> [LeftL, RightL]
-    'Y' -> [LeftY]
-    'O' -> [LeftO]
-    'E' -> [LeftE]
-    'A' -> [RightA]
-    'U' -> [RightU]
-    'I' -> [MiddleI]
-    '^' -> [RightPoint]
-    _   -> []
 
 instance TextShow Key where
   showb = showb . keyCode

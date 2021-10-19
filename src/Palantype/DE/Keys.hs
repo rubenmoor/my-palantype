@@ -1,4 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 
 module Palantype.DE.Keys where
 
@@ -6,13 +7,15 @@ import Palantype.Common (Palantype (..), Finger (..))
 import TextShow (TextShow (..))
 import qualified Data.Map as Map
 import Data.Proxy (Proxy(Proxy))
+import Data.Data (Data)
+import Data.Typeable (Typeable)
 
 -- the palantype.de keyboard
 --
 -- S|Z   H/e  M  L       .     + N   F/W/V  R/-er
 -- B|P   D|T  J  N       .     L K/G S/Z|Tz -en
 -- G|K   F/V  W  R/er-   .     M P/B ʃ|ç    D/T
--- thumbg     ^  E  A ː  . O I U
+-- thumb      ^  E  A ~  . _ O I U
 
 -- a key on a steno keyboard
 data Key
@@ -32,6 +35,7 @@ data Key
   | LeftE
   | LeftA
   | LeftStretch
+  | Unused
   | RightOStretch
   | RightI
   | RightU
@@ -47,41 +51,9 @@ data Key
   | RightEEr
   | RightEn
   | RightDT
-  deriving (Eq, Ord)
+  deriving (Eq, Ord, Typeable, Data)
 
 instance Palantype Key where
-  toFinger = \case
-    LeftSZ        -> LeftPinky
-    LeftBP        -> LeftPinky
-    LeftGK        -> LeftPinky
-    LeftHE        -> LeftRing
-    LeftDT        -> LeftRing
-    LeftFV        -> LeftRing
-    LeftM         -> LeftMiddle
-    LeftJ         -> LeftMiddle
-    LeftW         -> LeftMiddle
-    LeftL         -> LeftIndex
-    LeftN         -> LeftIndex
-    LeftREr       -> LeftIndex
-    LeftDiacritic -> LeftThumb
-    LeftE         -> LeftThumb
-    LeftA         -> LeftThumb
-    LeftStretch   -> LeftThumb
-    RightOStretch -> RightThumb
-    RightI        -> RightThumb
-    RightU        -> RightThumb
-    RightModifier -> RightIndex
-    RightL        -> RightIndex
-    RightM        -> RightIndex
-    RightN        -> RightMiddle
-    RightKG       -> RightMiddle
-    RightPB       -> RightMiddle
-    RightFWVIv    -> RightRing
-    RightSZTz     -> RightRing
-    RightSchCh    -> RightRing
-    RightEEr      -> RightPinky
-    RightEn       -> RightPinky
-    RightDT       -> RightPinky
 
   keyCode = \case
     LeftSZ        -> 'S'
@@ -100,6 +72,7 @@ instance Palantype Key where
     LeftE         -> 'E'
     LeftA         -> 'A'
     LeftStretch   -> '~'
+    Unused        -> '_'
     RightOStretch -> 'O'
     RightI        -> 'I'
     RightU        -> 'U'
@@ -115,34 +88,6 @@ instance Palantype Key where
     RightEEr      -> 'e'
     RightEn       -> 'n'
     RightDT       -> 'D'
-
-  toKeys = \case
-    'S' -> [LeftSZ, RightSZTz]
-    'B' -> [LeftBP]
-    'G' -> [LeftGK]
-    'H' -> [LeftHE]
-    'D' -> [LeftDT, RightDT]
-    'F' -> [LeftFV, RightFWVIv]
-    'M' -> [LeftM, RightM]
-    'J' -> [LeftJ]
-    'W' -> [LeftW]
-    'L' -> [LeftL, RightL]
-    'N' -> [LeftN, RightN]
-    'R' -> [LeftREr]
-    '^' -> [LeftDiacritic]
-    'E' -> [LeftE]
-    'A' -> [LeftA]
-    '~' -> [LeftStretch]
-    'O' -> [RightOStretch]
-    'I' -> [RightI]
-    'U' -> [RightU]
-    '+' -> [RightModifier]
-    'K' -> [RightKG]
-    'P' -> [RightPB]
-    'ʃ' -> [RightSchCh]
-    'e' -> [RightEEr]
-    'n' -> [RightEn]
-    _   -> []
 
 instance TextShow Key where
   showb = showb . keyCode

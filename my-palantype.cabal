@@ -40,6 +40,7 @@ library
       , aeson
       , containers
       , parsec
+      , proxied
       , text
       , text-show
     hs-source-dirs:   src
