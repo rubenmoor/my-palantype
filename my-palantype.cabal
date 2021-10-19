@@ -25,7 +25,10 @@ library
     exposed-modules:
         Palantype.Common
       , Palantype.Common.RawSteno
+      , Palantype.DE
       , Palantype.DE.Keys
+      , Palantype.EN
+      , Palantype.EN.Keys
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -33,7 +36,8 @@ library
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
     build-depends:
-        base ^>=4.12.0.0
+        base >=4.12.0.0
+      , aeson
       , containers
       , parsec
       , text

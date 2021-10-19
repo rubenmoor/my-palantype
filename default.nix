@@ -1,14 +1,15 @@
 let
-  hostNix = import <nixpkgs> {};
-  compiler = "ghc884";
+  #hostNix = import <nixpkgs> {};
+  pkgs = import <nixpkgs> {};
+  compiler = "ghc8104";
 
-  easy-hls-src = hostNix.pkgs.fetchFromGitHub {
-    owner = "jkachmar";
-    repo = "easy-hls-nix";
-    rev = "db85cac9d0405b4769b75cba0b004aed3beaf2de";
-    sha256 = "10nff6mqflrd6dz1fp2l9vmfwbgk0r7zm81qh2xnjj19a47pd7v3";
-  };
-  easy-hls = hostNix.callPackage easy-hls-src { ghcVersions = [ "8.8.4" ]; };
+  #easy-hls-src = hostNix.pkgs.fetchFromGitHub {
+  #  owner = "jkachmar";
+  #  repo = "easy-hls-nix";
+  #  rev = "db85cac9d0405b4769b75cba0b004aed3beaf2de";
+  #  sha256 = "10nff6mqflrd6dz1fp2l9vmfwbgk0r7zm81qh2xnjj19a47pd7v3";
+  #};
+  #easy-hls = hostNix.callPackage easy-hls-src { };
   
   config = {
     packageOverrides = pkgs: rec {
@@ -23,15 +24,15 @@ let
     };
     # allowBroken = true;
   };
-  nixpkgsPin = hostNix.pkgs.lib.importJSON ./nixos-pinned.json;
+  #nixpkgsPin = hostNix.pkgs.lib.importJSON ./nixos-pinned.json;
 
-  src = hostNix.pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo  = "nixpkgs-channels";
-    inherit (nixpkgsPin) rev sha256;
-  };
+  #src = hostNix.pkgs.fetchFromGitHub {
+  #  owner = "NixOS";
+  #  repo  = "nixpkgs-channels";
+  #  inherit (nixpkgsPin) rev sha256;
+  #};
 
-  pkgs = import src { inherit config; };
+  #pkgs = import src { inherit config; };
   drv = pkgs.haskell.packages."${compiler}".callCabal2nix "my-palantype" ./. { };
 in
   {
@@ -49,7 +50,7 @@ in
         nativeBuildInputs =
           oldAttrs.nativeBuildInputs ++ [
             cabal-install
-            easy-hls
+            haskell-language-server
           ];
       });
     exec = drv;

@@ -5,7 +5,7 @@ module Palantype.DE.Keys where
 import Palantype.Common (Palantype (..), Finger (..))
 import TextShow (TextShow (..))
 import qualified Data.Map as Map
-
+import Data.Proxy (Proxy(Proxy))
 
 -- the palantype.de keyboard
 --
