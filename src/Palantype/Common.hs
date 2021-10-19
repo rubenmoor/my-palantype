@@ -1,29 +1,32 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE NoImplicitPrelude          #-}
+{-# LANGUAGE ScopedTypeVariables        #-}
 
-{-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE KindSignatures             #-}
 module Palantype.Common where
 
-import           Data.Char     (Char, GeneralCategory (OtherLetter))
-import           Data.Eq       (Eq ((==)))
-import           Data.Foldable (Foldable (foldr))
-import           Data.Function (($))
-import           Data.List     ((++), intersperse)
-import           Data.Map      (Map)
-import qualified Data.Map      as Map
-import           Data.Ord      (Ord)
-import TextShow (TextShow (showb), singleton)
-import Data.Monoid (Monoid(mconcat))
-import Control.Category ((.))
-import Data.Functor (Functor(fmap), (<$>))
-import Data.Int (Int)
-import Data.Data (Data (toConstr), indexConstr, maxConstrIndex, dataTypeOf, fromConstr, constrIndex)
-import Data.Foldable (Foldable(foldl))
-import Data.Maybe (fromMaybe)
-import GHC.Base (undefined)
-import Control.Exception (assert)
-import Data.Proxied (dataTypeOfProxied)
-import Data.Data (Proxy(Proxy))
+import           Control.Category  ((.))
+import           Control.Exception (assert)
+import           Data.Aeson        (ToJSON, FromJSON, FromJSONKey, ToJSONKey)
+import           Data.Char         (Char, GeneralCategory (OtherLetter))
+import           Data.Data         (Data (toConstr), Proxy (Proxy), constrIndex,
+                                    dataTypeOf, fromConstr, indexConstr,
+                                    maxConstrIndex)
+import           Data.Eq           (Eq ((==)))
+import           Data.Foldable     (Foldable (foldl, foldr))
+import           Data.Function     (($))
+import           Data.Functor      (Functor (fmap), (<$>))
+import           Data.Int          (Int)
+import           Data.List         (intersperse, (++))
+import           Data.Map          (Map)
+import qualified Data.Map          as Map
+import           Data.Maybe        (fromMaybe)
+import           Data.Monoid       (Monoid (mconcat))
+import           Data.Ord          (Ord)
+import           Data.Proxied      (dataTypeOfProxied)
+import           GHC.Base          (undefined)
+import           TextShow          (TextShow (showb), singleton)
+import GHC.Num (Num)
 
 data Finger
   = LeftPinky
@@ -97,13 +100,16 @@ class Data key => Palantype key where
         m = foldl (\m k -> Map.insertWith (++) (keyCode k) [k] m) Map.empty ks
     in  fromMaybe [] $ Map.lookup c m
 
-  keyIndex :: key -> Int
-  keyIndex = constrIndex . toConstr
+  keyIndex :: key -> KeyIndex
+  keyIndex = KeyIndex . constrIndex . toConstr
 
-  fromIndex :: Int -> key
+  fromIndex :: KeyIndex -> key
   fromIndex i =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
-    in  fromConstr $ indexConstr t i
+    in  fromConstr $ indexConstr t $ unKeyIndex i
+
+newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
+  deriving (Eq, Ord, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
 
 -- a series of chords, to type a word of arbitrary length
 newtype Series k = Series { unSeries :: [Chord k] }
