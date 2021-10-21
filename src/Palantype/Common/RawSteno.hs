@@ -27,6 +27,8 @@ instance TextShow RawSteno where
 instance IsString RawSteno where
   fromString = RawSteno . fromString
 
+-- | parse raw steno code where words are separated by space(s) and
+-- | chords within one word are separated by '/'
 parseSteno
   :: Palantype key
   => RawSteno -> Either Text [Chord key]
@@ -35,14 +37,19 @@ parseSteno (RawSteno str) =
     Left  err -> Left  $ Text.pack $ show err
     Right ls  -> Right $ concat ls
 
+-- | fails silently in case of parser error and returns
+-- | an empty list
 parseStenoLenient
   :: Palantype key
-  => RawSteno -> [Chord key]
+  => RawSteno
+  -> [Chord key]
 parseStenoLenient (RawSteno str) =
   case runParser sentence Nothing "raw steno code" str of
     Left  err -> []
     Right ls  -> concat ls
 
+-- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
+-- | fails silently and returns and returns an empty chord
 parseChordLenient
   :: Palantype key
   => RawSteno -> Chord key

@@ -4,16 +4,16 @@
 module Palantype.EN.Keys where
 
 import Palantype.Common (Palantype (..), Finger (..))
-import TextShow (TextShow (..))
+import TextShow (singleton, TextShow (..))
 import qualified Data.Map as Map
 import Data.Typeable (Typeable)
 import Data.Data (Data)
 
 -- the palantype.en keyboard
---
 
--- a key on a steno keyboard
-
+-- | a key on a steno keyboard
+-- |
+-- | The palan order: SCPTH+MFRNLYOEAUI^NLCMFRPT+SH
 data Key =
     LeftS
   | LeftC
@@ -85,4 +85,4 @@ instance Palantype Key where
     RightH     -> 'H'
 
 instance TextShow Key where
-  showb = showb . keyCode
+  showb = singleton . keyCode

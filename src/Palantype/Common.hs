@@ -17,7 +17,7 @@ import           Data.Foldable     (Foldable (foldl, foldr))
 import           Data.Function     (($))
 import           Data.Functor      (Functor (fmap), (<$>))
 import           Data.Int          (Int)
-import           Data.List         (intersperse, (++))
+import           Data.List         (intersperse, (++), sort)
 import           Data.Map          (Map)
 import qualified Data.Map          as Map
 import           Data.Maybe        (fromMaybe)
@@ -50,7 +50,7 @@ data Finger
 -- |
 -- | There should be exactly 32 keys (32 constructors), otherwise the default
 -- | implementation for `toFinger` will fail and the layout will look messy
-class Data key => Palantype key where
+class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
   -- | map every key to a character representing raw steno code
   -- | this is the only required function
   keyCode :: key -> Char
@@ -120,6 +120,14 @@ instance TextShow k => TextShow (Series k) where
 
 newtype Chord k = Chord { unChord :: [k] }
   deriving (Eq, Ord)
+
+mkChord
+  :: forall k.
+  ( Palantype k
+  )
+  => [k]
+  -> Chord k
+mkChord keys = Chord $ sort keys
 
 instance TextShow k => TextShow (Chord k) where
   showb = mconcat . fmap showb . unChord

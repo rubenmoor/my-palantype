@@ -4,7 +4,7 @@
 module Palantype.DE.Keys where
 
 import Palantype.Common (Palantype (..), Finger (..))
-import TextShow (TextShow (..))
+import TextShow (singleton, TextShow (..))
 import qualified Data.Map as Map
 import Data.Proxy (Proxy(Proxy))
 import Data.Data (Data)
@@ -90,4 +90,4 @@ instance Palantype Key where
     RightDT       -> 'D'
 
 instance TextShow Key where
-  showb = showb . keyCode
+  showb = singleton . keyCode

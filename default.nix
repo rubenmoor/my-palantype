@@ -53,5 +53,5 @@ in
             haskell-language-server
           ];
       });
-    exec = drv;
+    lib = drv;
   }
