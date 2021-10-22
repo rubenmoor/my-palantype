@@ -4,7 +4,7 @@
 module Palantype.Common.RawSteno where
 
 import           Control.Applicative (Alternative (empty))
-import           Control.Monad       (MonadPlus (mzero), guard, when)
+import           Control.Monad       (MonadPlus (mzero), guard, when, unless)
 import           Data.Functor        (void, ($>))
 import           Data.Text           (Text)
 import qualified Data.Text           as Text
@@ -142,9 +142,10 @@ key = do
         :: Palantype key
         => key -> Parsec Text (Maybe Finger) key
       reach k = do
-        guard $ Just (toFinger k) > mFinger
+        unless (Just (toFinger k) > mFinger) $ fail $
+          "key " <> Text.unpack (showt k) <> " no reach"
         anyChar $> k
 
-  k <- foldl (\parser k -> parser <|> reach k) mzero (toKeys c)
+  k <- foldl (\parser k -> parser <|> reach k) (fail "keys no reach") (toKeys c)
   setState $ Just $ toFinger k
   pure k

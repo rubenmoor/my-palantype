@@ -15,7 +15,7 @@ import           Data.Data         (Data (toConstr), Proxy (Proxy), constrIndex,
                                     maxConstrIndex)
 import           Data.Eq           (Eq ((==)))
 import           Data.Foldable     (Foldable (foldl, foldr))
-import           Data.Function     (($))
+import           Data.Function     (($), flip)
 import           Data.Functor      (Functor (fmap), (<$>))
 import           Data.Int          (Int)
 import           Data.List         (intersperse, sort, (++))
@@ -104,7 +104,7 @@ class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
         ks = fromConstr . indexConstr t <$> [1..(maxConstrIndex t)]
-        m = foldl (\m k -> Map.insertWith (++) (keyCode k) [k] m) Map.empty ks
+        m = foldl (\m k -> Map.insertWith (flip (++)) (keyCode k) [k] m) Map.empty ks
     in  fromMaybe [] $ Map.lookup c m
 
   keyIndex :: key -> KeyIndex
