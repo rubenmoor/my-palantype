@@ -39,6 +39,7 @@ library
         base >=4.12.0.0
       , aeson
       , containers
+      , json5hs
       , parsec
       , proxied
       , text

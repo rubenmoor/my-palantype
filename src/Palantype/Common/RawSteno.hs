@@ -13,16 +13,17 @@ import           Palantype.Common    (Chord (Chord), Finger (RightThumb),
 import           Text.Parsec         (Parsec, anyChar, char, eof, getState,
                                       lookAhead, many1, runParser, sepBy1,
                                       setState, space, spaces, try, (<|>))
-import           TextShow            (TextShow (showt, showb))
+import           TextShow            (TextShow (showt, showb), fromText)
 import Data.String (IsString (..))
 import Data.Aeson.Types (FromJSON)
 import Data.Aeson (ToJSON, FromJSONKey, ToJSONKey)
+import Text.JSON5 (JSON5)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
-  deriving (Eq, Ord, FromJSON, ToJSON, FromJSONKey, ToJSONKey)
+  deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey)
 
 instance TextShow RawSteno where
-  showb = showb . unRawSteno
+  showb = fromText . unRawSteno
 
 instance IsString RawSteno where
   fromString = RawSteno . fromString
@@ -47,6 +48,11 @@ parseStenoLenient (RawSteno str) =
   case runParser sentence Nothing "raw steno code" str of
     Left  err -> []
     Right ls  -> concat ls
+
+parseWord (RawSteno str) =
+  case runParser word Nothing "raw steno code" str of
+    Left err -> Left $ Text.pack $ show err
+    Right cs -> Right cs
 
 -- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
 -- | fails silently and returns and returns an empty chord
@@ -139,4 +145,6 @@ key = do
         guard $ Just (toFinger k) > mFinger
         anyChar $> k
 
-  foldl (\parser k -> parser <|> reach k) mzero (toKeys c)
+  k <- foldl (\parser k -> parser <|> reach k) mzero (toKeys c)
+  setState $ Just $ toFinger k
+  pure k

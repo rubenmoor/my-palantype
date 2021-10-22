@@ -1,13 +1,14 @@
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE KindSignatures             #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
 
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE KindSignatures             #-}
 module Palantype.Common where
 
 import           Control.Category  ((.))
 import           Control.Exception (assert)
-import           Data.Aeson        (ToJSON, FromJSON, FromJSONKey, ToJSONKey)
+import           Data.Aeson        (FromJSON, FromJSONKey, ToJSON, ToJSONKey)
 import           Data.Char         (Char, GeneralCategory (OtherLetter))
 import           Data.Data         (Data (toConstr), Proxy (Proxy), constrIndex,
                                     dataTypeOf, fromConstr, indexConstr,
@@ -17,7 +18,7 @@ import           Data.Foldable     (Foldable (foldl, foldr))
 import           Data.Function     (($))
 import           Data.Functor      (Functor (fmap), (<$>))
 import           Data.Int          (Int)
-import           Data.List         (intersperse, (++), sort)
+import           Data.List         (intersperse, sort, (++))
 import           Data.Map          (Map)
 import qualified Data.Map          as Map
 import           Data.Maybe        (fromMaybe)
@@ -25,8 +26,11 @@ import           Data.Monoid       (Monoid (mconcat))
 import           Data.Ord          (Ord)
 import           Data.Proxied      (dataTypeOfProxied)
 import           GHC.Base          (undefined)
-import           TextShow          (TextShow (showb), singleton)
-import GHC.Num (Num)
+import           GHC.Generics      (Generic)
+import           GHC.Num           (Num)
+import           Text.Show         (Show)
+import           TextShow          (TextShow (showb, showbPrec), singleton)
+import           TextShow.Generic  (FromGeneric, genericShowbPrec)
 
 data Finger
   = LeftPinky
@@ -39,7 +43,10 @@ data Finger
   | RightMiddle
   | RightRing
   | RightPinky
-  deriving (Eq, Ord)
+  deriving (Generic, Eq, Ord, Show)
+
+instance TextShow Finger where
+  showbPrec = genericShowbPrec
 
 -- | defines a steno key layout
 -- |
