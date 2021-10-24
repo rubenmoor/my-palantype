@@ -12,7 +12,7 @@ import           Palantype.Common    (Chord (Chord), Finger (RightThumb),
                                       Palantype (toFinger, toKeys))
 import           Text.Parsec         (Parsec, anyChar, char, eof, getState,
                                       lookAhead, many1, runParser, sepBy1,
-                                      setState, space, spaces, try, (<|>))
+                                      setState, space, spaces, try, (<|>), ParseError, parserTrace)
 import           TextShow            (TextShow (showt, showb), fromText)
 import Data.String (IsString (..))
 import Data.Aeson.Types (FromJSON)
@@ -49,10 +49,12 @@ parseStenoLenient (RawSteno str) =
     Left  err -> []
     Right ls  -> concat ls
 
+parseWord
+  :: Palantype key
+  => RawSteno
+  -> Either ParseError [Chord key]
 parseWord (RawSteno str) =
-  case runParser word Nothing "raw steno code" str of
-    Left err -> Left $ Text.pack $ show err
-    Right cs -> Right cs
+  runParser word Nothing "raw steno code" str
 
 -- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
 -- | fails silently and returns and returns an empty chord
@@ -99,7 +101,7 @@ keys = many1 keyWithHyphen
 keyWithHyphen
   :: Palantype key
   => Parsec Text (Maybe Finger) key
-keyWithHyphen = try (keyLeftHand <* eof) <|> keyOrHyphenKey
+keyWithHyphen = try keyLeftHand <|> keyOrHyphenKey
 
 keyLeftHand
   :: Palantype key
@@ -108,17 +110,19 @@ keyLeftHand = do
   mFinger <- getState
   c <- anyChar
   h <- char '-'
+  eof
 
   let reach
         :: Palantype key
         => key -> Parsec Text (Maybe Finger) key
       reach k = do
         let f = toFinger k
-        guard $ Just f < mFinger
+        setState $ Just f
+        guard $ mFinger < Just f
         guard $ f < RightThumb
         pure k
 
-  foldl (\p k -> p <|> reach k) mzero (toKeys c)
+  foldl (\p k -> p <|> reach k) (fail "key left hand no reach") (toKeys c)
 
 keyOrHyphenKey
   :: Palantype key
