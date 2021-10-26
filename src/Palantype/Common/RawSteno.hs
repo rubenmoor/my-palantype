@@ -1,23 +1,24 @@
-{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TupleSections              #-}
 
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Palantype.Common.RawSteno where
 
 import           Control.Applicative (Alternative (empty))
-import           Control.Monad       (MonadPlus (mzero), guard, when, unless)
+import           Control.Monad       (MonadPlus (mzero), guard, unless, when)
+import           Data.Aeson          (FromJSONKey, ToJSON, ToJSONKey)
+import           Data.Aeson.Types    (FromJSON)
 import           Data.Functor        (void, ($>))
+import           Data.String         (IsString (..))
 import           Data.Text           (Text)
 import qualified Data.Text           as Text
 import           Palantype.Common    (Chord (Chord), Finger (RightThumb),
                                       Palantype (toFinger, toKeys))
-import           Text.Parsec         (Parsec, anyChar, char, eof, getState,
-                                      lookAhead, many1, runParser, sepBy1,
-                                      setState, space, spaces, try, (<|>), ParseError, parserTrace)
-import           TextShow            (TextShow (showt, showb), fromText)
-import Data.String (IsString (..))
-import Data.Aeson.Types (FromJSON)
-import Data.Aeson (ToJSON, FromJSONKey, ToJSONKey)
-import Text.JSON5 (JSON5)
+import           Text.JSON5          (JSON5)
+import           Text.Parsec         (ParseError, Parsec, anyChar, char, eof,
+                                      getState, lookAhead, many1, parserTrace,
+                                      runParser, sepBy1, setState, space,
+                                      spaces, try, (<|>), (<?>), noneOf)
+import           TextShow            (TextShow (showb, showt), fromText)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey)
@@ -27,6 +28,9 @@ instance TextShow RawSteno where
 
 instance IsString RawSteno where
   fromString = RawSteno . fromString
+
+instance Show RawSteno where
+  show = Text.unpack . showt
 
 -- | parse raw steno code where words are separated by space(s) and
 -- | chords within one word are separated by '/'
@@ -45,7 +49,7 @@ parseStenoLenient
   => RawSteno
   -> [Chord key]
 parseStenoLenient (RawSteno str) =
-  case runParser sentence Nothing "raw steno code" str of
+  case runParser sentence Nothing "" str of
     Left  err -> []
     Right ls  -> concat ls
 
@@ -54,7 +58,7 @@ parseWord
   => RawSteno
   -> Either ParseError [Chord key]
 parseWord (RawSteno str) =
-  runParser word Nothing "raw steno code" str
+  runParser word Nothing "" str
 
 -- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
 -- | fails silently and returns and returns an empty chord
@@ -62,7 +66,7 @@ parseChordLenient
   :: Palantype key
   => RawSteno -> Chord key
 parseChordLenient (RawSteno str) =
-  case runParser chord Nothing "raw steno code" str of
+  case runParser chord Nothing "" str of
     Left  _ -> Chord []
     Right c -> c
 
@@ -70,7 +74,7 @@ parseStenoKey
   :: Palantype key
   => RawSteno -> Either Text key
 parseStenoKey (RawSteno str) =
-  case runParser keyWithHyphen Nothing "raw steno code" str of
+  case runParser keyWithHyphen Nothing "" str of
     Left  err -> Left  $ Text.pack $ show err
     Right k   -> Right k
 
@@ -90,7 +94,7 @@ chord
 chord = do
   setState Nothing
   ks <- keys
-  eof
+  eof <|> void (lookAhead $ char '/')
   pure $ Chord ks
 
 keys
@@ -101,16 +105,16 @@ keys = many1 keyWithHyphen
 keyWithHyphen
   :: Palantype key
   => Parsec Text (Maybe Finger) key
-keyWithHyphen = try keyLeftHand <|> keyOrHyphenKey
+keyWithHyphen = try keyLeftHand <|> keyOrHyphenKey <?> "left hand or key"
 
 keyLeftHand
   :: Palantype key
   => Parsec Text (Maybe Finger) key
 keyLeftHand = do
   mFinger <- getState
-  c <- anyChar
+  c <- noneOf "/"
   h <- char '-'
-  eof
+  eof <|> void (lookAhead $ char '/')
 
   let reach
         :: Palantype key
@@ -129,7 +133,7 @@ keyOrHyphenKey
   => Parsec Text (Maybe Finger) key
 keyOrHyphenKey = do
   finger <- getState
-  c <- lookAhead anyChar
+  c <- lookAhead $ noneOf "/"
   when (c == '-') $ do
     when (finger < Just RightThumb) $ setState $ Just RightThumb
     void anyChar
@@ -140,7 +144,7 @@ key
   => Parsec Text (Maybe Finger) key
 key = do
   mFinger <- getState
-  c <- lookAhead anyChar
+  c <- lookAhead $ noneOf "/"
 
   let reach
         :: Palantype key

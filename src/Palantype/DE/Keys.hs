@@ -31,14 +31,14 @@ data Key
   | LeftL
   | LeftN
   | LeftREr
-  | LeftDiacritic
+  | LeftAUmlaut
   | LeftE
   | LeftA
   | LeftStretch
-  | Unused
-  | RightOStretch
-  | RightI
   | RightU
+  | RightI
+  | RightOStretch
+  | RightUUmlaut
   | RightModifier
   | RightL
   | RightM
@@ -68,14 +68,14 @@ instance Palantype Key where
     LeftL         -> 'L'
     LeftN         -> 'N'
     LeftREr       -> 'R'
-    LeftDiacritic -> '^'
+    LeftAUmlaut   -> 'Ä'
     LeftE         -> 'E'
     LeftA         -> 'A'
     LeftStretch   -> '~'
-    Unused        -> '_'
-    RightOStretch -> 'O'
-    RightI        -> 'I'
     RightU        -> 'U'
+    RightI        -> 'I'
+    RightOStretch -> 'O'
+    RightUUmlaut  -> 'Ü'
     RightModifier -> '+'
     RightL        -> 'L'
     RightM        -> 'M'

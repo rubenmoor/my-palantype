@@ -28,9 +28,10 @@ import           Data.Proxied      (dataTypeOfProxied)
 import           GHC.Base          (undefined)
 import           GHC.Generics      (Generic)
 import           GHC.Num           (Num)
-import           Text.Show         (Show)
-import           TextShow          (TextShow (showb, showbPrec), singleton)
+import           Text.Show         (Show (show))
+import           TextShow          (TextShow (showb, showbPrec, showt), singleton)
 import           TextShow.Generic  (FromGeneric, genericShowbPrec)
+import qualified Data.Text as Text
 
 data Finger
   = LeftPinky
@@ -138,3 +139,6 @@ mkChord keys = Chord $ sort keys
 
 instance TextShow k => TextShow (Chord k) where
   showb = mconcat . fmap showb . unChord
+
+instance (TextShow k) => Show (Chord k) where
+  show = Text.unpack . showt
