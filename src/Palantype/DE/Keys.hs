@@ -48,7 +48,7 @@ data Key
   | RightFWVIv
   | RightSZTz
   | RightSchCh
-  | RightEEr
+  | RightSE
   | RightEn
   | RightDT
   deriving (Eq, Ord, Typeable, Data)
@@ -85,7 +85,7 @@ instance Palantype Key where
     RightFWVIv    -> 'F'
     RightSZTz     -> 'S'
     RightSchCh    -> 'ʃ' -- U+0283
-    RightEEr      -> 'e'
+    RightSE       -> 's'
     RightEn       -> 'n'
     RightDT       -> 'D'
 

@@ -100,12 +100,14 @@ chord = do
 keys
   :: Palantype key
   => Parsec Text (Maybe Finger) [key]
-keys = many1 keyWithHyphen
+keys = do
+  many1 keyWithHyphen
 
 keyWithHyphen
   :: Palantype key
   => Parsec Text (Maybe Finger) key
-keyWithHyphen = try keyLeftHand <|> keyOrHyphenKey <?> "left hand or key"
+keyWithHyphen = do
+  try keyLeftHand <|> keyOrHyphenKey <?> "left hand or key"
 
 keyLeftHand
   :: Palantype key

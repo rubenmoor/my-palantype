@@ -4,6 +4,7 @@
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
 
+{-# LANGUAGE DeriveFoldable #-}
 module Palantype.Common where
 
 import           Control.Category  ((.))
@@ -121,13 +122,13 @@ newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
 
 -- a series of chords, to type a word of arbitrary length
 newtype Series k = Series { unSeries :: [Chord k] }
-  deriving (Eq, Ord)
+  deriving (Eq, Ord, Foldable)
 
 instance TextShow k => TextShow (Series k) where
   showb = mconcat . intersperse (singleton '/') . fmap showb . unSeries
 
 newtype Chord k = Chord { unChord :: [k] }
-  deriving (Eq, Ord)
+  deriving (Eq, Ord, Foldable)
 
 mkChord
   :: forall k.
