@@ -40,6 +40,7 @@ library
       , aeson
       , containers
       , json5hs
+      , hashable
       , parsec
       , proxied
       , text

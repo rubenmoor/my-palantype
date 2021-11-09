@@ -1,6 +1,5 @@
-{-# LANGUAGE TupleSections              #-}
-
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Palantype.Common.RawSteno where
 
 import           Control.Applicative (Alternative (empty))
@@ -19,9 +18,10 @@ import           Text.Parsec         (ParseError, Parsec, anyChar, char, eof,
                                       runParser, sepBy1, setState, space,
                                       spaces, try, (<|>), (<?>), noneOf)
 import           TextShow            (TextShow (showb, showt), fromText)
+import Data.Hashable (Hashable)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
-  deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey)
+  deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
 
 instance TextShow RawSteno where
   showb = fromText . unRawSteno
