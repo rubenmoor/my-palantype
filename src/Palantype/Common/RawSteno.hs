@@ -42,7 +42,7 @@ import           Text.Parsec                    ( (<?>)
                                                 , setState
                                                 , space
                                                 , spaces
-                                                , try
+                                                , try, oneOf
                                                 )
 import           TextShow                       ( TextShow(showb, showt)
                                                 , fromText
@@ -61,7 +61,7 @@ instance Show RawSteno where
     show = Text.unpack . showt
 
 -- | parse raw steno code where words are separated by space(s) and
--- | chords within one word are separated by '/'
+--   chords within one word are separated by '/'
 parseSteno :: Palantype key => RawSteno -> Either Text [Chord key]
 parseSteno (RawSteno str) =
     case runParser sentence Nothing "raw steno code" str of
@@ -100,7 +100,7 @@ chord :: Palantype key => Parsec Text (Maybe Finger) (Chord key)
 chord = do
     setState Nothing
     ks <- keys
-    eof <|> void (lookAhead $ char '/')
+    eof <|> void (lookAhead $ oneOf " /")
     pure $ Chord ks
 
 keys :: Palantype key => Parsec Text (Maybe Finger) [key]
@@ -114,7 +114,7 @@ keyWithHyphen = do
 keyLeftHand :: Palantype key => Parsec Text (Maybe Finger) key
 keyLeftHand = do
     mFinger <- getState
-    c       <- noneOf "/"
+    c       <- noneOf " /"
     h       <- char '-'
     eof <|> void (lookAhead $ char '/')
 
@@ -131,7 +131,7 @@ keyLeftHand = do
 keyOrHyphenKey :: Palantype key => Parsec Text (Maybe Finger) key
 keyOrHyphenKey = do
     finger <- getState
-    c      <- lookAhead $ noneOf "/"
+    c      <- lookAhead $ noneOf " /"
     when (c == '-') $ do
         when (finger < Just RightThumb) $ setState $ Just RightThumb
         void anyChar
@@ -140,7 +140,7 @@ keyOrHyphenKey = do
 key :: Palantype key => Parsec Text (Maybe Finger) key
 key = do
     mFinger <- getState
-    c       <- lookAhead $ noneOf "/"
+    c       <- lookAhead $ noneOf "/ "
 
     let reach :: Palantype key => key -> Parsec Text (Maybe Finger) key
         reach k = do
