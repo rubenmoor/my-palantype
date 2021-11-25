@@ -12,10 +12,10 @@ import Data.Typeable (Typeable)
 
 -- the palantype.de keyboard
 --
--- S|Z   H/e  M  L       .     + N   F/W/V  R/-er
--- B|P   D|T  J  N       .     L K/G S/Z|Tz -en
--- G|K   F/V  W  R/er-   .     M P/B ʃ|ç    D/T
--- thumb      ^  E  A ~  . _ O I U
+-- S|Z   H/e  M  L       .     + N   F/W/V  -s/-er
+-- B|P   D|T  J  N       .     L K/G S/Z|Tz D/T
+-- G|K   F/V  W  R/er-   .     M P/B ʃ|ç    -en
+-- thumb      Ä  E  A ~  . U I O Ü
 
 -- a key on a steno keyboard
 data Key
@@ -49,8 +49,8 @@ data Key
   | RightSZTz
   | RightSchCh
   | RightSE
-  | RightEn
   | RightDT
+  | RightEn
   deriving (Eq, Ord, Typeable, Data)
 
 instance Palantype Key where
@@ -86,8 +86,8 @@ instance Palantype Key where
     RightSZTz     -> 'S'
     RightSchCh    -> 'ʃ' -- U+0283
     RightSE       -> 's'
-    RightEn       -> 'n'
     RightDT       -> 'D'
+    RightEn       -> 'n'
 
 instance TextShow Key where
   showb = singleton . keyCode

@@ -3,36 +3,65 @@
 {-# LANGUAGE KindSignatures             #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
-
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveFoldable #-}
+
 module Palantype.Common where
 
-import           Control.Category  ((.))
-import           Control.Exception (assert)
-import           Data.Aeson        (FromJSON, FromJSONKey, ToJSON, ToJSONKey)
-import           Data.Char         (Char, GeneralCategory (OtherLetter))
-import           Data.Data         (Data (toConstr), Proxy (Proxy), constrIndex,
-                                    dataTypeOf, fromConstr, indexConstr,
-                                    maxConstrIndex)
-import           Data.Eq           (Eq ((==)))
-import           Data.Foldable     (Foldable (foldl, foldr))
-import           Data.Function     (($), flip)
-import           Data.Functor      (Functor (fmap), (<$>))
-import           Data.Int          (Int)
-import           Data.List         (intersperse, sort, (++))
-import           Data.Map          (Map)
-import qualified Data.Map          as Map
-import           Data.Maybe        (fromMaybe)
-import           Data.Monoid       (Monoid (mconcat))
-import           Data.Ord          (Ord)
-import           Data.Proxied      (dataTypeOfProxied)
-import           GHC.Base          (undefined)
-import           GHC.Generics      (Generic)
-import           GHC.Num           (Num)
-import           Text.Show         (Show (show))
-import           TextShow          (TextShow (showb, showbPrec, showt), singleton)
-import           TextShow.Generic  (FromGeneric, genericShowbPrec)
-import qualified Data.Text as Text
+import           Control.Category               ( (.) )
+import           Control.Exception              ( assert )
+import           Data.Aeson                     ( FromJSON
+                                                , FromJSONKey
+                                                , ToJSON
+                                                , ToJSONKey
+                                                )
+import           Data.Char                      ( Char
+                                                , GeneralCategory(OtherLetter)
+                                                )
+import           Data.Data                      ( Data(toConstr)
+                                                , Proxy(Proxy)
+                                                , constrIndex
+                                                , dataTypeOf
+                                                , fromConstr
+                                                , indexConstr
+                                                , maxConstrIndex
+                                                )
+import           Data.Eq                        ( Eq((==)) )
+import           Data.Foldable                  ( Foldable(foldl, foldr) )
+import           Data.Function                  ( ($)
+                                                , flip
+                                                )
+import           Data.Functor                   ( (<$>)
+                                                , Functor(fmap)
+                                                )
+import           Data.Int                       ( Int )
+import           Data.List                      ( (++)
+                                                , intersperse
+                                                , sort
+                                                )
+import           Data.Map                       ( Map )
+import qualified Data.Map                      as Map
+import           Data.Maybe                     ( fromMaybe )
+import           Data.Monoid                    ( Monoid(mconcat) )
+import           Data.Ord                       ( Ord((<=)) )
+import           Data.Proxied                   ( dataTypeOfProxied )
+import           Data.Semigroup                 ( Semigroup((<>)) )
+import qualified Data.Text                     as Text
+import           Data.Text                      ( Text )
+import           GHC.Base                       ( undefined )
+import           GHC.Generics                   ( Generic )
+import           GHC.Num                        ( Num )
+import           Text.Show                      ( Show(show) )
+import           TextShow                       ( TextShow
+                                                    ( showb
+                                                    , showbPrec
+                                                    , showt
+                                                    )
+                                                , singleton
+                                                )
+import           TextShow.Generic               ( FromGeneric
+                                                , genericShowbPrec
+                                                )
 
 data Finger
   = LeftPinky
@@ -48,7 +77,7 @@ data Finger
   deriving (Generic, Eq, Ord, Show)
 
 instance TextShow Finger where
-  showbPrec = genericShowbPrec
+    showbPrec = genericShowbPrec
 
 -- | defines a steno key layout
 -- |
@@ -125,21 +154,24 @@ newtype Series k = Series { unSeries :: [Chord k] }
   deriving (Eq, Ord, Foldable)
 
 instance TextShow k => TextShow (Series k) where
-  showb = mconcat . intersperse (singleton '/') . fmap showb . unSeries
+    showb = mconcat . intersperse (singleton '/') . fmap showb . unSeries
 
 newtype Chord k = Chord { unChord :: [k] }
   deriving (Eq, Ord, Foldable)
 
-mkChord
-  :: forall k.
-  ( Palantype k
-  )
-  => [k]
-  -> Chord k
+mkChord :: forall k . (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys
 
 instance TextShow k => TextShow (Chord k) where
-  showb = mconcat . fmap showb . unChord
+    showb = mconcat . fmap showb . unChord
 
 instance (TextShow k) => Show (Chord k) where
-  show = Text.unpack . showt
+    show = Text.unpack . showt
+
+-- | show the key, with a hyphen attached
+--   x- for the keys of the left hand,
+--   -x for the keys of the right hand
+showH :: Palantype key => key -> Text
+showH k =
+    let f = if constrIndex (toConstr k) <= 16 then (<> "-") else ("-" <>)
+    in  f $ Text.singleton $ keyCode k
