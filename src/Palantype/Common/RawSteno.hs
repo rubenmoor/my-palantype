@@ -67,6 +67,9 @@ newtype RawSteno = RawSteno { unRawSteno :: Text }
 instance TextShow RawSteno where
     showb = fromText . unRawSteno
 
+fromChord :: forall k. Palantype k => Chord k -> RawSteno
+fromChord = RawSteno . showt
+
 instance IsString RawSteno where
     fromString = RawSteno . fromString
 
