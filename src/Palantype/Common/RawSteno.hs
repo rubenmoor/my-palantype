@@ -1,5 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Palantype.Common.RawSteno where
@@ -69,6 +69,9 @@ instance TextShow RawSteno where
 
 fromChord :: forall k. Palantype k => Chord k -> RawSteno
 fromChord = RawSteno . showt
+
+unparts :: [RawSteno] -> RawSteno
+unparts rs = RawSteno $ Text.intercalate "/" $ unRawSteno <$> rs
 
 instance IsString RawSteno where
     fromString = RawSteno . fromString
