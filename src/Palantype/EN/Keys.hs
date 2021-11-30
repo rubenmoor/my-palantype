@@ -8,6 +8,9 @@ import TextShow (singleton, TextShow (..))
 import qualified Data.Map as Map
 import Data.Typeable (Typeable)
 import Data.Data (Data)
+import Data.Eq (Eq)
+import Data.Ord (Ord)
+import Control.Category ((<<<))
 
 -- the palantype.en keyboard
 
@@ -85,4 +88,4 @@ instance Palantype Key where
     RightH     -> 'H'
 
 instance TextShow Key where
-  showb = singleton . keyCode
+  showb = singleton <<< keyCode

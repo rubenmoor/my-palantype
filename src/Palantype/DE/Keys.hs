@@ -3,12 +3,19 @@
 
 module Palantype.DE.Keys where
 
-import Palantype.Common (Palantype (..), Finger (..))
-import TextShow (singleton, TextShow (..))
-import qualified Data.Map as Map
-import Data.Proxy (Proxy(Proxy))
-import Data.Data (Data)
-import Data.Typeable (Typeable)
+import           Data.Data                      ( Data )
+import           Data.Eq                        ( Eq )
+import qualified Data.Map                      as Map
+import           Data.Ord                       ( Ord )
+import           Data.Proxy                     ( Proxy(Proxy) )
+import           Data.Typeable                  ( Typeable )
+import           Palantype.Common               ( Finger(..)
+                                                , Palantype(..)
+                                                )
+import           TextShow                       ( TextShow(..)
+                                                , singleton
+                                                )
+import Control.Category ((<<<))
 
 -- the palantype.de keyboard
 --
@@ -55,39 +62,39 @@ data Key
 
 instance Palantype Key where
 
-  keyCode = \case
-    LeftSZ        -> 'S'
-    LeftBP        -> 'B'
-    LeftGK        -> 'G'
-    LeftHE        -> 'H'
-    LeftDT        -> 'D'
-    LeftFV        -> 'F'
-    LeftM         -> 'M'
-    LeftJ         -> 'J'
-    LeftW         -> 'W'
-    LeftL         -> 'L'
-    LeftN         -> 'N'
-    LeftREr       -> 'R'
-    LeftAUmlaut   -> 'Ä'
-    LeftE         -> 'E'
-    LeftA         -> 'A'
-    LeftStretch   -> '~'
-    RightU        -> 'U'
-    RightI        -> 'I'
-    RightOStretch -> 'O'
-    RightUUmlaut  -> 'Ü'
-    RightModifier -> '+'
-    RightL        -> 'L'
-    RightM        -> 'M'
-    RightN        -> 'N'
-    RightKG       -> 'K'
-    RightPB       -> 'P'
-    RightFWVIv    -> 'F'
-    RightSZTz     -> 'S'
-    RightSchCh    -> 'ʃ' -- U+0283
-    RightSE       -> 's'
-    RightDT       -> 'D'
-    RightEn       -> 'n'
+    keyCode = \case
+        LeftSZ        -> 'S'
+        LeftBP        -> 'B'
+        LeftGK        -> 'G'
+        LeftHE        -> 'H'
+        LeftDT        -> 'D'
+        LeftFV        -> 'F'
+        LeftM         -> 'M'
+        LeftJ         -> 'J'
+        LeftW         -> 'W'
+        LeftL         -> 'L'
+        LeftN         -> 'N'
+        LeftREr       -> 'R'
+        LeftAUmlaut   -> 'Ä'
+        LeftE         -> 'E'
+        LeftA         -> 'A'
+        LeftStretch   -> '~'
+        RightU        -> 'U'
+        RightI        -> 'I'
+        RightOStretch -> 'O'
+        RightUUmlaut  -> 'Ü'
+        RightModifier -> '+'
+        RightL        -> 'L'
+        RightM        -> 'M'
+        RightN        -> 'N'
+        RightKG       -> 'K'
+        RightPB       -> 'P'
+        RightFWVIv    -> 'F'
+        RightSZTz     -> 'S'
+        RightSchCh    -> 'ʃ' -- U+0283
+        RightSE       -> 's'
+        RightDT       -> 'D'
+        RightEn       -> 'n'
 
 instance TextShow Key where
-  showb = singleton . keyCode
+    showb = singleton <<< keyCode

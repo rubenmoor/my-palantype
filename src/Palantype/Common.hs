@@ -8,7 +8,7 @@
 
 module Palantype.Common where
 
-import           Control.Category               ( (.) )
+import           Control.Category               ( (.), (<<<) )
 import           Control.Exception              ( assert )
 import           Data.Aeson                     ( FromJSON
                                                 , FromJSONKey
@@ -62,6 +62,7 @@ import           TextShow                       ( TextShow
 import           TextShow.Generic               ( FromGeneric
                                                 , genericShowbPrec
                                                 )
+import Data.Hashable (Hashable)
 
 data Finger
   = LeftPinky
@@ -147,7 +148,7 @@ class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
     in  fromConstr $ indexConstr t $ unKeyIndex i
 
 newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
-  deriving (Eq, Ord, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
+  deriving (Eq, Hashable, Ord, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
 
 -- a series of chords, to type a word of arbitrary length
 newtype Series k = Series { unSeries :: [Chord k] }
@@ -167,6 +168,9 @@ instance TextShow k => TextShow (Chord k) where
 
 instance (TextShow k) => Show (Chord k) where
     show = Text.unpack . showt
+
+toKeyIndices :: Palantype k => Chord k -> [KeyIndex]
+toKeyIndices = fmap keyIndex <<< unChord
 
 -- | show the key, with a hyphen attached
 --   x- for the keys of the left hand,

@@ -24,23 +24,24 @@ extra-source-files: CHANGELOG.md
 library
     exposed-modules:
         Palantype.Common
+        Palantype.Common.Dictionary
+      , Palantype.Common.Indices
       , Palantype.Common.RawSteno
       , Palantype.DE
       , Palantype.DE.Keys
       , Palantype.EN
       , Palantype.EN.Keys
-
-    -- Modules included in this library but not exported.
-    -- other-modules:
-
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
+    default-extensions:
+        LambdaCase
+        NoImplicitPrelude
+        OverloadedStrings
     build-depends:
         base
       , aeson
       , containers
       , json5hs
       , hashable
+      , unordered-containers
       , parsec
       , proxied
       , text
