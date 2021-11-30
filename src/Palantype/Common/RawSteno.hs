@@ -4,8 +4,12 @@
 
 module Palantype.Common.RawSteno where
 
-import           Control.Applicative            ( Alternative(empty) )
-import           Control.Monad                  ( MonadPlus(mzero)
+import           Control.Applicative            ( Alternative(empty)
+                                                , Applicative((<*), pure)
+                                                )
+import           Control.Category               ( (<<<) )
+import           Control.Monad                  ( Monad((>>))
+                                                , MonadPlus(mzero)
                                                 , guard
                                                 , unless
                                                 , when
@@ -19,16 +23,24 @@ import           Data.Data                      ( Proxy(Proxy)
                                                 , Typeable
                                                 , typeRep
                                                 )
+import           Data.Either                    ( Either(..) )
+import           Data.Eq                        ( Eq((==)) )
+import           Data.Foldable                  ( Foldable(foldl') )
+import           Data.Function                  ( ($) )
 import           Data.Functor                   ( ($>)
+                                                , (<$>)
                                                 , void
                                                 )
 import           Data.Hashable                  ( Hashable )
+import           Data.Maybe                     ( Maybe(..) )
+import           Data.Monoid                    ( Monoid(mconcat) )
+import           Data.Ord                       ( Ord((<), (>)) )
 import           Data.Proxied                   ( dataTypeOfProxied )
 import           Data.String                    ( IsString(..) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common               ( Chord(Chord)
-                                                , Finger(RightThumb)
+                                                , Finger(LeftThumb, RightThumb)
                                                 , Palantype
                                                     ( fromIndex
                                                     , toFinger
@@ -57,27 +69,29 @@ import           Text.Parsec                    ( (<?>)
                                                 , spaces
                                                 , try
                                                 )
+import           Text.Show                      ( Show(show) )
 import           TextShow                       ( TextShow(showb, showt)
                                                 , fromText
                                                 )
+import Control.Monad.Fail (MonadFail(fail))
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
 
 instance TextShow RawSteno where
-    showb = fromText . unRawSteno
+    showb = fromText <<< unRawSteno
 
-fromChord :: forall k. Palantype k => Chord k -> RawSteno
-fromChord = RawSteno . showt
+fromChord :: forall k . Palantype k => Chord k -> RawSteno
+fromChord = RawSteno <<< showt
 
 unparts :: [RawSteno] -> RawSteno
 unparts rs = RawSteno $ Text.intercalate "/" $ unRawSteno <$> rs
 
 instance IsString RawSteno where
-    fromString = RawSteno . fromString
+    fromString = RawSteno <<< fromString
 
 instance Show RawSteno where
-    show = Text.unpack . showt
+    show = Text.unpack <<< showt
 
 -- | parse raw steno code where words are separated by space(s) and
 --   chords within one word are separated by '/'
@@ -85,14 +99,15 @@ parseSteno :: Palantype key => RawSteno -> Either Text [Chord key]
 parseSteno (RawSteno str) =
     case runParser sentence (Nothing, Nothing) "raw steno code" str of
         Left  err -> Left $ Text.pack $ show err
-        Right ls  -> Right $ concat ls
+        Right ls  -> Right $ mconcat ls
 
 -- | fails silently in case of parser error and returns
 -- | an empty list
 parseStenoLenient :: Palantype key => RawSteno -> [Chord key]
-parseStenoLenient (RawSteno str) = case runParser sentence (Nothing, Nothing) "" str of
-    Left  err -> []
-    Right ls  -> concat ls
+parseStenoLenient (RawSteno str) =
+    case runParser sentence (Nothing, Nothing) "" str of
+        Left  err -> []
+        Right ls  -> mconcat ls
 
 parseWord :: Palantype key => RawSteno -> Either ParseError [Chord key]
 parseWord (RawSteno str) = runParser word (Nothing, Nothing) "" str
@@ -152,7 +167,7 @@ keyLeftHand = do
             guard $ f < RightThumb
             pure k
 
-    foldl (\p k -> p <|> reach k) (fail "key left hand no reach") (toKeys c)
+    foldl' (\p k -> p <|> reach k) (fail "key left hand no reach") (toKeys c)
 
 keyOrHyphenKey :: Palantype key => Parsec Text (Maybe Finger, Maybe key) key
 keyOrHyphenKey = do
@@ -160,7 +175,7 @@ keyOrHyphenKey = do
     c           <- lookAhead $ noneOf " /"
     when (c == '-') $ do
         when (finger < Just RightThumb)
-            $ setState (Just RightThumb, Just $ fromIndex 16)
+            $ setState (Just LeftThumb, Just $ fromIndex 16)
         void anyChar
     key
 
@@ -182,6 +197,6 @@ key = do
                 else unless (Just (toFinger k) > mFinger) mzero
             anyChar $> k
 
-    k <- foldl (\parser k -> parser <|> reach k) mzero $ toKeys c
+    k <- foldl' (\parser k -> parser <|> reach k) mzero $ toKeys c
     setState (Just $ toFinger k, Just k)
     pure k
