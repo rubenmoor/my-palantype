@@ -1,16 +1,17 @@
 {-# LANGUAGE LambdaCase #-}
-
 {-# LANGUAGE DeriveDataTypeable #-}
+
 module Palantype.EN.Keys where
 
-import Palantype.Common (Palantype (..), Finger (..))
-import TextShow (singleton, TextShow (..))
-import qualified Data.Map as Map
-import Data.Typeable (Typeable)
-import Data.Data (Data)
-import Data.Eq (Eq)
-import Data.Ord (Ord)
-import Control.Category ((<<<))
+import           Control.Category               ( (<<<) )
+import           Data.Data                      ( Data )
+import           Data.Eq                        ( Eq )
+import           Data.Ord                       ( Ord )
+import           Palantype.Common               ( Palantype(..)
+                                                )
+import           TextShow                       ( TextShow(..)
+                                                , singleton
+                                                )
 
 -- the palantype.en keyboard
 
@@ -50,42 +51,42 @@ data Key =
   | RightCross
   | RightS
   | RightH
-  deriving (Eq, Ord, Typeable, Data)
+  deriving stock (Eq, Ord, Data)
 
 instance Palantype Key where
-  keyCode = \case
-    LeftS      -> 'S'
-    LeftC      -> 'C'
-    LeftP      -> 'P'
-    LeftT      -> 'T'
-    LeftH      -> 'H'
-    LeftCross  -> '+'
-    LeftM      -> 'M'
-    LeftF      -> 'F'
-    LeftR      -> 'R'
-    LeftN      -> 'N'
-    LeftL      -> 'L'
-    LeftY      -> 'Y'
-    Unused1    -> '_'
-    LeftO      -> 'O'
-    LeftE      -> 'E'
-    Unused2    -> '_'
-    Unused3    -> '_'
-    RightA     -> 'A'
-    RightU     -> 'U'
-    MiddleI    -> 'I'
-    RightPoint -> '^'
-    RightN     -> 'N'
-    RightL     -> 'L'
-    RightC     -> 'C'
-    RightM     -> 'M'
-    RightF     -> 'F'
-    RightR     -> 'R'
-    RightP     -> 'P'
-    RightT     -> 'T'
-    RightCross -> '+'
-    RightS     -> 'S'
-    RightH     -> 'H'
+    keyCode = \case
+        LeftS      -> 'S'
+        LeftC      -> 'C'
+        LeftP      -> 'P'
+        LeftT      -> 'T'
+        LeftH      -> 'H'
+        LeftCross  -> '+'
+        LeftM      -> 'M'
+        LeftF      -> 'F'
+        LeftR      -> 'R'
+        LeftN      -> 'N'
+        LeftL      -> 'L'
+        LeftY      -> 'Y'
+        Unused1    -> '_'
+        LeftO      -> 'O'
+        LeftE      -> 'E'
+        Unused2    -> '_'
+        Unused3    -> '_'
+        RightA     -> 'A'
+        RightU     -> 'U'
+        MiddleI    -> 'I'
+        RightPoint -> '^'
+        RightN     -> 'N'
+        RightL     -> 'L'
+        RightC     -> 'C'
+        RightM     -> 'M'
+        RightF     -> 'F'
+        RightR     -> 'R'
+        RightP     -> 'P'
+        RightT     -> 'T'
+        RightCross -> '+'
+        RightS     -> 'S'
+        RightH     -> 'H'
 
 instance TextShow Key where
-  showb = singleton <<< keyCode
+    showb = singleton <<< keyCode

@@ -4,8 +4,7 @@
 
 module Palantype.Common.RawSteno where
 
-import           Control.Applicative            ( Alternative(empty)
-                                                , Applicative((<*), pure)
+import           Control.Applicative            ( Applicative((<*), pure)
                                                 )
 import           Control.Category               ( (<<<) )
 import           Control.Monad                  ( Monad((>>))
@@ -20,7 +19,7 @@ import           Data.Aeson                     ( FromJSONKey
                                                 )
 import           Data.Aeson.Types               ( FromJSON )
 import           Data.Data                      ( Proxy(Proxy)
-                                                , Typeable
+
                                                 , typeRep
                                                 )
 import           Data.Either                    ( Either(..) )
@@ -35,7 +34,6 @@ import           Data.Hashable                  ( Hashable )
 import           Data.Maybe                     ( Maybe(..) )
 import           Data.Monoid                    ( Monoid(mconcat) )
 import           Data.Ord                       ( Ord((<), (>)) )
-import           Data.Proxied                   ( dataTypeOfProxied )
 import           Data.String                    ( IsString(..) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
@@ -61,7 +59,7 @@ import           Text.Parsec                    ( (<?>)
                                                 , many1
                                                 , noneOf
                                                 , oneOf
-                                                , parserTrace
+
                                                 , runParser
                                                 , sepBy1
                                                 , setState
@@ -76,7 +74,8 @@ import           TextShow                       ( TextShow(showb, showt)
 import Control.Monad.Fail (MonadFail(fail))
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
-  deriving (Eq, Ord, JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
+  deriving stock (Eq, Ord)
+  deriving newtype (JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
 
 instance TextShow RawSteno where
     showb = fromText <<< unRawSteno
@@ -106,7 +105,7 @@ parseSteno (RawSteno str) =
 parseStenoLenient :: Palantype key => RawSteno -> [Chord key]
 parseStenoLenient (RawSteno str) =
     case runParser sentence (Nothing, Nothing) "" str of
-        Left  err -> []
+        Left  _ -> []
         Right ls  -> mconcat ls
 
 parseWord :: Palantype key => RawSteno -> Either ParseError [Chord key]
@@ -153,11 +152,11 @@ keyLeftHand
 keyLeftHand = do
     (mFinger, lk) <- getState
     c             <- noneOf " /"
-    h             <- char '-'
+    void $ char '-'
     eof <|> void (lookAhead $ char '/')
 
     let reach
-            :: Palantype key => key -> Parsec Text (Maybe Finger, Maybe key) key
+            :: key -> Parsec Text (Maybe Finger, Maybe key) key
         reach k = do
             let f = toFinger k
             setState (Just f, Just k)
@@ -188,7 +187,7 @@ key = do
     c                 <- lookAhead $ noneOf "/ "
 
     let reach
-            :: Palantype key => key -> Parsec Text (Maybe Finger, Maybe key) key
+            :: key -> Parsec Text (Maybe Finger, Maybe key) key
         reach k = do
 -- a hacky way to allow multiple keys pressed by one finger
 -- for the original palantype system

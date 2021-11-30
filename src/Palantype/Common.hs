@@ -6,18 +6,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveFoldable #-}
 
+{-# LANGUAGE DerivingStrategies #-}
 module Palantype.Common where
 
-import           Control.Category               ( (.), (<<<) )
+import           Control.Category               ( (.)
+                                                , (<<<)
+                                                )
 import           Control.Exception              ( assert )
 import           Data.Aeson                     ( FromJSON
                                                 , FromJSONKey
                                                 , ToJSON
                                                 , ToJSONKey
                                                 )
-import           Data.Char                      ( Char
-                                                , GeneralCategory(OtherLetter)
-                                                )
+import           Data.Char                      ( Char )
 import           Data.Data                      ( Data(toConstr)
                                                 , Proxy(Proxy)
                                                 , constrIndex
@@ -27,19 +28,19 @@ import           Data.Data                      ( Data(toConstr)
                                                 , maxConstrIndex
                                                 )
 import           Data.Eq                        ( Eq((==)) )
-import           Data.Foldable                  ( Foldable(foldl, foldr) )
+import           Data.Foldable                  ( Foldable(foldl) )
 import           Data.Function                  ( ($)
                                                 , flip
                                                 )
 import           Data.Functor                   ( (<$>)
                                                 , Functor(fmap)
                                                 )
+import           Data.Hashable                  ( Hashable )
 import           Data.Int                       ( Int )
 import           Data.List                      ( (++)
                                                 , intersperse
                                                 , sort
                                                 )
-import           Data.Map                       ( Map )
 import qualified Data.Map                      as Map
 import           Data.Maybe                     ( fromMaybe )
 import           Data.Monoid                    ( Monoid(mconcat) )
@@ -48,7 +49,7 @@ import           Data.Proxied                   ( dataTypeOfProxied )
 import           Data.Semigroup                 ( Semigroup((<>)) )
 import qualified Data.Text                     as Text
 import           Data.Text                      ( Text )
-import           GHC.Base                       ( undefined )
+import           GHC.Err                        ( error )
 import           GHC.Generics                   ( Generic )
 import           GHC.Num                        ( Num )
 import           Text.Show                      ( Show(show) )
@@ -59,10 +60,7 @@ import           TextShow                       ( TextShow
                                                     )
                                                 , singleton
                                                 )
-import           TextShow.Generic               ( FromGeneric
-                                                , genericShowbPrec
-                                                )
-import Data.Hashable (Hashable)
+import           TextShow.Generic               ( genericShowbPrec )
 
 data Finger
   = LeftPinky
@@ -75,7 +73,7 @@ data Finger
   | RightMiddle
   | RightRing
   | RightPinky
-  deriving (Generic, Eq, Ord, Show)
+  deriving stock (Generic, Eq, Ord, Show)
 
 instance TextShow Finger where
     showbPrec = genericShowbPrec
@@ -130,13 +128,14 @@ class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
         30 -> RightPinky
         31 -> RightPinky
         32 -> RightPinky
+        _  -> error "toFinger: impossible"
 
   -- | override for efficiency
   toKeys :: Char -> [key]
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
         ks = fromConstr . indexConstr t <$> [1..(maxConstrIndex t)]
-        m = foldl (\m k -> Map.insertWith (flip (++)) (keyCode k) [k] m) Map.empty ks
+        m = foldl (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
     in  fromMaybe [] $ Map.lookup c m
 
   keyIndex :: key -> KeyIndex
@@ -148,17 +147,18 @@ class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
     in  fromConstr $ indexConstr t $ unKeyIndex i
 
 newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
-  deriving (Eq, Hashable, Ord, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
+  deriving stock (Eq, Ord)
+  deriving newtype (Hashable, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
 
 -- a series of chords, to type a word of arbitrary length
 newtype Series k = Series { unSeries :: [Chord k] }
-  deriving (Eq, Ord, Foldable)
+  deriving stock (Eq, Ord, Foldable)
 
 instance TextShow k => TextShow (Series k) where
     showb = mconcat . intersperse (singleton '/') . fmap showb . unSeries
 
 newtype Chord k = Chord { unChord :: [k] }
-  deriving (Eq, Ord, Foldable)
+  deriving stock (Eq, Ord, Foldable)
 
 mkChord :: forall k . (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys

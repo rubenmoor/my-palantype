@@ -3,19 +3,14 @@
 
 module Palantype.DE.Keys where
 
+import           Control.Category               ( (<<<) )
 import           Data.Data                      ( Data )
 import           Data.Eq                        ( Eq )
-import qualified Data.Map                      as Map
 import           Data.Ord                       ( Ord )
-import           Data.Proxy                     ( Proxy(Proxy) )
-import           Data.Typeable                  ( Typeable )
-import           Palantype.Common               ( Finger(..)
-                                                , Palantype(..)
-                                                )
+import           Palantype.Common               ( Palantype(..) )
 import           TextShow                       ( TextShow(..)
                                                 , singleton
                                                 )
-import Control.Category ((<<<))
 
 -- the palantype.de keyboard
 --
@@ -58,7 +53,7 @@ data Key
   | RightSE
   | RightDT
   | RightEn
-  deriving (Eq, Ord, Typeable, Data)
+  deriving stock (Eq, Ord, Data)
 
 instance Palantype Key where
 
