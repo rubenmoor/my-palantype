@@ -6,25 +6,28 @@ module Palantype.EN.Keys where
 import           Control.Category               ( (<<<) )
 import           Data.Data                      ( Data )
 import           Data.Eq                        ( Eq )
-import           Data.Ord                       ( Ord )
+import           Data.Ord                       ( Ord (compare), comparing )
 import           Palantype.Common               ( Palantype(..)
                                                 )
 import           TextShow                       ( TextShow(..)
                                                 , singleton
                                                 )
+import Data.Int (Int)
 
 -- the palantype.en keyboard
 
 -- | a key on a steno keyboard
--- |
--- | The palan order: SCPTH+MFRNLYOEAUI^NLCMFRPT+SH
+--   The order of constructors matters, because of the use of constr
+--   indices from typeable; the palan order is explicitly derived below via
+--   palanRank
+--   The Ord instance is given below via the palan order.
 data Key =
-    LeftS
-  | LeftC
+    LeftC
+  | LeftS
+  | LeftCross
   | LeftP
   | LeftT
   | LeftH
-  | LeftCross
   | LeftM
   | LeftF
   | LeftR
@@ -35,11 +38,10 @@ data Key =
   | LeftO
   | LeftE
   | Unused2
-  | Unused3
+  | MiddleI
   | RightA
   | RightU
-  | MiddleI
-  | RightPoint
+  | Unused3
   | RightN
   | RightL
   | RightC
@@ -51,7 +53,47 @@ data Key =
   | RightCross
   | RightS
   | RightH
-  deriving stock (Eq, Ord, Data)
+  | RightPoint
+  deriving stock (Eq, Data)
+
+-- | The palan order: SCPTH+MFRNLYOEAUI^NLCMFRPT+SH
+palanRank :: Key -> Int
+palanRank = \case
+  LeftS -> 1
+  LeftC -> 2
+  LeftP -> 3
+  LeftT -> 4
+  LeftH -> 5
+  LeftCross -> 6
+  LeftM -> 7
+  LeftF -> 8
+  LeftR -> 9
+  LeftN -> 10
+  LeftL -> 11
+  LeftY -> 12
+  Unused1 -> 13
+  LeftO -> 14
+  LeftE -> 15
+  Unused2 -> 16
+  Unused3 -> 17
+  RightA -> 18
+  RightU -> 19
+  MiddleI -> 20
+  RightPoint -> 21
+  RightN -> 22
+  RightL -> 23
+  RightC -> 24
+  RightM -> 25
+  RightF -> 26
+  RightR -> 27
+  RightP -> 28
+  RightT -> 29
+  RightCross -> 30
+  RightS -> 31
+  RightH -> 32
+
+instance Ord Key where
+  compare = comparing palanRank
 
 instance Palantype Key where
     keyCode = \case
