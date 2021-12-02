@@ -39,8 +39,8 @@ data Key =
   | LeftE
   | Unused2
   | MiddleI
-  | RightA
   | RightU
+  | RightA
   | Unused3
   | RightN
   | RightL
@@ -51,8 +51,8 @@ data Key =
   | RightP
   | RightT
   | RightCross
-  | RightS
   | RightH
+  | RightS
   | RightPoint
   deriving stock (Eq, Data)
 
