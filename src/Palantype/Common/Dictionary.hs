@@ -87,7 +87,7 @@ mkModified :: Text -> [Modifier] -> (RawSteno, Text)
 mkModified str [] = case HashMap.lookup str mapENModify of
     Just ploverCode -> (RawSteno $ str <> commandKeys, ploverCode)
     Nothing -> error $ "mkModified: not found in map: " <> Text.unpack str
-    where commandKeys = "MKSD"
+    where commandKeys = "-MKSD"
 mkModified _ _ = error "mkModified: not implemented"
 
 {-|
