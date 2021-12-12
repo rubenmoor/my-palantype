@@ -14,9 +14,9 @@ import           TextShow                       ( TextShow(..)
 
 -- the palantype.de keyboard
 --
--- S|Z   H/e  M  L       .     + N   F/W/V  -s/-er
--- B|P   D|T  J  N       .     L K/G S/Z|Tz D/T
--- G|K   F/V  W  R/er-   .     M P/B ʃ|ç    -en
+-- S|Z   H/e  M  L       .     + K/G   F/W/V  -s/-er
+-- B|P   D|T  J  N       .     L N     S/Z|Tz D/T
+-- G|K   F/V  W  R/er-   .     M P/B   ʃ|ç    -en
 -- thumb      Ä  E  A ~  . U I O Ü
 
 -- a key on a steno keyboard
@@ -44,8 +44,8 @@ data Key
   | RightModifier
   | RightL
   | RightM
-  | RightN
   | RightKG
+  | RightN
   | RightPB
   | RightFWVIv
   | RightSZTz
@@ -81,8 +81,8 @@ instance Palantype Key where
         RightModifier -> '+'
         RightL        -> 'L'
         RightM        -> 'M'
-        RightN        -> 'N'
         RightKG       -> 'K'
+        RightN        -> 'N'
         RightPB       -> 'P'
         RightFWVIv    -> 'F'
         RightSZTz     -> 'S'
