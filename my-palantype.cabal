@@ -40,7 +40,6 @@ library
         base
       , aeson
       , containers
-      , json5hs
       , hashable
       , unordered-containers
       , parsec

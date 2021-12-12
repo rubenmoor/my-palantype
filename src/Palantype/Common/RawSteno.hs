@@ -46,7 +46,6 @@ import           Palantype.Common               ( Chord(Chord)
                                                     )
                                                 )
 import           Palantype.EN                   ( pEN )
-import           Text.JSON5                     ( JSON5 )
 import           Text.Parsec                    ( (<?>)
                                                 , (<|>)
                                                 , ParseError
@@ -75,7 +74,7 @@ import Control.Monad.Fail (MonadFail(fail))
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
-  deriving newtype (JSON5, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
+  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
 
 instance TextShow RawSteno where
     showb = fromText <<< unRawSteno
@@ -83,6 +82,9 @@ instance TextShow RawSteno where
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord = RawSteno <<< showt
 
+{-|
+Put "/"s between RawSteno in a list
+-}
 unparts :: [RawSteno] -> RawSteno
 unparts rs = RawSteno $ Text.intercalate "/" $ unRawSteno <$> rs
 
