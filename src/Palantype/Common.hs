@@ -52,15 +52,33 @@ import           Data.Text                      ( Text )
 import           GHC.Err                        ( error )
 import           GHC.Generics                   ( Generic )
 import           GHC.Num                        ( Num )
+import           Text.Read                      ( Read )
 import           Text.Show                      ( Show(show) )
 import           TextShow                       ( TextShow
                                                     ( showb
                                                     , showbPrec
                                                     , showt
                                                     )
+                                                , fromText
                                                 , singleton
                                                 )
 import           TextShow.Generic               ( genericShowbPrec )
+
+data Lang = EN | DE
+  deriving stock (Eq, Generic, Ord, Read)
+
+instance FromJSON Lang
+instance ToJSON Lang
+instance FromJSONKey Lang
+instance ToJSONKey Lang
+
+instance TextShow Lang where
+    showb = \case
+        EN -> fromText "Palantype"
+        DE -> fromText "Palantype DE"
+
+instance Show Lang where
+    show = Text.unpack <<< showt
 
 data Finger
   = LeftPinky
