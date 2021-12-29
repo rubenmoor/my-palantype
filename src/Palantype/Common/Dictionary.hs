@@ -14,7 +14,7 @@ module Palantype.Common.Dictionary
     , kiEnter
     , kiCapNext
     , commands
-    ) where
+    ,kiAcronym) where
 
 import           Control.Category               ( (<<<) )
 import           Data.Bifunctor                 ( Bifunctor(first) )
@@ -36,16 +36,16 @@ import           Palantype.Common.RawSteno      ( RawSteno(RawSteno)
 import qualified Palantype.DE.Keys             as DE
 
 {-|
-DE raw steno for back-up command
+DE raw steno for back-up command, i.e. undo last input
 -}
 rawBackUp :: RawSteno
-rawBackUp = "ILKSD"
+rawBackUp = "ILNSD"
 
 {-|
 DE raw steno for capitalization of next word
 -}
 rawCapNext :: RawSteno
-rawCapNext = "BDJNK"
+rawCapNext = "BDJNN"
 
 simpleKIChord :: RawSteno -> KIChord
 simpleKIChord = KI.fromChord <<< parseChordLenient @DE.Key
@@ -61,22 +61,43 @@ txtEnter = "A"
 
 unmodifiedKIChord :: Text -> KIChord
 unmodifiedKIChord str =
-    KI.fromChord $ parseChordLenient @DE.Key $ fst $ mkModified str []
+    simpleKIChord $ fst $ mkModified str []
 
+{-|
+arrow key: up
+-}
 kiUp :: KIChord
 kiUp = unmodifiedKIChord txtUp
 
+{-|
+arrow key: down
+-}
 kiDown :: KIChord
 kiDown = unmodifiedKIChord txtDown
 
+{-|
+back-up, i.e. undo last input
+-}
 kiBackUp :: KIChord
 kiBackUp = simpleKIChord rawBackUp
 
+{-|
+capitalize next chord
+-}
 kiCapNext :: KIChord
 kiCapNext = simpleKIChord rawCapNext
 
+{-|
+enter key, not to be confused with paragraph
+-}
 kiEnter :: KIChord
 kiEnter = unmodifiedKIChord txtEnter
+
+{-|
+qualifier for acronyms
+-}
+kiAcronym :: KIChord
+kiAcronym = simpleKIChord "NÜM"
 
 data Modifier
   = ModShift
@@ -87,7 +108,7 @@ mkModified :: Text -> [Modifier] -> (RawSteno, Text)
 mkModified str [] = case HashMap.lookup str mapENModify of
     Just ploverCode -> (RawSteno $ str <> commandKeys, ploverCode)
     Nothing -> error $ "mkModified: not found in map: " <> Text.unpack str
-    where commandKeys = "-MKSD"
+    where commandKeys = "-MNSD"
 mkModified _ _ = error "mkModified: not implemented"
 
 {-|
@@ -109,12 +130,14 @@ mapENModify = HashMap.fromList
     ]
 
 {-|
+more commands that are steno specific and cannot be modified by CTRL, SHIFT, ALT
 cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format#capitalizing
 -}
 mapEN :: [(RawSteno, Text)]
 mapEN =
     [ (rawBackUp , "=undo")
     , (rawCapNext, "{-|}")  -- plover: capitalize next word
+    , ("BDJNLNSD", "{PLOVER:TOGGLE}")
     ]
 
 commands :: HashMap KIChord Text

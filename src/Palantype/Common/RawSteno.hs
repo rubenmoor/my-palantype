@@ -7,6 +7,7 @@ module Palantype.Common.RawSteno where
 import           Control.Applicative            ( Applicative((<*), pure)
                                                 )
 import           Control.Category               ( (<<<) )
+import Control.DeepSeq (NFData)
 import           Control.Monad                  ( Monad((>>))
                                                 , MonadPlus(mzero)
                                                 , guard
@@ -74,7 +75,7 @@ import Control.Monad.Fail (MonadFail(fail))
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
-  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable)
+  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable, NFData)
 
 instance TextShow RawSteno where
     showb = fromText <<< unRawSteno
