@@ -29,6 +29,7 @@ library
       , Palantype.Common.RawSteno
       , Palantype.DE
       , Palantype.DE.Keys
+      , Palantype.DE.Primitives
       , Palantype.EN
       , Palantype.EN.Keys
     default-extensions:
@@ -39,8 +40,11 @@ library
     build-depends:
         base
       , aeson
+      , bytestring
+      , bytestring-trie
       , containers
       , deepseq
+      , file-embed
       , hashable
       , unordered-containers
       , parsec
