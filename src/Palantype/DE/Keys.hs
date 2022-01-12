@@ -16,7 +16,7 @@ import           TextShow                       ( TextShow(..)
 --
 -- S|Z   H/e  M  L       .     + K/G   F/W/V  -s/-er
 -- B|P   D|T  J  N       .     L N     S/Z|Tz D/T
--- G|K   F/V  W  R/er-   .     M P/B   ʃ|ç    -en
+-- G|K   F/V  W  R/er-   .     M B|P   ʃ|ç    -en
 -- thumb      Ä  E  A ~  . U I O Ü
 
 -- a key on a steno keyboard
@@ -46,7 +46,7 @@ data Key
   | RightM
   | RightKG
   | RightN
-  | RightPB
+  | RightBP
   | RightFWVIv
   | RightSZTz
   | RightSchCh
@@ -83,7 +83,7 @@ instance Palantype Key where
         RightM        -> 'M'
         RightKG       -> 'K'
         RightN        -> 'N'
-        RightPB       -> 'P'
+        RightBP       -> 'B'
         RightFWVIv    -> 'F'
         RightSZTz     -> 'S'
         RightSchCh    -> 'ʃ' -- U+0283
