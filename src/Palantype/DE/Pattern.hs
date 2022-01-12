@@ -35,7 +35,9 @@ data Pattern
   | PatReplH
   | PatSmallS
   | PatReplRare
-  | PatSpecialCase
+  | PatSCStretch
+  | PatSCPlus
+  | PatSCOther
   | PatShortSyllable
   | PatCommonPrefix
   | PatAnglAI
@@ -78,7 +80,9 @@ instance PatternGroup Pattern where
     PatReplH -> "Replacing a silent h"
     PatSmallS -> "Usage of -s"
     PatReplRare -> "Replacements for less common letters"
-    PatSpecialCase -> "Special cases"
+    PatSCStretch -> "Irregular stretch key"
+    PatSCPlus -> "Irregular plus key"
+    PatSCOther -> "Unspecific irregularities"
     PatShortSyllable -> "Efficiency for short syllables"
     PatCommonPrefix -> "Efficiency for common prefixes"
     PatAnglAI -> "Anglicisms with ÄI"
