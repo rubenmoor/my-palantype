@@ -54,7 +54,7 @@ import           GHC.Generics                   ( Generic )
 import           GHC.Num                        ( Num )
 import           Text.Read                      ( Read )
 import           Text.Show                      ( Show(show) )
-import           TextShow                       ( TextShow
+import           TextShow                       (fromString,  TextShow
                                                     ( showb
                                                     , showbPrec
                                                     , showt
@@ -79,6 +79,25 @@ instance TextShow Lang where
 
 instance Show Lang where
     show = Text.unpack <<< showt
+
+type Greediness = Int
+
+{-|
+pattern position
+-}
+data PatternPos
+  {-| start in the onset and end in the nucleus -}
+  = Onset
+  {-| start and end in the nucleus -}
+  | Nucleus
+  {-| start in the nucleus or later -}
+  | Coda
+  {-| contain onset and coda, may contain several chords -}
+  | Multiple
+  deriving stock (Eq, Ord, Show)
+
+instance TextShow PatternPos where
+  showb = fromString <<< show
 
 data Finger
   = LeftPinky
@@ -152,9 +171,9 @@ class (Data key, Eq key, Ord key, TextShow key) => Palantype key where
   toKeys :: Char -> [key]
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
-        ks = fromConstr . indexConstr t <$> [1..(maxConstrIndex t)]
+        ks = fromConstr . indexConstr t <$> [1 .. maxConstrIndex t]
         m = foldl (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
-    in  fromMaybe [] $ Map.lookup c m
+    in  Map.findWithDefault [] c m
 
   keyIndex :: key -> KeyIndex
   keyIndex = KeyIndex . constrIndex . toConstr

@@ -28,7 +28,7 @@ let
   }) {
     ghcVersions = [ "8.8.4" ];
   };
-  
+
 in
   {
     env =

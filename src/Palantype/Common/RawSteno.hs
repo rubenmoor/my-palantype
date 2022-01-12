@@ -1,10 +1,13 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE MultiWayIf #-}
 
 module Palantype.Common.RawSteno where
 
-import           Control.Applicative            ( Applicative((<*), pure)
+import           Control.Applicative            ( Applicative((<*), pure), liftA2
                                                 )
 import           Control.Category               ( (<<<) )
 import Control.DeepSeq (NFData)
@@ -33,18 +36,18 @@ import           Data.Functor                   ( ($>)
                                                 )
 import           Data.Hashable                  ( Hashable )
 import           Data.Maybe                     ( Maybe(..) )
-import           Data.Monoid                    ( Monoid(mconcat) )
-import           Data.Ord                       ( Ord((<), (>)) )
+import           Data.Monoid                    ( Monoid(mconcat), (<>) )
+import           Data.Ord                       ( Ord((<), (>), (>=)) )
 import           Data.String                    ( IsString(..) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common               ( Chord(Chord)
-                                                , Finger(LeftThumb, RightThumb)
+                                                , Finger(LeftThumb, RightThumb, RightIndex)
                                                 , Palantype
                                                     ( fromIndex
                                                     , toFinger
                                                     , toKeys
-                                                    )
+                                                    ), PatternPos (..)
                                                 )
 import           Palantype.EN                   ( pEN )
 import           Text.Parsec                    ( (<?>)
@@ -59,7 +62,6 @@ import           Text.Parsec                    ( (<?>)
                                                 , many1
                                                 , noneOf
                                                 , oneOf
-
                                                 , runParser
                                                 , sepBy1
                                                 , setState
@@ -72,6 +74,9 @@ import           TextShow                       ( TextShow(showb, showt)
                                                 , fromText
                                                 )
 import Control.Monad.Fail (MonadFail(fail))
+import Data.List (head)
+import Data.Bool ((&&), otherwise)
+import Data.Text (isInfixOf)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
@@ -94,6 +99,24 @@ instance IsString RawSteno where
 
 instance Show RawSteno where
     show = Text.unpack <<< showt
+
+evalStenoPattern :: forall key. Palantype key => RawSteno -> Either Text PatternPos
+evalStenoPattern (RawSteno str) =
+    case runParser (liftA2 (,) (sentence @key) getState) (Nothing, Nothing) "raw steno code" str of
+        Left  err -> Left $ Text.pack $ show err
+        Right (_, (Just last, _))  ->
+          let first = getFinger $ Text.head str
+          in  Right $ if
+                | "/" `isInfixOf` str -> Multiple
+                | first < LeftThumb && last < RightIndex -> Onset
+                | first >= LeftThumb && last < RightIndex -> Nucleus
+                | first >= LeftThumb && last >= RightIndex -> Coda
+                | otherwise -> Multiple
+        Right (_, (Nothing, _)) -> Left $ "inconsisent result from evalParser for " <> str
+  where
+    getFinger '-' = RightIndex
+    getFinger c = toFinger $ head $ toKeys @key c
+
 
 -- | parse raw steno code where words are separated by space(s) and
 --   chords within one word are separated by '/'
