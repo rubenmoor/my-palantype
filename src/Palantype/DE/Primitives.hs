@@ -7,6 +7,7 @@ module Palantype.DE.Primitives
   , triePrimitives
   , lsPrimitives
   , lsPatterns
+  , patternDoc
   , Greediness
   ) where
 
@@ -43,10 +44,10 @@ import           Data.Foldable                  ( Foldable
 
 
                                                 )
-import           Data.Function                  ( ($)
+import           Data.Function                  ( ($), (.)
 
                                                 )
-import           Data.Functor                   ( (<$>)
+import           Data.Functor                   ( (<$>), Functor (fmap), (<&>)
 
 
                                                 )
@@ -70,31 +71,36 @@ import           Data.Text                      ( Text
 import qualified Data.Text                     as Text
 import qualified Data.Text.Encoding            as Text
 import           GHC.Err                        ( error )
-import           Palantype.Common               ( Palantype
+import           Palantype.Common               ( Palantype, PatternGroup
                                                 )
 import qualified Palantype.Common.RawSteno     as Raw
 import qualified Palantype.DE.Keys             as DE
 import           Text.Show                      ( Show(show) )
+import Data.Bool (Bool(True, False))
+import qualified Palantype.DE.Pattern as DE
+import Data.Bifunctor (Bifunctor(second, first))
 
 type Greediness = Int
 
--- | the primitives as defined in "primitives.json" parsed to a TRIE
-lsPrimitives :: [(ByteString, [(Greediness, RawSteno)])]
+-- | the primitives as defined in "primitives.json"
+lsPrimitives :: [(ByteString, [(Greediness, RawSteno, DE.Pattern, Bool)])]
 lsPrimitives =
     let str = stripComments $(embedFile "DE/primitives.json5")
     in  Map.toList $ unPrimMap $ case Aeson.eitherDecodeStrict str of
-          Right m   -> m :: PrimMap DE.Key
+          Right m   -> m :: PrimMap DE.Key DE.Pattern
           Left  err -> error $ "Could not decode primitives.json5: " <> err
 
 lsPatterns :: [(Greediness, [ByteString])]
 lsPatterns =
   let
       accPatternsG m (bstr, entries) =
-        foldl' (\m' (g, _) -> Map.insertWith (++) g [bstr] m') m entries
-  in  Map.toList $ foldl' accPatternsG Map.empty lsPrimitives
+        foldl' (\m' (g, _, _, _) -> Map.insertWith (++) g [bstr] m') m entries
+  in
+      Map.toList $ foldl' accPatternsG Map.empty lsPrimitives
 
-triePrimitives :: Trie [(Greediness, RawSteno)]
-triePrimitives = Trie.fromList lsPrimitives
+triePrimitives :: Trie [(Greediness, RawSteno, DE.Pattern)]
+triePrimitives =
+  Trie.fromList $ lsPrimitives <&> second (fmap (\(g, r, p, _) -> (g, r, p)))
 
 stripComments :: ByteString -> ByteString
 stripComments content =
@@ -113,18 +119,32 @@ mapExceptions =
             Right ls  -> ls
             Left  err -> error $ "Could not decode exceptions.json5: " <> err
 
-newtype PrimMap key = PrimMap { unPrimMap :: Map ByteString [(Greediness, RawSteno)] }
+patternDoc :: [(DE.Pattern, [(Greediness, [(Text, RawSteno)])])]
+patternDoc =
+    Map.toList
+      $   Map.toList . fmap (fmap $ first Text.decodeUtf8)
+      <$> foldl' accByBs Map.empty lsPrimitives
+  where
+    -- accByBs m (bs, entries) = Map.unionWith (Map.unionWith (++)) m $ foldl' accByPattern
+    accByBs m (bs, entries) = foldl' (accByPattern bs) m entries
+    accByPattern bs m (g, r, p, bNoDoc) =
+      if bNoDoc
+      then m
+      else Map.insertWith (Map.unionWith (++)) p (Map.singleton g [(bs, r)]) m
 
-instance Palantype key => FromJSON (PrimMap key) where
+-- TODO: move to generic level, module Common
+newtype PrimMap key p = PrimMap { unPrimMap :: Map ByteString [(Greediness, RawSteno, p, Bool)] }
+
+instance (Palantype key, PatternGroup p) => FromJSON (PrimMap key p) where
 
     parseJSON (Array vs) = PrimMap <$> foldM acc Map.empty vs
 
       where
 
         acc
-            :: Map ByteString [(Greediness, RawSteno)]
+            :: Map ByteString [(Greediness, RawSteno, p, Bool)]
             -> Value
-            -> Parser (Map ByteString [(Greediness, RawSteno)])
+            -> Parser (Map ByteString [(Greediness, RawSteno, p, Bool)])
 
         acc m jv@(Array vec) = do
             (k, v) <- case toList vec of
@@ -132,11 +152,17 @@ instance Palantype key => FromJSON (PrimMap key) where
                 _            -> fail $ "malformed entry: " <> show jv
 
             key    <- parseJSON k
-            (g, r) <- case toList v of
-                [vG, vRaw] -> do
+            (g, r, p, bNoDoc) <- case toList v of
+                vG : vRaw : vPattern : rem -> do
                     g   <- parseJSON vG
                     raw <- parseJSON vRaw
-                    pure (g, raw)
+                    pat <- parseJSON vPattern
+                    bNoDoc <- case rem of
+                      [] -> pure False
+                      ["no-doc"] -> pure True
+                      _ -> fail $ "malformed entry: "
+                               <> show rem
+                    pure (g, raw, pat, bNoDoc)
                 _ ->
                     fail
                         $  "malformed entry: "
@@ -151,7 +177,7 @@ instance Palantype key => FromJSON (PrimMap key) where
                 <> show r
             let keyBs = Text.encodeUtf8 key
 
-            pure $ Map.insertWith (++) keyBs [(g, r)] m
+            pure $ Map.insertWith (++) keyBs [(g, r, p, bNoDoc)] m
 
         acc _ other = fail $ "malformed: " <> show other
 

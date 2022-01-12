@@ -197,3 +197,6 @@ showH :: Palantype key => key -> Text
 showH k =
     let f = if constrIndex (toConstr k) <= 16 then (<> "-") else ("-" <>)
     in  f $ Text.singleton $ keyCode k
+
+class (Data a, FromJSON a, Ord a) => PatternGroup a where
+  toDescription :: a -> Text

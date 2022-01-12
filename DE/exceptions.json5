@@ -1,3 +1,5 @@
+// TODO: sort such that preferred steno is in front
+//       add pattern documentation 
 { "aber"        : ["A/BEÜ", "A/BR", "BR"]
 , "Ahne"        : ["A/NE"]
 , "Ahnen"       : ["A/NEN", "A/Nn"]

@@ -30,6 +30,7 @@ library
       , Palantype.DE
       , Palantype.DE.Keys
       , Palantype.DE.Primitives
+      , Palantype.DE.Pattern
       , Palantype.EN
       , Palantype.EN.Keys
     default-extensions:
@@ -49,6 +50,7 @@ library
       , unordered-containers
       , parsec
       , proxied
+      , servant
       , text
       , text-show
     hs-source-dirs:   src
