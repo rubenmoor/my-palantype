@@ -1,8 +1,9 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 
-module Palantype.DE.Primitives
+module Palantype.Common.Primitives
   ( mapExceptions
   , triePrimitives
   , lsPrimitives
@@ -22,7 +23,7 @@ import           Control.Applicative            ( Applicative
                                                     )
                                                 )
 import           Control.Monad                  ( MonadPlus(mzero)
-                                                , foldM
+                                                , foldM, when
                                                 )
 import           Control.Monad.Fail             ( MonadFail(fail) )
 import           Data.Aeson                     ( FromJSON(parseJSON)
@@ -30,19 +31,18 @@ import           Data.Aeson                     ( FromJSON(parseJSON)
                                                 )
 import qualified Data.Aeson                    as Aeson
 import           Data.Aeson.Types               ( Parser )
-import           Data.Either                    ( Either(Left, Right)
+import           Data.Either                    ( Either(Left, Right), isLeft
 
                                                 )
 import           Data.Foldable                  ( Foldable
                                                     ( foldl'
-                                                    , toList
+                                                    , toList, length
                                                     )
                                                 )
 import           Data.Function                  ( ($), (.)
                                                 )
 import           Data.Functor                   ( (<$>), Functor (fmap), (<&>)
                                                 )
-import           Data.HashMap.Strict            ( HashMap )
 import           Data.List                      ( (++)
                                                 , head, sort
                                                 )
@@ -57,32 +57,47 @@ import           GHC.Err                        ( error )
 import           Palantype.Common               ( Palantype, PatternGroup, Greediness, PatternPos
                                                 )
 import qualified Palantype.Common.RawSteno     as Raw
-import qualified Palantype.DE.Keys             as DE
 import           Text.Show                      ( Show(show) )
 import Data.Bool (Bool(True, False))
-import qualified Palantype.DE.Pattern as DE
 import Data.Bifunctor (Bifunctor(second, first))
 import Control.Category ((<<<))
+import Data.Ord (Ord((>=)))
 
 -- | the primitives as defined in "primitives.json"
-lsPrimitives :: [(ByteString, [(Greediness, RawSteno, DE.Pattern, Bool, PatternPos)])]
+lsPrimitives
+  :: forall key pg .
+  ( Palantype key
+  , PatternGroup pg
+  )
+  => [(ByteString, [(Greediness, RawSteno, pg, Bool, PatternPos)])]
 lsPrimitives =
+    -- TODO: "DE" depends on key
     let str = stripComments $(embedFile "DE/primitives.json5")
     in  Map.toList $ unPrimMap $ case Aeson.eitherDecodeStrict str of
-          Right m   -> m :: PrimMap DE.Key DE.Pattern
+          Right m   -> m :: PrimMap key pg
           Left  err -> error $ "Could not decode primitives.json5: " <> err
 
-lsPatterns :: [(Greediness, [ByteString])]
+lsPatterns
+  :: forall key pg .
+  ( Palantype key
+  , PatternGroup pg
+  )
+  => [(Greediness, [ByteString])]
 lsPatterns =
   let
       accPatternsG m (bstr, entries) =
         foldl' (\m' (g, _, _, _, _) -> Map.insertWith (++) g [bstr] m') m entries
   in
-      Map.toList $ foldl' accPatternsG Map.empty lsPrimitives
+      Map.toList $ foldl' accPatternsG Map.empty $ lsPrimitives @key @pg
 
-triePrimitives :: Trie [(Greediness, RawSteno, DE.Pattern)]
+triePrimitives
+  :: forall key pg.
+  ( Palantype key
+  , PatternGroup pg
+  )
+  => Trie [(Greediness, RawSteno, pg)]
 triePrimitives =
-  Trie.fromList $ lsPrimitives <&> second (fmap (\(g, r, p, _, _) -> (g, r, p)))
+  Trie.fromList $ lsPrimitives @key @pg <&> second (fmap (\(g, r, p, _, _) -> (g, r, p)))
 
 stripComments :: ByteString -> ByteString
 stripComments content =
@@ -94,18 +109,63 @@ stripComments content =
 
 -- | full word exceptions
 -- exceptions that span several chords go here
-mapExceptions :: HashMap Text [RawSteno]
+-- TODO: pattern groups have been added to file
+-- needs custom FromJSON
+mapExceptions
+  :: forall key pg .
+  ( Palantype key
+  , PatternGroup pg
+  )
+  => Map Text [(RawSteno, pg)]
 mapExceptions =
+    -- TODO: "DE" depends on key
     let str = stripComments $(embedFile "DE/exceptions.json5")
-    in  case Aeson.eitherDecodeStrict str of
-            Right ls  -> ls
+    in  unExceptionsMap $ case Aeson.eitherDecodeStrict str of
+            Right map -> map :: ExceptionsMap key pg
             Left  err -> error $ "Could not decode exceptions.json5: " <> err
 
-patternDoc :: [(DE.Pattern, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
+newtype ExceptionsMap key pg = ExceptionsMap
+  { unExceptionsMap :: Map Text [(RawSteno, pg)]
+  }
+
+instance (Palantype key, PatternGroup pg) => FromJSON (ExceptionsMap key pg) where
+
+  parseJSON (Array vs) = ExceptionsMap <$> foldM acc Map.empty vs
+
+    where
+      acc m jv@(Array vec) = do
+        (k, rem) <- case toList vec of
+          k:rem | length rem >= 2 -> pure (k, rem)
+          _ -> fail $ "malformed entry: " <> show jv
+
+        key <- parseJSON k
+        pairs <- parseEntries key rem
+        pure $ Map.insert key pairs m
+      acc _ other = fail $ "malformed: " <> show other
+
+      parseEntries _ [] = pure []
+      parseEntries key (vSteno:vPat:r) = do
+        steno <- parseJSON vSteno
+        when (isLeft $ Raw.parseSteno @key steno) $
+          fail $ "malformed raw steno: "
+              <> show key <> ": "
+              <> show steno
+        pat <- parseJSON vPat
+        ((steno, pat) :) <$> parseEntries key r
+      parseEntries key _ = fail $ "Uneven number of entries for " <> show key
+
+  parseJSON _ = mzero
+
+patternDoc
+  :: forall key pg .
+  ( Palantype key
+  , PatternGroup pg
+  )
+  => [(pg, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
 patternDoc =
     Map.toList
       $   Map.toList . fmap (Map.toList <<< fmap (sort <<< fmap (first Text.decodeUtf8)))
-      <$> foldl' accByBs Map.empty lsPrimitives
+      <$> foldl' accByBs Map.empty (lsPrimitives @key @pg)
   where
     accByBs m (bs, entries) =
       foldl' (accByPattern bs) m entries
@@ -118,9 +178,9 @@ patternDoc =
                           (Map.singleton g $ Map.singleton pPos [(bs, r)])
                           m
 
--- TODO: move to generic level, module Common
-newtype PrimMap key p =
-  PrimMap { unPrimMap :: Map ByteString [(Greediness, RawSteno, p, Bool,  PatternPos)] }
+newtype PrimMap key p = PrimMap
+  { unPrimMap :: Map ByteString [(Greediness, RawSteno, p, Bool, PatternPos)]
+  }
 
 instance (Palantype key, PatternGroup p) => FromJSON (PrimMap key p) where
 

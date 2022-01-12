@@ -26,10 +26,10 @@ library
         Palantype.Common
         Palantype.Common.Dictionary
       , Palantype.Common.Indices
+      , Palantype.Common.Primitives
       , Palantype.Common.RawSteno
       , Palantype.DE
       , Palantype.DE.Keys
-      , Palantype.DE.Primitives
       , Palantype.DE.Pattern
       , Palantype.EN
       , Palantype.EN.Keys
