@@ -7,7 +7,7 @@
 
 module Palantype.Common.RawSteno where
 
-import           Control.Applicative            ( Applicative((<*), pure), liftA2
+import           Control.Applicative            ( Applicative((<*), pure, (<*>))
                                                 )
 import           Control.Category               ( (<<<) )
 import Control.DeepSeq (NFData)
@@ -39,7 +39,7 @@ import           Data.Maybe                     ( Maybe(..) )
 import           Data.Monoid                    ( Monoid(mconcat), (<>) )
 import           Data.Ord                       ( Ord((<), (>), (>=)) )
 import           Data.String                    ( IsString(..) )
-import           Data.Text                      ( Text )
+import Data.Text ( Text, isInfixOf )
 import qualified Data.Text                     as Text
 import           Palantype.Common               ( Chord(Chord)
                                                 , Finger(LeftThumb, RightThumb, RightIndex)
@@ -76,7 +76,6 @@ import           TextShow                       ( TextShow(showb, showt)
 import Control.Monad.Fail (MonadFail(fail))
 import Data.List (head)
 import Data.Bool ((&&), otherwise)
-import Data.Text (isInfixOf)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
@@ -102,7 +101,7 @@ instance Show RawSteno where
 
 evalStenoPattern :: forall key. Palantype key => RawSteno -> Either Text PatternPos
 evalStenoPattern (RawSteno str) =
-    case runParser (liftA2 (,) (sentence @key) getState) (Nothing, Nothing) "raw steno code" str of
+    case runParser ((,) <$> (sentence @key) <*> getState) (Nothing, Nothing) "raw steno code" str of
         Left  err -> Left $ Text.pack $ show err
         Right (_, (Just last, _))  ->
           let first = getFinger $ Text.head str

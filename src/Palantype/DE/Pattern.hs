@@ -4,9 +4,9 @@ module Palantype.DE.Pattern where
 
 import Data.Ord (Ord)
 import Data.Eq (Eq)
-import Palantype.Common (PatternGroup (toDescription))
+import Palantype.Common (PatternGroup (toDescription, patSimpleMulti))
 import Data.Data (Data)
-import Data.Aeson (FromJSON)
+import Data.Aeson (FromJSON, ToJSONKey, ToJSON)
 import GHC.Generics (Generic)
 import Servant.API (FromHttpApiData (..), ToHttpApiData (..))
 import Text.Show (show, Show)
@@ -15,9 +15,11 @@ import Control.Category ((<<<))
 import Text.Read (readMaybe, Read)
 import Data.Either (Either(..))
 import Data.Maybe (maybe)
+import TextShow (TextShow (showb), fromString)
 
 data Pattern
   = PatSimple
+  | PatSimpleMulti
   | PatReplCommon
   | PatDiConsonant
   | PatCodaH
@@ -59,10 +61,16 @@ data Pattern
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern
+instance ToJSON Pattern
+instance TextShow Pattern where
+  showb = fromString <<< show
+
+instance ToJSONKey Pattern
 
 instance PatternGroup Pattern where
   toDescription = \case
-    PatSimple -> "Identical letters"
+    PatSimple -> "Identical letters, one single chord"
+    PatSimpleMulti -> "Identical letters, multiple chords"
     PatReplCommon -> "Replacements for common letters"
     PatDiConsonant -> "Double consonants"
     PatCodaH -> "Vowels followed by h"
@@ -100,6 +108,7 @@ instance PatternGroup Pattern where
     PatAnglOther -> "Other anglicisms"
     PatFrankOther -> "Gallicisms"
     PatForeignOther -> "Other foreign words"
+  patSimpleMulti = PatSimpleMulti
 
 instance ToHttpApiData Pattern where
   toUrlPiece = Text.pack <<< show
