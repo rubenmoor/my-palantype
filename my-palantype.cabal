@@ -23,16 +23,16 @@ extra-source-files: CHANGELOG.md
 
 library
     exposed-modules:
-        Palantype.Common
-        Palantype.Common.Dictionary
-      , Palantype.Common.Indices
-      , Palantype.Common.Primitives
-      , Palantype.Common.RawSteno
-      , Palantype.DE
-      , Palantype.DE.Keys
-      , Palantype.DE.Pattern
-      , Palantype.EN
-      , Palantype.EN.Keys
+      Palantype.Common
+      Palantype.Common.Class
+      Palantype.Common.Dictionary
+      Palantype.Common.Indices
+      Palantype.Common.Primitives
+      Palantype.Common.RawSteno
+      Palantype.DE
+      Palantype.DE.Keys
+      Palantype.EN
+      Palantype.EN.Keys
     default-extensions:
         DerivingStrategies
         LambdaCase
@@ -71,3 +71,13 @@ library
       -Wno-missing-local-signatures
       -Wno-all-missed-specialisations
       -Wno-missed-specialisations
+
+test-suite my-palantype-test
+    type: exitcode-stdio-1.0
+    hs-source-dirs: test
+    main-is: Main.hs
+    build-depends:
+        base
+      , containers
+      , HUnit
+      , my-palantype

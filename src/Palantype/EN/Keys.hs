@@ -1,5 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Palantype.EN.Keys where
 
@@ -7,12 +9,20 @@ import           Control.Category               ( (<<<) )
 import           Data.Data                      ( Data )
 import           Data.Eq                        ( Eq )
 import           Data.Ord                       ( Ord (compare), comparing )
-import           Palantype.Common               ( Palantype(..)
+import           Palantype.Common.Class         ( Palantype(..)
                                                 )
 import           TextShow                       ( TextShow(..)
-                                                , singleton
+                                                , singleton, fromString
                                                 )
 import Data.Int (Int)
+import GHC.Generics (Generic)
+import Text.Show (Show (show))
+import Text.Read (Read, readMaybe)
+import Data.Aeson (FromJSON, ToJSON, ToJSONKey)
+import Servant.API (ToHttpApiData (toUrlPiece), FromHttpApiData (parseUrlPiece))
+import qualified Data.Text as Text
+import Data.Maybe (maybe)
+import Data.Either (Either(Left, Right))
 
 -- the palantype.en keyboard
 
@@ -96,6 +106,8 @@ instance Ord Key where
   compare = comparing palanRank
 
 instance Palantype Key where
+    type PatternGroup Key = Pattern
+
     keyCode = \case
         LeftS      -> 'S'
         LeftC      -> 'C'
@@ -130,5 +142,31 @@ instance Palantype Key where
         RightS     -> 'S'
         RightH     -> 'H'
 
+    toDescription = \case
+      PatSimple -> "Identical letters, one single chord"
+      PatSimpleMulti -> "Identical letters, multiple chords"
+
+    patSimpleMulti = PatSimpleMulti
+    lsPrimitives = []
+
 instance TextShow Key where
     showb = singleton <<< keyCode
+
+data Pattern
+  = PatSimple
+  | PatSimpleMulti
+  deriving stock (Data, Eq, Generic, Ord, Read, Show)
+
+instance FromJSON Pattern
+instance ToJSON Pattern
+instance TextShow Pattern where
+  showb = fromString <<< show
+
+instance ToJSONKey Pattern
+
+instance ToHttpApiData Pattern where
+  toUrlPiece = Text.pack <<< show
+
+instance FromHttpApiData Pattern where
+  parseUrlPiece =
+    maybe (Left "failed to read: Pattern") Right <<< readMaybe <<< Text.unpack

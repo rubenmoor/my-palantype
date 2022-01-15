@@ -1,4 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
@@ -41,14 +40,6 @@ import           Data.Ord                       ( Ord((<), (>), (>=)) )
 import           Data.String                    ( IsString(..) )
 import Data.Text ( Text, isInfixOf )
 import qualified Data.Text                     as Text
-import           Palantype.Common               ( Chord(Chord)
-                                                , Finger(LeftThumb, RightThumb, RightIndex)
-                                                , Palantype
-                                                    ( fromIndex
-                                                    , toFinger
-                                                    , toKeys
-                                                    ), PatternPos (..)
-                                                )
 import           Palantype.EN                   ( pEN )
 import           Text.Parsec                    ( (<?>)
                                                 , (<|>)
@@ -76,13 +67,8 @@ import           TextShow                       ( TextShow(showb, showt)
 import Control.Monad.Fail (MonadFail(fail))
 import Data.List (head)
 import Data.Bool ((&&), otherwise)
-
-newtype RawSteno = RawSteno { unRawSteno :: Text }
-  deriving stock (Eq, Ord)
-  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable, NFData)
-
-instance TextShow RawSteno where
-    showb = fromText <<< unRawSteno
+import Palantype.Common.Class (Palantype (toKeys, toFinger, fromIndex), RawSteno (RawSteno, unRawSteno))
+import Palantype.Common (Chord (Chord), PatternPos (..), Finger (..))
 
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord = RawSteno <<< showt
@@ -92,12 +78,6 @@ Put "/"s between RawSteno in a list
 -}
 unparts :: [RawSteno] -> RawSteno
 unparts rs = RawSteno $ Text.intercalate "/" $ unRawSteno <$> rs
-
-instance IsString RawSteno where
-    fromString = RawSteno <<< fromString
-
-instance Show RawSteno where
-    show = Text.unpack <<< showt
 
 evalStenoPattern :: forall key. Palantype key => RawSteno -> Either Text PatternPos
 evalStenoPattern (RawSteno str) =

@@ -30,10 +30,10 @@ import           Data.Tuple                     ( fst )
 import           GHC.Err                        ( error )
 import           Palantype.Common.Indices       ( KIChord )
 import qualified Palantype.Common.Indices      as KI
-import           Palantype.Common.RawSteno      ( RawSteno(RawSteno)
-                                                , parseChordLenient
+import           Palantype.Common.RawSteno      ( parseChordLenient
                                                 )
 import qualified Palantype.DE.Keys             as DE
+import Palantype.Common.Class (RawSteno (RawSteno))
 
 {-|
 DE raw steno for back-up command, i.e. undo last input

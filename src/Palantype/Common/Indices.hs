@@ -23,12 +23,6 @@ import           Data.Functor                   ( Functor(fmap)
 import           Data.Hashable                  ( Hashable )
 import qualified Data.Text                     as Text
 import           Palantype.Common               ( Chord
-                                                , KeyIndex
-                                                , Palantype(fromIndex, keyCode)
-                                                , toKeyIndices
-                                                )
-import           Palantype.Common.RawSteno      ( RawSteno(RawSteno)
-
                                                 )
 import           TextShow                       ( TextShow(showb, showt)
                                                 , fromText
@@ -36,6 +30,7 @@ import           TextShow                       ( TextShow(showb, showt)
 import qualified Palantype.DE.Keys as DE
 import Data.Function (($))
 import Data.Semigroup (Semigroup((<>)))
+import Palantype.Common.Class (KeyIndex, Palantype (keyCode, fromIndex), RawSteno (..), toKeyIndices)
 
 {-|
 a "key-index chord", an index based steno chord representation
