@@ -23,6 +23,8 @@ import Servant.API (ToHttpApiData (toUrlPiece), FromHttpApiData (parseUrlPiece))
 import qualified Data.Text as Text
 import Data.Maybe (maybe)
 import Data.Either (Either(Left, Right))
+import qualified Data.Map.Strict as Map
+import Control.DeepSeq (NFData)
 
 -- the palantype.en keyboard
 
@@ -148,6 +150,7 @@ instance Palantype Key where
 
     patSimpleMulti = PatSimpleMulti
     lsPrimitives = []
+    mapExceptions = Map.empty
 
 instance TextShow Key where
     showb = singleton <<< keyCode
@@ -158,11 +161,12 @@ data Pattern
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern
+instance NFData Pattern
 instance ToJSON Pattern
+instance ToJSONKey Pattern
+
 instance TextShow Pattern where
   showb = fromString <<< show
-
-instance ToJSONKey Pattern
 
 instance ToHttpApiData Pattern where
   toUrlPiece = Text.pack <<< show

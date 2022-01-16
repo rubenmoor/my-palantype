@@ -27,6 +27,7 @@ library
       Palantype.Common.Class
       Palantype.Common.Dictionary
       Palantype.Common.Indices
+      Palantype.Common.Internal
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
       Palantype.DE

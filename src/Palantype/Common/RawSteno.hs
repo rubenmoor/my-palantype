@@ -9,18 +9,12 @@ module Palantype.Common.RawSteno where
 import           Control.Applicative            ( Applicative((<*), pure, (<*>))
                                                 )
 import           Control.Category               ( (<<<) )
-import Control.DeepSeq (NFData)
 import           Control.Monad                  ( Monad((>>))
                                                 , MonadPlus(mzero)
                                                 , guard
                                                 , unless
                                                 , when
                                                 )
-import           Data.Aeson                     ( FromJSONKey
-                                                , ToJSON
-                                                , ToJSONKey
-                                                )
-import           Data.Aeson.Types               ( FromJSON )
 import           Data.Data                      ( Proxy(Proxy)
 
                                                 , typeRep
@@ -33,11 +27,9 @@ import           Data.Functor                   ( ($>)
                                                 , (<$>)
                                                 , void
                                                 )
-import           Data.Hashable                  ( Hashable )
 import           Data.Maybe                     ( Maybe(..) )
 import           Data.Monoid                    ( Monoid(mconcat), (<>) )
 import           Data.Ord                       ( Ord((<), (>), (>=)) )
-import           Data.String                    ( IsString(..) )
 import Data.Text ( Text, isInfixOf )
 import qualified Data.Text                     as Text
 import           Palantype.EN                   ( pEN )
@@ -61,14 +53,14 @@ import           Text.Parsec                    ( (<?>)
                                                 , try
                                                 )
 import           Text.Show                      ( Show(show) )
-import           TextShow                       ( TextShow(showb, showt)
-                                                , fromText
+import           TextShow                       ( TextShow(showt)
+
                                                 )
 import Control.Monad.Fail (MonadFail(fail))
 import Data.List (head)
 import Data.Bool ((&&), otherwise)
 import Palantype.Common.Class (Palantype (toKeys, toFinger, fromIndex), RawSteno (RawSteno, unRawSteno))
-import Palantype.Common (Chord (Chord), PatternPos (..), Finger (..))
+import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
 
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord = RawSteno <<< showt

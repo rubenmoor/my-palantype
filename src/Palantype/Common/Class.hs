@@ -59,7 +59,7 @@ import           TextShow                       (TextShow
                                                 )
 import Data.ByteString (ByteString)
 import Control.DeepSeq (NFData)
-import Palantype.Common (Finger (..), PatternPos, Greediness, Chord (Chord, unChord))
+import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord, unChord))
 import Data.Bool (Bool)
 import Data.String (IsString (fromString))
 import GHC.Show (Show (show))
@@ -93,8 +93,10 @@ class ( Data key
       , TextShow key
       , Data (PatternGroup key)
       , FromJSON (PatternGroup key)
+      , NFData (PatternGroup key)
       , Ord (PatternGroup key)
       , TextShow (PatternGroup key)
+      , ToJSON (PatternGroup key)
       , ToJSONKey (PatternGroup key)
       ) => Palantype key where
 

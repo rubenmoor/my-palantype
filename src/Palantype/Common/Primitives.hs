@@ -9,7 +9,6 @@ module Palantype.Common.Primitives
   , PrimMap (..)
   , ExceptionsMap (..)
   , stripComments
-  , Greediness
   ) where
 
 import           Data.Trie                      ( Trie )
@@ -49,7 +48,7 @@ import           Data.Monoid                    ( (<>)
 import           Data.Text                      ( Text)
 import qualified Data.Text                     as Text
 import qualified Data.Text.Encoding            as Text
-import           Palantype.Common               ( Greediness, PatternPos
+import           Palantype.Common.Internal      ( Greediness, PatternPos
                                                 )
 import qualified Palantype.Common.RawSteno     as Raw
 import           Text.Show                      ( Show(show) )

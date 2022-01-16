@@ -30,6 +30,7 @@ import Data.FileEmbed (embedFile)
 import Data.Function (($))
 import GHC.Err (error)
 import Data.Monoid ((<>))
+import Control.DeepSeq (NFData)
 
 -- the palantype.de keyboard
 --
@@ -220,11 +221,12 @@ data Pattern
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern
+instance NFData Pattern
 instance ToJSON Pattern
+instance ToJSONKey Pattern
+
 instance TextShow Pattern where
   showb = fromString <<< show
-
-instance ToJSONKey Pattern
 
 instance ToHttpApiData Pattern where
   toUrlPiece = Text.pack <<< show

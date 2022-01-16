@@ -22,7 +22,7 @@ import           Data.Functor                   ( Functor(fmap)
                                                 )
 import           Data.Hashable                  ( Hashable )
 import qualified Data.Text                     as Text
-import           Palantype.Common               ( Chord
+import           Palantype.Common.Internal      ( Chord
                                                 )
 import           TextShow                       ( TextShow(showb, showt)
                                                 , fromText
