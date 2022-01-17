@@ -18,7 +18,7 @@ import Data.Int (Int)
 import GHC.Generics (Generic)
 import Text.Show (Show (show))
 import Text.Read (Read, readMaybe)
-import Data.Aeson (FromJSON, ToJSON, ToJSONKey)
+import Data.Aeson (FromJSON, ToJSON, ToJSONKey, FromJSONKey)
 import Servant.API (ToHttpApiData (toUrlPiece), FromHttpApiData (parseUrlPiece))
 import qualified Data.Text as Text
 import Data.Maybe (maybe)
@@ -161,6 +161,7 @@ data Pattern
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern
+instance FromJSONKey Pattern
 instance NFData Pattern
 instance ToJSON Pattern
 instance ToJSONKey Pattern

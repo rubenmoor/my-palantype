@@ -15,7 +15,7 @@ import           TextShow                       ( TextShow(..)
                                                 , singleton, fromString
                                                 )
 import Data.Aeson.Types (FromJSON)
-import Data.Aeson (ToJSON, ToJSONKey)
+import Data.Aeson (ToJSON, ToJSONKey, FromJSONKey)
 import GHC.Generics (Generic)
 import Text.Show (Show, show)
 import Text.Read (Read, readMaybe)
@@ -221,6 +221,7 @@ data Pattern
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern
+instance FromJSONKey Pattern
 instance NFData Pattern
 instance ToJSON Pattern
 instance ToJSONKey Pattern

@@ -78,7 +78,10 @@ data PatternPos
       Coda
     | -- | contain onset and coda, may contain several chords
       Multiple
-    deriving stock (Eq, Ord, Show)
+    deriving stock (Eq, Generic, Ord, Show)
+
+instance FromJSON PatternPos
+instance ToJSON PatternPos
 
 instance TextShow PatternPos where
     showb = fromString <<< show

@@ -6,6 +6,7 @@ module Palantype.Common.Primitives
   ( triePrimitives
   , lsPatterns
   , patternDoc
+  , PatternDoc
   , PrimMap (..)
   , ExceptionsMap (..)
   , stripComments
@@ -116,10 +117,13 @@ instance (Palantype key) => FromJSON (ExceptionsMap key) where
 
   parseJSON _ = mzero
 
+type PatternDoc key =
+  [(PatternGroup key, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
+
 patternDoc
   :: forall key
   .  Palantype key
-  => [(PatternGroup key, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
+  => PatternDoc key
 patternDoc =
     Map.toList
       $   Map.toList . fmap (Map.toList <<< fmap (sort <<< fmap (first Text.decodeUtf8)))
