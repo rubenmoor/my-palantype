@@ -57,7 +57,7 @@
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIK/G"]      // < knicke
-, ["Kampagne",      "GDAM/BDAN/JE", "PatSCother", "GDAM/BDAÜK/NE", "PatCodaGK"]
+, ["Kampagne",      "GDAM/BDAN/JE", "PatSCOther", "GDAM/BDAÜK/NE", "PatCodaGK"]
 , ["Kommiss",       "GDOM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "GDÄONn", "PatBrief", "GDÄON/NEN", "PatReplCommon"]
 , ["körnte",        "GDÄO+N/DJE", "PatSCPlus"]   // < könnte
