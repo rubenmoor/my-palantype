@@ -48,10 +48,8 @@
 , [ "a|g" , [0, "AÜK", "PatCodaGK", "no-doc"]]
 , [ "ah"  , [0, "AÜ", "PatCodaH"]]
 , [ "ahr" , [0, "AÜ", "PatCodaHR"]]
-, [ "ak" , [1, "AÜ/GD", "PatCodaGK"]]
-, [ "a|k" , [1, "AÜ/GD", "PatCodaGK", "no-doc"]]
-, [ "ak" , [1, "AÜK", "PatCodaGK"]]
-, [ "a|k" , [1, "AÜK", "PatCodaGK", "no-doc"]]
+, [ "a|k" , [1, "AÜ/GD", "PatCodaGK"]]
+, [ "a|k" , [1, "AÜK", "PatCodaGK"]]
 , [ "ar"  , [0, "AÜ", "PatCodaR"]]
 , [ "år"  , [0, "AÜ", "PatCodaR"]]          // Ux00E5
 , [ "arr" , [0, "AÜ+", "PatCodaRR"]]
@@ -98,11 +96,11 @@
 , [ "c"   , [1, "GD", "PatReplC"]]       // TODO: documentation
 , [ "c"   , [0, "+K", "PatReplC"]]
 , [ "c"   , [1, "K", "PatReplC"]]        // TODO: documentation
-, [ "ç"   , [0, "SHM", "PatReplC"]]      // U+00E7
-, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
-, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
-, [ "ce"  , [1, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
-, [ "ce"  , [4, "-Ss", "PatReplC"]]
+, [ "ç"   , [0, "GDM", "PatReplC"]]      // U+00E7
+//, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
+//, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
+//, [ "ce"  , [1, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
+//, [ "ce"  , [4, "-Ss", "PatReplC"]]
 , [ "ch"  , [0, "SHJ", "PatReplCommon"]]
 , [ "ch"  , [1, "SJ", "PatReplCommon"]]
 , [ "ch"  , [0, "Kʃ", "PatReplCommon"]]
@@ -110,9 +108,9 @@
 , [ "chio", [0, "SJO", "PatReplRare"]]
 , [ "chs" , [1, "KS", "PatReplCommon"]]
 , [ "chs" , [0, "Ks", "PatReplCommon"]]
-, [ "ci"  , [0, "SHMI", "PatReplC"]]
-, [ "ci"  , [1, "SHJI", "PatReplC"]]
-, [ "cia" , [0, "SHJA", "PatReplC"]]
+//, [ "ci"  , [0, "SHMI", "PatReplC"]]
+, [ "ci"  , [1, "GDJ", "PatReplC"]]
+//, [ "cia" , [0, "SHJA", "PatReplC"]]
 , [ "ck"  , [0, "GD", "PatReplCommon"]]
 , [ "ck"  , [0, "K", "PatReplCommon"]]
 , [ "d"   , [0, "D", "PatSimple"]]
@@ -128,7 +126,7 @@
 , [ "dsch", [0, "SDJ", "PatReplCommon"]]      // note: also "ps" = SDJ TODO: documentation
 , [ "dsch", [0, "ʃD", "PatTsDsPs"]]       // dsch in coda, like schd TODO: documentation
 , [ "dt"  , [1, "-D", "PatDt"]]
-, [ "dt"  , [0, "-D/DJ", "PatDt"]]
+, [ "dt"  , [0, "-D/-D", "PatDt"]]
 , [ "duis", [0, "DÜS", "PatDiphtong"]]
 , [ "e"   , [0, "E", "PatSimple"]]
 //, [ "e"   , [2, "s"]]
@@ -300,7 +298,7 @@
 , [ "ö|ß" , [5, "ÄO/S", "PatSZ", "no-doc"]]
 , [ "p"   , [0, "BD-", "PatReplCommon"]]
 , [ "p"   , [0, "+B", "PatReplCommon"]]
-, [ "p"   , [2, "-B", "PatSimple"]]
+, [ "p"   , [2, "-B", "PatReplCommon"]]
 , [ "pf"  , [0, "BF", "PatReplRare"]]
 , [ "ph"  , [0, "BH", "PatReplRare"]]       // TODO: documentation
 , [ "ph"  , [0, "+F", "PatReplRare"]]
@@ -330,8 +328,8 @@
 , [ "rwan" , [0, "WRAN", "PatReplRare"]]   // TODO: documentation Rw- as WR
 , [ "s"   , [0, "S", "PatSimple"]]
 , [ "s"   , [0, "s", "PatSmallS"]]
-, [ "sc"  , [0, "SDM", "PatAnglOther"]]
-, [ "sc"  , [1, "GDJ", "PatAnglOther"]]     // e.g. scooter
+//, [ "sc"  , [0, "SDM", "PatAnglOther"]]
+, [ "sc"  , [0, "GDM", "PatAnglOther"]]     // e.g. scooter
 , [ "sc"  , [0, "+KS", "PatAnglOther"]]      // e.g. disc
 , [ "sc"  , [1, "KS", "PatAnglOther"]]      // e.g. disc
 , [ "sch" , [0, "SJ", "PatReplCommon"]]
@@ -348,7 +346,7 @@
 , [ "sp"  , [0, "BF", "PatReplCommon"]]      // TODO: documentation
 , [ "sp"  , [0, "-BS", "PatReplRare"]]      // TODO: documentation -sp = PS
 , [ "sph" , [0, "SF", "PatReplRare"]]
-, [ "sk"  , [0, "GDJ", "PatReplRare"]]     // TODO: documentation x, sk -> GDJ
+, [ "sk"  , [0, "GDM", "PatReplRare"]]     // TODO: documentation x, sk -> GDM
 , [ "sk"  , [0, "KS", "PatReplRare"]]      // sk in coda, TODO: documentation tink "sk"/"ks"
 , [ "ss"  , [0, "-Ss", "PatDiConsonant"]]
 , [ "ss"  , [1, "S", "PatDiConsonant"]]
@@ -427,8 +425,8 @@
 , [ "ver|" , [3, "F", "PatCommonPrefix"]]
 , [ "w"   , [0, "W", "PatSimple"]]
 , [ "w"   , [0, "-F", "PatReplCommon"]]
-, [ "wieder", [3, "WI+", "PatCommonPrefix"]]
-, [ "x"    , [0, "GDJ", "PatReplCommon"]]      // TODO: documentation
+, [ "wie|der", [3, "WI+", "PatCommonPrefix"]]
+, [ "x"    , [0, "GDM", "PatReplCommon"]]      // TODO: documentation
 , [ "x"    , [0, "KS", "PatReplCommon"]]
 , [ "y"    , [0, "J", "PatReplCommon"]]
 , [ "y"    , [0, "ÄI", "PatReplCommon"]]
@@ -462,7 +460,9 @@
 , [ "bea|mer", [2, "B~I/MR", "PatAnglI"]]
 , [ "beef"   , [0, "BIF", "PatAnglI"]]
 , [ "blade"  , [0, "BLÄID", "PatAnglAI"]]
+, [ "bloom"  , [0, "BLUM", "PatAnglU"]]
 , [ "blue"   , [0, "BLU", "PatAnglU"]]        // e.g. blues
+, [ "Boe|ing", [0, "BO/I+N", "PatAnglO"]]
 , [ "book"   , [0, "BUK", "PatAnglU"]]
 , [ "boiled" , [0, "BEULD", "PatAnglOther"]]
 , [ "break"  , [0, "BRÄIK", "PatAnglAI"]]
@@ -476,9 +476,11 @@
 , [ "camp"   , [0, "GDÄMB", "PatAnglAE"]]
 , [ "can|dle", [0, "GDÄN/DEL", "PatAnglAE"]] // e.g. candle-light-dinner
 , [ "case"   , [0, "GDÄIS", "PatAnglAI"]]
+, [ "change",  [0, "SJÄINʃ", "PatAnglAI"]]
 , [ "charles", [0, "SJAÜLS", "PatAnglOther"]]
 , [ "chat"   , [0, "SJÄD", "PatAnglAE"]]
 , [ "cheese" , [0, "SJ~IS", "PatAnglI"]]
+, [ "Chel|sea", [0, "SHJEL/SI", "PatAnglI"]]
 , [ "chise"  , [0, "SJAIS", "PatAnglEI"]]    // franchise
 , [ "choice" , [0, "SJEUS", "PatAnglOther"]]
 , [ "ckage"  , [0, "GDÄʃD", "PatAnglAE"]]    // e.g. package
@@ -487,21 +489,29 @@
 , [ "coa"    , [0, "GDMO", "PatAnglO"]]      // e.g. coa|chen
 , [ "code"   , [0, "GDMOD", "PatAnglO"]]
 , [ "code"   , [2, "GDOD", "PatAnglO"]]
+, [ "cook"   , [0, "GDUK", "PatAnglU"]]
+, [ "coo|k"  , [0, "GDU/GD", "PatAnglU"]]
 , [ "come"   , [0, "GDAM", "PatAnglA"]]
 , [ "con|ve|ni|e|nce", [0, "GDON/WE/NI/+NS", "PatAnglOther"]]
+, [ "cool"   , [0, "GDUL", "PatAnglU"]]
+, [ "coo|l"  , [0, "GDU/L", "PatAnglU"]]
 , [ "core"   , [0, "GD~O", "PatAnglStretchO"]]
 , [ "couch"  , [0, "GDAUʃD", "PatAnglAU"]]   // think autsch -> AUʃD
 , [ "coun"   , [0, "GDAUN", "PatAnglAU"]]
+, [ "creek"  , [0, "GDRIK", "PatAnglI"]]
 , [ "crui|se", [0, "GDR~U/SE", "PatAnglStretchU"]]
 , [ "cruise" , [0, "GDR~US", "PatAnglStretchU"]]
 , [ "dale"   , [0, "DÄIL", "PatAnglAI"]]
 , [ "dan"    , [0, "DÄN", "PatAnglAE"]]
+, [ "deal"   , [0, "DIL", "PatAnglI"]]
 , [ "deep"   , [0, "DI+B", "PatAnglI"]]
+, [ "de|vice", [0, "DI/WAIS", "PatAnglAI"]]
 , [ "down"   , [0, "DAUN", "PatAnglAU"]]
 , [ "dressed", [0, "DRESD", "PatAnglOther"]]
 , [ "drive", [0, "DRAIF", "PatAnglEI"]]
 , [ "duke" , [0, "D~UK", "PatAnglStretchU"]]
 //, [ "ea"   , [0, "~I"]]        // Angl. "beat" "beamer", "team"
+, [ "eam"    , [0, "~IM", "PatAnglI"]]      // e.g. team, cream
 , [ "ear"    , [1, "~I", "PatAnglI"]]
 , [ "ease"   , [0, "IS", "PatAnglI"]]
 , [ "em|pire", [0, "EM/BDAI/R", "PatAnglEI"]] // TODO: documentation, very irregular
@@ -521,7 +531,9 @@
 , [ "game"   , [0, "GÄIM", "PatAnglAI"]]
 , [ "george" , [0, "J~Oʃ", "PatAnglSch"]]
 , [ "goal"   , [0, "GOL", "PatAnglO"]]
+, [ "goo"    , [0, "GU", "PatAnglU"]]
 , [ "glamour", [0, "GLÄ/MA", "PatAnglAE"]]
+, [ "grace"  , [0, "GRÄIS", "PatAnglAI"]]
 , [ "grade"  , [0, "GRÄID", "PatAnglAI"]]
 , [ "green"  , [0, "GR~IN", "PatAnglI"]]
 , [ "greene" , [0, "GR~IN", "PatAnglI"]]
@@ -544,6 +556,7 @@
 , [ "ike"    , [0, "AIK", "PatAnglEI"]]
 , [ "i|mage" , [0, "I/MÄʃD", "PatAnglSch"]]
 , [ "ime"    , [0, "AIM", "PatAnglEI"]]       // e.g. time, prime
+, [ "ince"   , [0, "INS", "PatAnglI"]]
 , [ "inge"   , [0, "INʃ", "PatAnglSch"]]       // e.g. binge
 , [ "jack"   , [0, "JÄK", "PatAnglAE"]]
 , [ "james"  , [0, "JÄIMS", "PatAnglAI"]]
@@ -566,13 +579,14 @@
 , [ "lear"   , [0, "LEÜ", "PatAnglOther"]]      // e.g. learning
 , [ "lea|s"  , [0, "L~I/S", "PatAnglI"]]    // e.g. leasing, leasen
 , [ "lege"   , [0, "LEʃD", "PatAnglSch"]]     // e.g. college
-, [ "line"   , [0, "LAIN", "PatAnglEI"]]
 , [ "lign"   , [0, "LAIN", "PatAnglEI"]]
+, [ "line"   , [0, "LAIN", "PatAnglEI"]]
 , [ "linked" , [0, "LI+KD", "PatAnglOther"]]
 , [ "live"   , [0, "LAIF", "PatAnglEI"]]
 , [ "lone"   , [0, "LON", "PatAnglO"]]
 , [ "love"   , [0, "LOF", "PatAnglO"]]
 , [ "loa"    , [1, "LO", "PatAnglO"]]       // e.g. boot|loa|der
+, [ "loop"   , [0, "LUB", "PatAnglU"]]
 , [ "lounge" , [0, "LAUNʃ", "PatAnglAU"]]
 , [ "made"   , [0, "MÄID", "PatAnglAI"]]
 , [ "match"  , [0, "MÄʃD", "PatAnglAE"]]
@@ -605,24 +619,25 @@
 , [ "pa|rade", [0, "BDA/RÄID", "PatAnglAI"]]
 , [ "patch"  , [0, "BDÄʃD", "PatAnglSch"]]
 , [ "pipe"   , [0, "BDAI+B", "PatAnglEI"]]
+, [ "pool"   , [0, "BDUL", "PatAnglU"]]
 , [ "pole"   , [0, "BDOL", "PatAnglO"]]      // e.g. Pole-Position
 , [ "plugged", [0, "BDLAKD", "PatAnglOther"]]
-, [ "prince" , [0, "BDRINS", "PatAnglI"]]
 , [ "puzz"   , [0, "BDAS", "PatAnglOther"]]
 , [ "queen"  , [0, "GDW~IN", "PatAnglI"]]
 , [ "ral|lye", [0, "RAL/LI", "PatAnglI"]]
 , [ "rank"   , [0, "RÄ+N", "PatAnglAE"]]
 , [ "ride"   , [0, "RAID", "PatAnglEI"]]
 , [ "roa"    , [0, "RO", "PatAnglO"]]        // e.g. off-road, roaming
+, [ "rook"   , [0, "RUK", "PatAnglU"]]
 , [ "royce"  , [0, "REUS", "PatAnglOther"]]
 , [ "sales"  , [0, "SÄILS", "PatAnglAI"]]
 , [ "save"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "safe"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "sean"   , [0, "SJAUN", "PatAnglAU"]]
-, [ "scope"  , [0, "GDJO+B", "PatAnglO"]]
-, [ "scout"  , [1, "GDJAUD", "PatAnglAU"]]
-, [ "scout"  , [0, "GDJAU+D", "PatAnglAU"]]
-, [ "screen", [0, "GDJRIN", "PatAnglI"]]
+, [ "scope"  , [0, "GDMO+B", "PatAnglO"]]
+, [ "scout"  , [1, "GDMAUD", "PatAnglAU"]]
+, [ "scout"  , [0, "GDMAU+D", "PatAnglAU"]]
+, [ "screen", [0, "GDMRIN", "PatAnglI"]]
 , [ "ser|vice", [0, "SEÜ/FIS", "PatAnglOther"]]
 , [ "share"  , [0, "SJÄ", "PatAnglAE"]]
 , [ "shave"  , [0, "SJÄIF", "PatAnglAI"]]
@@ -632,44 +647,47 @@
 , [ "site"   , [0, "SAI+D", "PatAnglEI"]]
 , [ "site"   , [1, "SAID", "PatAnglEI"]]
 , [ "sive"   , [0, "SIF", "PatAnglOther"]]     // e.g. inclusive
+, [ "soap"   , [0, "SO+B", "PatAnglO"]]
 , [ "spare"  , [0, "SDJÄ", "PatAnglAE"]]
 , [ "speech" , [0, "BFIʃD", "PatAnglI"]]  // speech, like spitsch (like spischt)
-, [ "square" , [0, "GDJÄ", "PatAnglAE"]]
-, [ "squat"  , [0, "GDJOD", "PatAnglO"]]
-, [ "squash" , [0, "GDJOʃ", "PatAnglO"]]
+, [ "square" , [0, "GDMÄ", "PatAnglAE"]]
+, [ "squat"  , [0, "GDMOD", "PatAnglO"]]
+, [ "squash" , [0, "GDMOʃ", "PatAnglO"]]
 , [ "slang"  , [0, "SLÄ+N", "PatAnglAE"]]
 , [ "slide"  , [0, "SLAID", "PatAnglEI"]]
 , [ "sound"  , [0, "SAUND", "PatAnglAU"]]
+, [ "spice"  , [0, "BFAIS", "PatAnglAI"]]
 , [ "stage"  , [0, "SDÄIʃD", "PatAnglAI"]]
 , [ "steak"  , [0, "SDÄIK", "PatAnglAI"]]
 , [ "street" , [0, "SDRID", "PatAnglI"]]
 , [ "store"  , [0, "SD~O", "PatAnglStretchO"]]
+, [ "strea|ming", [0, "SDR~I/MI+N", "PatAnglI"]]
 , [ "source" , [0, "S~OS", "PatAnglStretchO"]]    // e.g. open-source
 , [ "sure"   , [0, "SJ~U", "PatAnglStretchU"]]
 , [ "suit"   , [0, "SUD", "PatAnglOther"]]
+, [ "swap"   , [0, "SWO+B", "PatAnglO"]]
 , [ "sweat"  , [0, "SWÄD", "PatAnglAE"]]
 , [ "tab"    , [0, "DJÄ+B", "PatAnglAE"]]
 , [ "talk"   , [0, "DJOK", "PatAnglO"]]
 , [ "tch"    , [0, "ʃD", "PatTsDsPs"]]       // e.g. batch, tch like tsch, like scht
 , [ "teak"   , [0, "DJ~IK", "PatAnglI"]]    // e.g. Teak-Holz
 , [ "tion"   , [0, "SJEN", "PatAnglSch"]]       // think "schen" like in action; "ti|o" is dealt with regularly
-, [ "trade"  , [0, "DJRÄID", "PatAnglAI"]]
-, [ "eam"    , [0, "~IM", "PatAnglI"]]      // e.g. team, cream
-, [ "soap"   , [0, "SO+B", "PatAnglO"]]
-, [ "strea|ming", [0, "SDR~I/MI+N", "PatAnglI"]]
-, [ "swap"   , [0, "SWO+B", "PatAnglO"]]
 , [ "tease"  , [0, "DJIS", "PatAnglI"]]
 , [ "teen"   , [0, "DJIN", "PatAnglI"]]
 , [ "tive"   , [0, "DJIF", "PatAnglOther"]]     // e.g. incentive
+, [ "tool"   , [0, "DJUL", "PatAnglU"]]
 , [ "tou"    , [0, "DJU", "PatAnglOther"]]     // e.g. touren
 , [ "tour"   , [0, "DJ~U", "PatAnglStretchU"]]    // e.g. tour
+, [ "trade"  , [0, "DJRÄID", "PatAnglAI"]]
 , [ "trai"   , [0, "BDRÄI", "PatAnglAI"]]    // e.g. trainieren
 , [ "you|tube", [0, "JU/DJUB", "PatAnglJU"]]     // youtube
 , [ "ture"   , [0, "SJ~U", "PatAnglStretchU"]]     // TODO: maybe make more distinct. future, feature, nature
 , [ "tw"     , [0, "DW", "PatReplRare"]]       // e.g. twerken
 , [ "twee"   , [0, "DW~I", "PatAnglI"]]      // e.g. twee|ten
 , [ "type"   , [0, "DJAI+B", "PatAnglEI"]]
+, [ "uce"    , [0, "~US", "PatAnglStretchU"]]
 , [ "verse"  , [0, "FEÜS", "PatAnglOther"]]     // reverse
+, [ "view"   , [0, "FJ~U", "PatAnglStretchU"]]
 , [ "ware"   , [0, "WÄ", "PatAnglAE"]]     
 , [ "warp"   , [0, "WAÜ+B", "PatAnglOther"]]
 , [ "wear"   , [0, "WÄ", "PatAnglAE"]]
@@ -678,6 +696,8 @@
 , [ "wide"   , [0, "WEID", "PatAnglEI"]]
 , [ "whistle", [0, "WIS/SEL", "PatAnglOther"]]
 , [ "white"  , [0, "WEID", "PatAnglEI"]]
+, [ "wood"   , [0, "WUD", "PatAnglU"]]
+, [ "woo|d"  , [0, "WU/D", "PatAnglU"]]
 , [ "worces" , [0, "WÄOS", "PatAnglOther"]]
 // french
 , [ "aide" , [0, "ÄD", "PatFrankOther"]]
@@ -692,7 +712,6 @@
 , [ "beige", [0, "BEʃ", "PatFrankOther"]]
 , [ "bou|le",[0, "BU/LE", "PatFrankOther"]]    // e.g. boulevard
 , [ "carte", [0, "GDMAÜD", "PatFrankOther"]]    // think "kart"
-, [ "change", [0, "SJÄINʃ", "PatFrankOther"]]
 , [ "charme", [0, "SJAÜM", "PatFrankOther"]]
 , [ "cierge", [0, "S~Iʃ", "PatFrankOther"]]
 , [ "ci|e|rge", [0, "S~Iʃ", "PatFrankOther"]]
@@ -730,6 +749,7 @@
 , [ "jacque", [0, "JAK", "PatFrankOther"]]
 , [ "joule" , [0, "J~UL", "PatFrankOther"]]
 , [ "komment", [0, "GDOM/M~O", "PatFrankOther"]]
+, [ "lice"   , [0, "L~IS", "PatFrankOther"]] // e.g. Alice, police
 , [ "lou|is", [0, "LU/I", "PatFrankOther"]]
 , [ "lou|ise", [0, "LU/IS", "PatFrankOther"]]
 , [ "luxe" , [0, "LÜKS", "PatFrankOther"]]
@@ -757,6 +777,7 @@
 , [ "pi|e|rre", [0, "BDI/EÜ+", "PatFrankOther"]]
 , [ "porte" , [0, "BD~O+D", "PatFrankOther"]]   // e.g. portemonnaie
 , [ "rage" , [0, "RAʃ", "PatFrankOther"]]
+, [ "rice"  , [0, "R~IS", "PatFrankOther"]]
 , [ "rou|la", [0, "RU/LA", "PatFrankOther"]]   // e.g. Roulade
 , [ "sainte", [0, "SÄÜND", "PatFrankOther"]]
 , [ "sau|ternes", [0, "SO/DJEÜN", "PatFrankOther"]]

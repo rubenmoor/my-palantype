@@ -32,6 +32,7 @@
 , ["ehrst",         "EÜ+SD", "PatSCPlus"]        // < erst
 , ["eine",          "EIn", "PatBrief", "EI/NE", "PatSimple"]
 , ["einer",         "EINs", "PatBrief", "EI/NEÜ", "PatCodaR"]
+, ["Finance",       "FAI/NÄNS", "PatAnglEI"]
 , ["Flor",          "FL~O+", "PatSCPlus"]        // < floh, Floh
 //, "Fluorit"     : ["FLU/O/RI+D"]   // < Fluorid
 , ["fror",          "FR~O+", "PatSCPlus"]        // < froh
@@ -56,6 +57,7 @@
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIK/G"]      // < knicke
+, ["Kampagne",      "GDAM/BDAN/JE", "PatSCother", "GDAM/BDAÜK/NE", "PatCodaGK"]
 , ["Kommiss",       "GDOM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "GDÄONn", "PatBrief", "GDÄON/NEN", "PatReplCommon"]
 , ["körnte",        "GDÄO+N/DJE", "PatSCPlus"]   // < könnte

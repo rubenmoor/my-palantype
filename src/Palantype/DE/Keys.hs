@@ -115,11 +115,11 @@ instance Palantype Key where
     patSimpleMulti = PatSimpleMulti
 
     toDescription = \case
-      PatSimple -> "Identical letters, one single chord"
+      PatSimple -> "Identical letters"
       PatSimpleMulti -> "Identical letters, multiple chords"
       PatReplCommon -> "Replacements for common letters"
       PatDiConsonant -> "Double consonants"
-      PatCodaH -> "Vowels followed by h"
+      PatCodaH -> "Long vowels"
       PatCodaR -> "Vowels followed by r"
       PatCodaRR -> "Vowels followed by -rr"
       PatCodaHR -> "Vowels followed by -hr"
@@ -175,8 +175,10 @@ instance TextShow Key where
     showb = singleton <<< keyCode
 
 data Pattern
+  -- simple pattern
   = PatSimple
   | PatSimpleMulti
+  -- common replacement rules
   | PatReplCommon
   | PatDiConsonant
   | PatCodaH
@@ -193,15 +195,19 @@ data Pattern
   | PatDiVowel
   | PatReplH
   | PatSmallS
+  -- rare replacement rules and special cases
   | PatReplRare
   | PatSCStretch
   | PatSCPlus
   | PatSCOther
+  -- rules for increased efficiency
   | PatShortSyllable
   | PatBrief
+  | PatCommonPrefix
+  -- acronyms
   | PatAcronym
   | PatChemistry
-  | PatCommonPrefix
+  -- anglicisms
   | PatAnglAI
   | PatAnglAE
   | PatAnglI
@@ -215,6 +221,7 @@ data Pattern
   | PatAnglAU
   | PatAnglSch
   | PatAnglOther
+  -- other foreign words
   | PatFrankOther
   | PatForeignOther
 
