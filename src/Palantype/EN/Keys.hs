@@ -147,8 +147,10 @@ instance Palantype Key where
     toDescription = \case
       PatSimple -> "Identical letters, one single chord"
       PatSimpleMulti -> "Identical letters, multiple chords"
+      PatCapitalize -> "Explicit capitalization"
 
     patSimpleMulti = PatSimpleMulti
+    patCapitalize = PatCapitalize
     lsPrimitives = []
     mapExceptions = Map.empty
 
@@ -158,6 +160,7 @@ instance TextShow Key where
 data Pattern
   = PatSimple
   | PatSimpleMulti
+  | PatCapitalize
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern

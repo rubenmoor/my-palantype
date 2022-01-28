@@ -162,6 +162,7 @@ class ( Data key
 
   toDescription :: PatternGroup key -> Text
   patSimpleMulti :: PatternGroup key
+  patCapitalize :: PatternGroup key
 
   -- | the primitives as defined in "primitives.json"
   lsPrimitives

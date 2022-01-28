@@ -113,6 +113,7 @@ instance Palantype Key where
         RightEn       -> 'n'
 
     patSimpleMulti = PatSimpleMulti
+    patCapitalize = PatCapitalize
 
     toDescription = \case
       PatSimple -> "Identical letters"
@@ -137,6 +138,7 @@ instance Palantype Key where
       PatSCStretch -> "Irregular stretch key"
       PatSCPlus -> "Irregular plus key"
       PatSCOther -> "Unspecific irregularities"
+      PatCapitalize -> "Explicit capitalization"
       PatShortSyllable -> "Efficiency for short syllables"
       PatBrief -> "Brief for a common word"
       PatAcronym -> "Acronym spellings"
@@ -200,6 +202,8 @@ data Pattern
   | PatSCStretch
   | PatSCPlus
   | PatSCOther
+  -- rules for capitalization
+  | PatCapitalize
   -- rules for increased efficiency
   | PatShortSyllable
   | PatBrief

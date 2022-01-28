@@ -92,11 +92,11 @@
 , [ "bi|o", [2, "BJO", "PatIJ", "no-doc"]]
 , [ "bio" , [2, "BJO", "PatIJ"]]
 , [ "bt"  , [0, "+BD", "PatReplCommon"]]
-, [ "c"   , [0, "GDM", "PatReplC"]]      // TODO: documentation; solution for c-/k- collisions
+, [ "c"   , [0, "GDM-", "PatReplC"]]      // TODO: documentation; solution for c-/k- collisions
 , [ "c"   , [1, "GD", "PatReplC"]]       // TODO: documentation
 , [ "c"   , [0, "+K", "PatReplC"]]
 , [ "c"   , [1, "K", "PatReplC"]]        // TODO: documentation
-, [ "ç"   , [0, "GDM", "PatReplC"]]      // U+00E7
+, [ "ç"   , [0, "GDM-", "PatReplC"]]      // U+00E7
 //, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
 //, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
 //, [ "ce"  , [1, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
@@ -106,12 +106,12 @@
 , [ "ch"  , [0, "Kʃ", "PatReplCommon"]]
 , [ "chia", [0, "SJA", "PatReplRare"]]
 , [ "chio", [0, "SJO", "PatReplRare"]]
-, [ "chs" , [1, "KS", "PatReplCommon"]]
-, [ "chs" , [0, "Ks", "PatReplCommon"]]
+, [ "chs" , [0, "KS", "PatReplCommon"]]
+// , [ "chs" , [0, "Ks", "PatReplCommon"]]
 //, [ "ci"  , [0, "SHMI", "PatReplC"]]
 , [ "ci"  , [1, "GDJ", "PatReplC"]]
 //, [ "cia" , [0, "SHJA", "PatReplC"]]
-, [ "ck"  , [0, "GD", "PatReplCommon"]]
+, [ "ck"  , [0, "GD-", "PatReplCommon"]]
 , [ "ck"  , [0, "K", "PatReplCommon"]]
 , [ "d"   , [0, "D", "PatSimple"]]
 , [ "daq" , [0, "DAK", "PatReplRare"]]     // e.g. Nasdaq
@@ -218,7 +218,7 @@
 , [ "i|ß"  , [5, "~I/S", "PatSZ", "no-doc"]]
 , [ "iv"   , [3, "-F", "PatShortSyllable"]]       // TODO: documentation
 , [ "j"    , [0, "J", "PatSimple"]]
-, [ "k"    , [0, "GD", "PatReplCommon"]] 
+, [ "k"    , [0, "GD-", "PatReplCommon"]] 
 , [ "k"    , [0, "K", "PatSimple"]]
 , [ "kh"   , [0, "GH", "PatReplH"]]
 , [ "kh"   , [1, "GD", "PatReplH"]]       // Khmer
@@ -329,32 +329,33 @@
 , [ "s"   , [0, "S", "PatSimple"]]
 , [ "s"   , [0, "s", "PatSmallS"]]
 //, [ "sc"  , [0, "SDM", "PatAnglOther"]]
-, [ "sc"  , [0, "GDM", "PatAnglOther"]]     // e.g. scooter
+, [ "sc"  , [0, "GDM-", "PatAnglOther"]]     // e.g. scooter
 , [ "sc"  , [0, "+KS", "PatAnglOther"]]      // e.g. disc
 , [ "sc"  , [1, "KS", "PatAnglOther"]]      // e.g. disc
 , [ "sch" , [0, "SJ", "PatReplCommon"]]
 , [ "sch" , [0, "ʃ", "PatSimple"]]       // U+0283
-, [ "schm", [0, "SM", "PatReplCommon"]]
-, [ "schl", [3, "SL", "PatReplCommon"]]
-, [ "schn", [3, "SN", "PatReplCommon"]]
+, [ "schm", [0, "SM-", "PatReplCommon"]]
+, [ "schl", [3, "SL-", "PatReplCommon"]]
+, [ "schn", [3, "SN-", "PatReplCommon"]]
 , [ "schr", [3, "SR", "PatReplCommon"]]
 , [ "schw", [0, "SW", "PatReplCommon"]]
 , [ "se"  , [4, "-Ss", "PatShortSyllable"]]
 // implicit "sh" SH 0
 , [ "sh"  , [1, "SJ", "PatAnglOther"]]      // e.g. auscashen
 , [ "sh"  , [0, "ʃ", "PatAnglOther"]]       // e.g. cash
-, [ "sp"  , [0, "BF", "PatReplCommon"]]      // TODO: documentation
+, [ "sp"  , [0, "BF-", "PatReplCommon"]]      // TODO: documentation
 , [ "sp"  , [0, "-BS", "PatReplRare"]]      // TODO: documentation -sp = PS
-, [ "sph" , [0, "SF", "PatReplRare"]]
-, [ "sk"  , [0, "GDM", "PatReplRare"]]     // TODO: documentation x, sk -> GDM
+, [ "sph" , [0, "SF-", "PatReplRare"]]
+, [ "sk"  , [0, "GDM-", "PatReplRare"]]     // TODO: documentation x, sk -> GDM
 , [ "sk"  , [0, "KS", "PatReplRare"]]      // sk in coda, TODO: documentation tink "sk"/"ks"
 , [ "ss"  , [0, "-Ss", "PatDiConsonant"]]
 , [ "ss"  , [1, "S", "PatDiConsonant"]]
 , [ "sst", [0, "Ss", "PatTsDsPs"]]
 , [ "s|s" , [2, "S", "PatDiConsonant", "no-doc"]]
-, [ "st"  , [0, "SD", "PatReplCommon"]]
+, [ "st"  , [0, "SD-", "PatReplCommon"]]
+, [ "st"  , [0, "-SD", "PatReplCommon"]]
 , [ "sou|ve|rä", [0, "SU/FE/RÄ", "PatSCOther"]]
-, [ "sz"  , [0, "SHM", "PatReplRare"]]      // sz = z = SF
+, [ "sz"  , [0, "SHM-", "PatReplRare"]]      // sz = z = SF
 , [ "t"   , [0, "DJ", "PatReplCommon"]]
 , [ "t"   , [0, "+D", "PatReplCommon"]]
 , [ "t"   , [1, "-D", "PatReplCommon"]]
@@ -375,7 +376,7 @@
 , [ "tt"  , [1, "-D", "PatDiConsonant"]]
 , [ "trio", [0, "DJRI/O", "PatReplCommon", "no-doc"]]
 , [ "trio", [2, "DJRO", "PatIJ"]]
-, [ "ts"  , [0, "SHM", "PatReplRare"]]
+, [ "ts"  , [0, "SHM-", "PatReplRare"]]
 , [ "ts"  , [0, "s", "PatTsDsPs"]]
 , [ "tts" , [0, "s", "PatTsDsPs"]]
 , [ "tsch", [0, "SHJ", "PatReplRare"]]     // TODO: documentation: tsch- like sch-
@@ -426,14 +427,14 @@
 , [ "w"   , [0, "W", "PatSimple"]]
 , [ "w"   , [0, "-F", "PatReplCommon"]]
 , [ "wie|der", [3, "WI+", "PatCommonPrefix"]]
-, [ "x"    , [0, "GDM", "PatReplCommon"]]      // TODO: documentation
+, [ "x"    , [0, "GDM-", "PatReplCommon"]]      // TODO: documentation
 , [ "x"    , [0, "KS", "PatReplCommon"]]
 , [ "y"    , [0, "J", "PatReplCommon"]]
 , [ "y"    , [0, "ÄI", "PatReplCommon"]]
 , [ "y"    , [1, "I", "PatReplCommon"]]
 , [ "yo"   , [0, "I/O", "PatReplCommon", "no-doc"]]
 , [ "yr"   , [0, "~I", "PatCodaR"]]
-, [ "z"    , [0, "SHM", "PatReplCommon"]]
+, [ "z"    , [0, "SHM-", "PatReplCommon"]]
 , [ "z"    , [0, "+S", "PatReplCommon"]]
 , [ "zia"  , [0, "SHMI/A", "PatReplCommon", "no-doc"]]
 , [ "zia"  , [3, "SHMA", "PatReplCommon"]]
