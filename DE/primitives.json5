@@ -115,8 +115,8 @@
 , [ "ck"  , [0, "K", "PatReplCommon"]]
 , [ "d"   , [0, "D", "PatSimple"]]
 , [ "daq" , [0, "DAK", "PatReplRare"]]     // e.g. Nasdaq
-, [ "dd"  , [0, "D", "PatDiConsonant"]]
-, [ "d|d" , [2, "D", "PatDiConsonant", "no-doc"]]
+, [ "dd"  , [0, "-D", "PatDiConsonant"]]
+, [ "d|d" , [2, "D-", "PatDiConsonant", "no-doc"]]
 , [ "de|"  , [3, "D-", "PatShortSyllable"]]
 , [ "dh"  , [0, "D", "PatReplH"]]       // Abu-Dhabi, Buddhist
 , [ "di|"  , [3, "D-", "PatShortSyllable"]]
@@ -176,8 +176,8 @@
 , [ "eu|ß" , [5, "EU/S", "PatSZ", "no-doc"]]
 , [ "ey"   , [0, "ÄI", "PatDiphtong"]]
 , [ "f"    , [0, "F", "PatSimple"]]
-, [ "ff"   , [0, "F", "PatDiConsonant"]]
-, [ "f|f"  , [2, "F", "PatDiConsonant", "no-doc"]]
+, [ "ff"   , [0, "-F", "PatDiConsonant"]]
+, [ "f|f"  , [2, "F-", "PatDiConsonant", "no-doc"]]
 , [ "fluor", [0, "FLU/~O", "PatDiphtong", "no-doc"]]
 , [ "fluo" , [0, "FLU/O", "PatDiphtong", "no-doc"]]
 , [ "fst"  , [0, "-Fs", "PatTsDsPs"]]
@@ -263,7 +263,7 @@
 , [ "o"   , [0, "O", "PatSimple"]]
 , [ "ó"   , [0, "O", "PatSimple"]]
 , [ "ô"   , [0, "O", "PatSimple"]]
-, [ "ø"   , [0, "ÄO", "PatSimple"]]      // U+00F8
+, [ "ø"   , [0, "ÄO", "PatReplCommon"]]      // U+00F8
 , [ "oa"    , [0, "O/A", "PatDiphtong", "no-doc"]]
 , [ "oe"  , [0, "EO", "PatDiphtong"]]
 , [ "oe"  , [1, "ÄO", "PatDiphtong"]]
