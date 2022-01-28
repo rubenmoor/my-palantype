@@ -125,7 +125,7 @@
 , [ "ds"  , [0, "s", "PatTsDsPs"]]
 , [ "dsch", [0, "SDJ", "PatReplCommon"]]      // note: also "ps" = SDJ TODO: documentation
 , [ "dsch", [0, "ʃD", "PatTsDsPs"]]       // dsch in coda, like schd TODO: documentation
-, [ "dt"  , [1, "-D", "PatDt"]]
+, [ "dt"  , [6, "-D", "PatDt"]]
 , [ "dt"  , [0, "-D/-D", "PatDt"]]
 , [ "duis", [0, "DÜS", "PatDiphtong"]]
 , [ "e"   , [0, "E", "PatSimple"]]
