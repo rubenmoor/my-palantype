@@ -14,7 +14,8 @@ module Palantype.Common.Dictionary
     , kiEnter
     , kiCapNext
     , commands
-    ,kiAcronym) where
+    , kiAcronym
+    ) where
 
 import           Control.Category               ( (<<<) )
 import           Data.Bifunctor                 ( Bifunctor(first) )

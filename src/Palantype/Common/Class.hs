@@ -60,6 +60,7 @@ import           TextShow                       (TextShow
 import Data.ByteString (ByteString)
 import Control.DeepSeq (NFData)
 import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord, unChord))
+import Palantype.Common.KeyIndex
 import Data.Bool (Bool)
 import Data.String (IsString (fromString))
 import GHC.Show (Show (show))
@@ -152,14 +153,6 @@ class ( Data key
         m = foldl (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
     in  Map.findWithDefault [] c m
 
-  keyIndex :: key -> KeyIndex
-  keyIndex = KeyIndex . constrIndex . toConstr
-
-  fromIndex :: KeyIndex -> key
-  fromIndex i =
-    let t = dataTypeOfProxied (Proxy :: Proxy key)
-    in  fromConstr $ indexConstr t $ unKeyIndex i
-
   toDescription :: PatternGroup key -> Text
   patSimpleMulti :: PatternGroup key
   patCapitalize :: PatternGroup key
@@ -173,10 +166,6 @@ class ( Data key
   mapExceptions
     :: Map Text [(RawSteno, PatternGroup key)]
 
-newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
-  deriving stock (Eq, Ord)
-  deriving newtype (Hashable, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num)
-
 -- | show the key, with a hyphen attached
 --   x- for the keys of the left hand,
 --   -x for the keys of the right hand
@@ -187,6 +176,3 @@ showH k =
 
 mkChord :: forall k. (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys
-
-toKeyIndices :: Palantype k => Chord k -> [KeyIndex]
-toKeyIndices = fmap keyIndex <<< unChord

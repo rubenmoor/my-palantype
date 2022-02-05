@@ -28,7 +28,9 @@ library
       Palantype.Common.Dictionary
       Palantype.Common.Indices
       Palantype.Common.Internal
+      Palantype.Common.KeyIndex
       Palantype.Common.Primitives
+      Palantype.Common.AutoDoc
       Palantype.Common.RawSteno
       Palantype.DE
       Palantype.DE.Keys

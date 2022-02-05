@@ -59,8 +59,9 @@ import           TextShow                       ( TextShow(showt)
 import Control.Monad.Fail (MonadFail(fail))
 import Data.List (head)
 import Data.Bool ((&&), otherwise)
-import Palantype.Common.Class (Palantype (toKeys, toFinger, fromIndex), RawSteno (RawSteno, unRawSteno))
+import Palantype.Common.Class (Palantype (toKeys, toFinger), RawSteno (RawSteno, unRawSteno))
 import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
+import Palantype.Common.KeyIndex (fromIndex)
 
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord = RawSteno <<< showt

@@ -5,8 +5,6 @@
 module Palantype.Common.Primitives
   ( triePrimitives
   , lsPatterns
-  , patternDoc
-  , PatternDoc
   , PrimMap (..)
   , ExceptionsMap (..)
   , stripComments
@@ -35,12 +33,12 @@ import           Data.Foldable                  ( Foldable
                                                     , toList, length
                                                     )
                                                 )
-import           Data.Function                  ( ($), (.)
+import           Data.Function                  ( ($)
                                                 )
 import           Data.Functor                   ( (<$>), Functor (fmap), (<&>)
                                                 )
 import           Data.List                      ( (++)
-                                                , head, sort
+                                                , head
                                                 )
 import           Data.Map.Strict                       ( Map )
 import qualified Data.Map.Strict                      as Map
@@ -49,13 +47,12 @@ import           Data.Monoid                    ( (<>)
 import           Data.Text                      ( Text)
 import qualified Data.Text                     as Text
 import qualified Data.Text.Encoding            as Text
-import           Palantype.Common.Internal      ( Greediness, PatternPos
+import           Palantype.Common.Internal      ( Greediness, PatternPos (..)
                                                 )
 import qualified Palantype.Common.RawSteno     as Raw
 import           Text.Show                      ( Show(show) )
 import Data.Bool (Bool(True, False))
-import Data.Bifunctor (Bifunctor(second, first))
-import Control.Category ((<<<))
+import Data.Bifunctor (Bifunctor(second))
 import Data.Ord (Ord((>=)))
 import Palantype.Common.Class (Palantype (PatternGroup, lsPrimitives), RawSteno)
 
@@ -116,29 +113,6 @@ instance (Palantype key) => FromJSON (ExceptionsMap key) where
       parseEntries key _ = fail $ "Uneven number of entries for " <> show key
 
   parseJSON _ = mzero
-
-type PatternDoc key =
-  [(PatternGroup key, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
-
-patternDoc
-  :: forall key
-  .  Palantype key
-  => PatternDoc key
-patternDoc =
-    Map.toList
-      $   Map.toList . fmap (Map.toList <<< fmap (sort <<< fmap (first Text.decodeUtf8)))
-      <$> foldl' accByBs Map.empty lsPrimitives
-  where
-    accByBs m (bs, entries) =
-      foldl' (accByPattern bs) m entries
-
-    accByPattern bs m (g, r, p, bNoDoc, pPos) =
-      if bNoDoc
-      then m
-      else Map.insertWith (Map.unionWith (Map.unionWith (++)))
-                          p
-                          (Map.singleton g $ Map.singleton pPos [(bs, r)])
-                          m
 
 newtype PrimMap key = PrimMap
   { unPrimMap :: Map ByteString [(Greediness, RawSteno, PatternGroup key, Bool, PatternPos)]

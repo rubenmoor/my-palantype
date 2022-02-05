@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE DeriveGeneric #-}
@@ -7,9 +6,6 @@
 module Palantype.DE.Keys where
 
 import           Control.Category               ( (<<<) )
-import           Data.Data                      ( Data )
-import           Data.Eq                        ( Eq )
-import           Data.Ord                       ( Ord )
 import           Palantype.Common.Class         ( Palantype(..) )
 import           TextShow                       ( TextShow(..)
                                                 , singleton, fromString
@@ -31,6 +27,9 @@ import Data.Function (($))
 import GHC.Err (error)
 import Data.Monoid ((<>))
 import Control.DeepSeq (NFData)
+import           Data.Data                      ( Data )
+import           Data.Eq                        ( Eq )
+import           Data.Ord                       ( Ord )
 
 -- the palantype.de keyboard
 --
