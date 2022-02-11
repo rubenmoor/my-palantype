@@ -33,9 +33,9 @@ import           Data.Ord                       ( Ord )
 
 -- the palantype.de keyboard
 --
--- S|Z   H/e  M  L       .     + K/G   F/W/V  -s/-er
--- B|P   D|T  J  N       .     L N     S/Z|Tz D/T
--- G|K   F/V  W  R/er-   .     M B|P   ʃ|ç    -en
+-- S|Z   H/e  M  L       .     + G    F/W/V  -s/-er
+-- B|P   D|T  J  N       .     L N    S/Z|Tz D/T
+-- G|K   F/V  W  R/er-   .     M B|P  ʃ|ç    -en
 -- thumb      Ä  E  A ~  . U I O Ü
 
 -- a key on a steno keyboard
@@ -63,7 +63,7 @@ data Key
   | RightModifier
   | RightL
   | RightM
-  | RightKG
+  | RightGK
   | RightN
   | RightBP
   | RightFWVIv
@@ -101,7 +101,7 @@ instance Palantype Key where
         RightModifier -> '+'
         RightL        -> 'L'
         RightM        -> 'M'
-        RightKG       -> 'K'
+        RightGK       -> 'G'
         RightN        -> 'N'
         RightBP       -> 'B'
         RightFWVIv    -> 'F'
@@ -126,6 +126,7 @@ instance Palantype Key where
       PatDt -> "The dt-rule"
       PatDiphtong -> "Multiple vowels"
       PatReplC -> "Different replacements for c"
+      -- TODO
       PatCodaGK -> "G and k in the coda"
       PatSZ -> "The letter ß"
       PatIJ -> "Using J for i"
@@ -189,6 +190,7 @@ data Pattern
   | PatDt
   | PatDiphtong
   | PatReplC
+  -- TODO
   | PatCodaGK
   | PatSZ
   | PatIJ
