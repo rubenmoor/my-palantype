@@ -117,6 +117,7 @@ instance Palantype Key where
     toDescription = \case
       PatSimple -> "Identical letters"
       PatSimpleMulti -> "Identical letters, multiple chords"
+      PatSmallS -> "Making use of the (small) s key"
       PatReplCommon -> "Replacements for common letters"
       PatDiConsonant -> "Double consonants"
       PatCodaH -> "Long vowels"
@@ -126,14 +127,17 @@ instance Palantype Key where
       PatDt -> "The dt-rule"
       PatDiphtong -> "Multiple vowels"
       PatReplC -> "Different replacements for c"
+
       -- TODO
       PatCodaGK -> "G and k in the coda"
+
       PatSZ -> "The letter ß"
       PatIJ -> "Using J for i"
-      PatTsDsPs -> "S-swapping in the coda"
+      PatSwapS -> "S-swapping in the coda"
+      PatSwapSch -> "Sch-swapping in the coda"
+      PatSwapZ -> "Z-swapping in the coda"
       PatDiVowel -> "Double vowels"
       PatReplH -> "Replacing a silent h"
-      PatSmallS -> "Usage of -s"
       PatReplRare -> "Replacements for less common letters"
       PatSCStretch -> "Irregular stretch key"
       PatSCPlus -> "Irregular plus key"
@@ -180,6 +184,7 @@ data Pattern
   -- simple pattern
   = PatSimple
   | PatSimpleMulti
+  | PatSmallS
   -- common replacement rules
   | PatReplCommon
   | PatDiConsonant
@@ -194,10 +199,11 @@ data Pattern
   | PatCodaGK
   | PatSZ
   | PatIJ
-  | PatTsDsPs
+  | PatSwapS
+  | PatSwapSch
+  | PatSwapZ
   | PatDiVowel
   | PatReplH
-  | PatSmallS
   -- rare replacement rules and special cases
   | PatReplRare
   | PatSCStretch

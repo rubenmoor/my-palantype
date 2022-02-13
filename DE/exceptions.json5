@@ -11,6 +11,7 @@
 , ["Aortenklappen", "A/~O/DJEN/GDLA+B/BDEN", "PatCodaR", "A/~O/DJn/GDLA+B/BDn", "PatShortSyllable"]
 , ["Audio",         "AU/DI/O", "PatSimple"]      // < Auto
 , ["bah",           "BAÜ+", "PatSCPlus"]         // < bar
+, ["Beatles",       "B~I/DJELS", "PatAnglI"]
 , ["Beautyfarm",    "BJU/DJI/FAÜM", "PatAnglJU"] // more efficient, but wrong BO
 , ["Beautycase",    "BJU/DJI/GDÄIS", "PatAnglJU"] // more efficient, but wrong BO
 , ["Beyer",         "BEI/EÜ", "PatCodaR"]
@@ -19,14 +20,20 @@
 , ["Bouquet",       "BU/GDE", "PatFrankOther"]
 , ["Bouquets",      "BU/GDES", "PatFrankOther"]
 , ["Bucks",         "BA+GS", "PatAnglA"]
+, ["Chelsea",       "SHJEL/SI", "PatAnglI"]
+, ["Cousin",        "GDU/SÄ", "PatFrankOther", "GDU/SEMG", "PatFrankOther"]
+, ["Cousine",       "GDU/SI/NE", "PatFrankOther", "GDU/S~IN", "PatFrankOther"]
 , ["Court",         "GD~O+D", "PatAnglStretchO"]
 , ["Crêpe",         "GDRE+B", "PatFrankOther"]
 , ["Crêpes",        "GDRE+BS", "PatFrankOther"]
 // , "CO2"      : ["GDMO+S"]
 , ["dabei",         "DAB", "PatBrief", "DA/BEI", "PatSimple"]
 , ["dass",          "DAs", "PatBrief"]          // < das
+, ["Dealer",        "D~I/LEÜ", "PatAnglI"]          // < das
+, ["Dean",          "D~I+N", "PatAnglOther"]
 , ["Dike",          "D~I/GDE", "PatSCStretch"]      // < Dicke
 , ["Diken",         "D~I/GDEN", "PatSCStretch", "D~I/GDn", "PatSCStretch"] // < Dicke
+, ["East",          "~I+SD", "PatAnglI"]
 //, "dm"          : ["D/M"]          // < dem
 //, "Düne"        : ["DÜ/NE"]        // < Dünne
 //, "Dünen"       : ["DÜ/NEN", "DÜ/Nn"] // < Dünne
@@ -45,7 +52,9 @@
 , ["Geor|gia",      "J~O/JA", "PatAnglOther"]
 , ["Görz",          "G~O+S", "PatSCPlus"]        // < Götz
 , ["gram",          "GRAÜM", "PatSCStretch"]        // < Gramm
+, ["Guillaume",     "G~I/J~OM", "PatFrankOther"]
 //, "haben"       : ["HABn", "HA/BEN"]
+, ["Hadsch",        "HA+ʃD", "PatSCPlus"]
 , ["Ham",           "HÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
 , ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"]
@@ -61,15 +70,17 @@
 , ["iPhone",        "AI/FON", "PatAnglEI"]
 , ["iPhones",       "AI/FONS", "PatAnglEI"]
 , ["Inn",           "I+N", "PatSCPlus"]
-, ["ir|re",         "~I+/RE", "PatSCPlus"]       // < ihre
 //, "isst"        : ["ISs"]          // < ist
+, ["Jacqueline",    "JA+G/L~IN", "PatFrankOther"]
 , ["Jahnn",         "JAÜ+N", "PatSCPlus"]        // < Jahn
 , ["Jo-Jo",         "J~O/HIFn/J~O", "PatSCOther"] // < Yo-Yo
+, ["Jean",          "JO+N", "PatFrankOther"]
 //, "Jot"         : ["JO+D"]         // < Jod
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIG/GE"]      // < knicke
 , ["Kampagne",      "GDAM/BDAN/JE", "PatSCOther", "GDAM/BDAÜG/NE", "PatCodaGK"]
+, ["kam",           "GDAÜM", "PatSCStretch"]
 , ["Kerle",         "GDEÜ+/LE", "PatSCPlus"]
 , ["Kommiss",       "GDOM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "GDÄONn", "PatBrief", "GDÄON/NEN", "PatReplCommon"]
@@ -81,6 +92,7 @@
 , ["Lar",           "LAÜ+", "PatSCPlus"]         // < Lahr
 //, "lass"        : ["LASs", "PatSCOther"]         // < las
 , ["Lausanne",      "LO/SAN", "PatFrankOther"]
+, ["Lead",          "L~I+D", "PatSCStretch"]
 , ["Lek",           "BDJNN/LEÜ+G", "PatSCStretch"]
 , ["Lindbergh",     "LIND/BEÜ+G", "PatSCStretch"]    
 // , "litt"        : ["LI+D"]         // < Lid
@@ -94,7 +106,7 @@
 , ["Maia",          "MAI/A", "PatSCOther"]
 , ["Mall",          "BDJNN/M~OL", "PatAnglStretchO"]
 , ["Met",           "BDJNN/MEÜ+D", "PatSCStretch"]
-//, ["Mayer",         "MAI/EÜ", "PatCodaR"] // Maier vs Mayer, no solution
+, ["Mayer",         "MAI+/EÜ", "PatSCPlus"]
 , ["Modell",        "M~O/DEL", "PatSCPlus"] // < Model
 , ["Modells",       "M~O/DELS", "PatSCPlus"]
 , ["Moore",         "M~U+", "PatSCPlus"]
@@ -102,6 +114,7 @@
 //, ["muh",           "M~U+", "PatSCPlus"]         // < Mur
 , ["Mus",           "M~US", "PatSCStretch"]         // < muss
 //, "Nietnagel"   : ["N~I+D/NA/GEL"] // < Niednagel
+, ["nagt",          "NAÜ+GD", "PatSCStretch"]
 , ["oder",          "OD", "PatBrief", "O/DEÜ", "PatCodaR"]
 , ["ohne",          "~ON", "PatBrief", "~O/NE", "PatCodaH"]
 , ["Oker",          "~O/GDEÜ", "PatSCStretch"]      // < ocker
@@ -114,6 +127,7 @@
 //, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
 //, "Robbe"       : ["ROB/B"]        // < Robe
 , ["Range",         "RÄINʃ", "PatAnglAI"]
+, ["Reagan",        "RÄ/GÄN", "PatAnglAE"]
 , ["roh",           "R~O+", "PatSCPlus"]         // < Rohr
 , ["Rur",           "R~U+", "PatSCPlus"]         // < Ruhr
 //, ["sang",          "SAÜ+N", "PatSCPlus"]        // < sank
@@ -133,6 +147,8 @@
 , ["Suisse",        "SWIS", "PatFrankOther"]
 , ["Task",          "DJA+GS", "PatAnglOther"]
 , ["Tête-à-Tête",   "BDJNN/DJED", "PatBrief", "BDJNN/DJED/HINF/A/HINF/DJED", "PatFrankOther"]
+, ["Teaser",        "DJ~I/SEÜ", "PatAnglI"]
+, ["Timm",          "DJIM/M-", "PatSCOther"]
 , ["tja",           "DJA", "PatSCOther"]   
 , ["Top",           "BDJNN/DJO+B", "PatAnglO"]
 , ["Track",         "DJRÄ+G", "PatAnglA"]
