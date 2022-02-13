@@ -124,7 +124,7 @@
 , [ "di|"  , [5, "D-", "PatShortSyllable"]]
 , [ "dia" , [0, "DI/A", "PatSimple", "no-doc"]]  // TODO documenation ia-rule
 , [ "dia" , [4, "DJA", "PatIJ"]]      // TODO documenation ia-rule
-, [ "ds"  , [0, "SD", "PatSwapS"]]
+, [ "ds"  , [0, "-SD", "PatSwapS"]]
 , [ "dsch", [0, "SDJ", "PatReplCommon"]]      // note: also "ps" = SDJ TODO: documentation
 , [ "dt"  , [1, "-D", "PatDt"]]
 , [ "dt"  , [0, "-D/-D", "PatDt"]]
@@ -736,7 +736,7 @@
 , [ "teen"   , [0, "DJIN", "PatAnglI"]]
 , [ "tive"   , [0, "DJIF", "PatAnglOther"]]     // e.g. incentive
 , [ "tool"   , [0, "DJUL", "PatAnglU"]]
-, [ "tou|"   , [0, "DJU", "PatAnglOther"]]     // e.g. touren
+, [ "tou|r"   , [0, "DJU/R", "PatAnglU"]]     // e.g. touren, Tourismus
 , [ "tour"   , [0, "DJ~U", "PatAnglStretchU"]]    // e.g. tour
 , [ "trade"  , [0, "DJRÄID", "PatAnglAI"]]
 , [ "trai"   , [0, "BDRÄI", "PatAnglAI"]]    // e.g. trainieren

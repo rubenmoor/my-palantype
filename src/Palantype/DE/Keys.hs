@@ -117,8 +117,8 @@ instance Palantype Key where
     toDescription = \case
       PatSimple -> "Identical letters"
       PatSimpleMulti -> "Identical letters, multiple chords"
-      PatSmallS -> "Making use of the (small) s key"
       PatReplCommon -> "Replacements for common letters"
+      PatSmallS -> "Making use of the (small) s key"
       PatDiConsonant -> "Double consonants"
       PatCodaH -> "Long vowels"
       PatCodaR -> "Vowels followed by r"
@@ -184,9 +184,9 @@ data Pattern
   -- simple pattern
   = PatSimple
   | PatSimpleMulti
-  | PatSmallS
   -- common replacement rules
   | PatReplCommon
+  | PatSmallS
   | PatDiConsonant
   | PatCodaH
   | PatCodaR
