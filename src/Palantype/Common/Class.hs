@@ -63,6 +63,7 @@ import Data.Bool (Bool)
 import Data.String (IsString (fromString))
 import GHC.Show (Show (show))
 import Data.Map (Map)
+import Data.ByteString.Builder (char7)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
@@ -143,7 +144,9 @@ class ( Data key
         32 -> RightPinky
         _  -> error "toFinger: impossible"
 
-  -- | override for efficiency
+  -- | get all the Palantype Keys that are represented by the given char
+  --   valid chars result in lists of one or two keys
+  --   invalid chars (that do not represent any key) result in an empty list
   toKeys :: Char -> [key]
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
