@@ -33,10 +33,9 @@ import           Data.Function                  ( ($)
                                                 , flip
                                                 )
 import           Data.Functor                   ( (<$>)
-                                                , Functor(fmap)
+
                                                 )
 import           Data.Hashable                  ( Hashable )
-import           Data.Int                       ( Int )
 import           Data.List                      ( (++)
 
                                                 , sort
@@ -48,7 +47,6 @@ import           Data.Semigroup                 ( Semigroup((<>)) )
 import qualified Data.Text                     as Text
 import           Data.Text                      ( Text )
 import           GHC.Err                        ( error )
-import           GHC.Num                        ( Num )
 import           TextShow                       (TextShow
                                                     ( showb, showt
 

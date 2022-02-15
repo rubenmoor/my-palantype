@@ -100,22 +100,22 @@ parseSteno (RawSteno str) =
 
 -- | fails silently in case of parser error and returns
 -- | an empty list
-parseStenoLenient :: Palantype key => RawSteno -> [Chord key]
-parseStenoLenient (RawSteno str) =
+parseStenoMaybe :: Palantype key => RawSteno -> Maybe [Chord key]
+parseStenoMaybe (RawSteno str) =
     case runParser sentence (Nothing, Nothing) "" str of
-        Left  _ -> []
-        Right ls  -> mconcat ls
+        Left  _   -> Nothing
+        Right ls  -> Just $ mconcat ls
 
 parseWord :: Palantype key => RawSteno -> Either ParseError [Chord key]
 parseWord (RawSteno str) = runParser word (Nothing, Nothing) "" str
 
 -- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
 -- | fails silently and returns and returns an empty chord
-parseChordLenient :: Palantype key => RawSteno -> Chord key
-parseChordLenient (RawSteno str) =
+parseChordMaybe :: Palantype key => RawSteno -> Maybe (Chord key)
+parseChordMaybe (RawSteno str) =
     case runParser chord (Nothing, Nothing) "" str of
-        Left  _ -> Chord []
-        Right c -> c
+        Left  _ -> Nothing
+        Right c -> Just c
 
 parseStenoKey :: Palantype key => RawSteno -> Either Text key
 parseStenoKey (RawSteno str) =

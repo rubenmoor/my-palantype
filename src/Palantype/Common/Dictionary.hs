@@ -1,11 +1,13 @@
 {-|
-Description: Common dictionary, i.e. language-independent commands
+Description: Common, language-independent dictionary for commands
+and special keys
 
 For simplicity, the commands are defined using Palantype.DE.
 But only the generic indices are exported.
 -}
 
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Palantype.Common.Dictionary
     ( kiUp
@@ -31,10 +33,11 @@ import           Data.Tuple                     ( fst )
 import           GHC.Err                        ( error )
 import           Palantype.Common.Indices       ( KIChord )
 import qualified Palantype.Common.Indices      as KI
-import           Palantype.Common.RawSteno      ( parseChordLenient
+import           Palantype.Common.RawSteno      ( parseChordMaybe
                                                 )
 import qualified Palantype.DE.Keys             as DE
 import Palantype.Common.Class (RawSteno (RawSteno))
+import Palantype.Common.TH (fromJust)
 
 {-|
 DE raw steno for back-up command, i.e. undo last input
@@ -49,7 +52,7 @@ rawCapNext :: RawSteno
 rawCapNext = "BDJNN"
 
 simpleKIChord :: RawSteno -> KIChord
-simpleKIChord = KI.fromChord <<< parseChordLenient @DE.Key
+simpleKIChord = KI.fromChord <<< $fromJust <<< parseChordMaybe @DE.Key
 
 txtUp :: Text
 txtUp = "D"
