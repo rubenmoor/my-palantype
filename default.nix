@@ -29,24 +29,22 @@ let
     ghcVersions = [ "8.8.4" ];
   };
 
+  env =
+    # don't know why, but the haskell-language doesn't seem to
+    # be a build tool, but a native build input
+    #
+    # with pkgs.haskell.lib;
+    # addBuildTools drv (
+    #   with pkgs.haskellPackages;
+    #   [ haskell-language-server ]
+    # );
+    with pkgs.haskellPackages;
+    drv.env.overrideAttrs ( oldAttrs: rec {
+      nativeBuildInputs =
+        oldAttrs.nativeBuildInputs ++ [
+          cabal-install
+          easy-hls
+        ];
+    });
 in
-  {
-    env =
-      # don't know why, but the haskell-language doesn't seem to
-      # be a build tool, but a native build input
-      #
-      # with pkgs.haskell.lib;
-      # addBuildTools drv (
-      #   with pkgs.haskellPackages;
-      #   [ haskell-language-server ]
-      # );
-      with pkgs.haskellPackages;
-      drv.env.overrideAttrs ( oldAttrs: rec {
-        nativeBuildInputs =
-          oldAttrs.nativeBuildInputs ++ [
-            cabal-install
-            easy-hls
-          ];
-      });
-    lib = drv;
-  }
+  if pkgs.lib.inNixShell then env else drv

@@ -30,12 +30,7 @@ import TextShow (TextShow (showb, showt), fromText)
 import qualified Palantype.DE.Keys as DE
 import Data.Function (($))
 import Data.Semigroup ((<>))
-import Data.Int (Int)
-import Data.Ord (Ord)
-import Data.Aeson (FromJSON, ToJSON, FromJSONKey, ToJSONKey)
-import GHC.Num (Num)
-import Data.Data (Proxy (Proxy), Data (toConstr), constrIndex, fromConstr, indexConstr)
-import Data.Proxied (dataTypeOfProxied)
+import Data.Data (Data)
 
 {-|
 a "key-index chord", an index based steno chord representation

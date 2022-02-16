@@ -10,9 +10,9 @@ But only the generic indices are exported.
 
 module Palantype.Common.Numbers
     ( dictNumbers
+    , fromIndex
     ) where
 
-import           Control.Category               ( (<<<) )
 import           Data.Function                  ( ($) )
 import           Data.Functor                   ( (<$>), (<&>) )
 import           Data.Maybe                     ( Maybe(..), catMaybes )
@@ -26,12 +26,16 @@ import           Palantype.Common.RawSteno      ( parseChordMaybe
 import qualified Palantype.DE.Keys             as DE
 import Palantype.Common.Class
     ( RawSteno(RawSteno), Palantype(toKeys) )
-import Palantype.Common.TH (fromJust)
+import Palantype.Common.TH (fromJust, failure)
 import Data.Char (Char)
 import Data.Ord (Ord((>=)))
 import Data.Foldable (Foldable(maximum))
 import Palantype.DE (Key(RightFWVIv))
 import Control.Applicative (Applicative(pure))
+import Text.Show (show)
+import Data.Tuple (fst)
+import Palantype.Common.KeyIndex (KeyIndex)
+import GHC.Err (error)
 
 {-|
 DE raw steno for the Modifier steno code, i.e.
@@ -40,7 +44,10 @@ type this with your left hand and the number code with
 your right hand to reach a number
 -}
 mkKIChord :: RawSteno -> KIChord
-mkKIChord = KI.fromChord <<< $fromJust <<< parseChordMaybe @DE.Key
+-- mkKIChord = KI.fromChord <<< $fromJust <<< parseChordMaybe @DE.Key
+mkKIChord raw = case parseChordMaybe @DE.Key raw of
+  Just chord -> KI.fromChord chord
+  Nothing    -> $failure $ "Parse error: " <> show raw
 
 {-| modifier keys, shift isn't really a thing for number keys -}
 data Modifier
@@ -67,23 +74,18 @@ dictNumbers = catMaybes $ do
                   `combine` mP
 
     pure $ mEntry <&> \(strNum, rightHand) ->
-        ( mkKIChord $ RawSteno $ toStenoStr mod
-          <> if maximum (toKeys $ Text.head rightHand) >= RightFWVIv
-             then "-"
-             else ""
-          <> rightHand
-        , toPloverStr mod strNum
-        )
+        let fstRight = maximum $ toKeys $ fst $ $fromJust $ Text.uncons rightHand
+        in  ( mkKIChord $ RawSteno $ toStenoStr mod
+              <> ( if fstRight >= RightFWVIv then "-" else "" )
+              <> rightHand
+            , toPloverStr mod strNum
+            )
   where
     combine Nothing (Just (strNum, chr)) = Just (strNum, Text.singleton chr)
     combine x Nothing = x
     combine (Just (strNums, strSteno)) (Just (strNum, chr)) =
       Just (strNums <> strNum
-           , strSteno
-             <> if maximum (toKeys chr) >= RightFWVIv
-                then "-"
-                else ""
-             <> Text.singleton chr
+           , strSteno <> Text.singleton chr
            )
 
 {-|
@@ -103,7 +105,6 @@ toPloverStr mod str = case mod of
     -- ModShift -> "Shift_L"
 
 toStenoStr :: Modifier -> Text
-
 toStenoStr = \case
     ModNone  -> "WN"
     ModCtrl  -> "HWN"
@@ -155,3 +156,43 @@ numbersPinky =
   , ("00" , 'D')
   , ("000", 'n')
   ]
+
+{-|
+Map a key index to a character in number mode.
+This servers to visualize the number mode on the virtual keyboard.
+-}
+fromIndex :: KeyIndex -> Maybe Text
+fromIndex = \case
+    1  -> Nothing
+    2  -> Nothing
+    3  -> Nothing
+    4  -> "CTRL"
+    5  -> "WIN"
+    6  -> "ALT"
+    7  -> Nothing
+    8  -> Nothing
+    9  -> "W"
+    10 -> Nothing
+    11 -> "N"
+    12 -> Nothing
+    13 -> "19"
+    14 -> "20"
+    15 -> "'"
+    16 -> ","
+    17 -> "0" -- extra key
+    18 -> "1"
+    19 -> "2"
+    20 -> "9"
+    21 -> "7"
+    22 -> "4"
+    23 -> "1"
+    24 -> "8"
+    25 -> "5"
+    26 -> "2"
+    27 -> "9"
+    28 -> "6"
+    29 -> "3"
+    30 -> "."
+    31 -> "0"
+    32 -> "%"
+    _  -> error "Numbers.fromIndex: impossible"
