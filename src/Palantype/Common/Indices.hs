@@ -8,11 +8,13 @@ Cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Palantype.Common.Indices
     ( KIChord
     , toRaw
     , fromChord
+    , parseChordDE
     , toKeys
     ) where
 
@@ -26,11 +28,15 @@ import           Palantype.Common.Internal      ( Chord (..)
                                                 )
 import Palantype.Common.Class (Palantype (keyCode), RawSteno (..))
 import Palantype.Common.KeyIndex (KeyIndex, fromIndex, toKeyIndices)
+import Palantype.Common.RawSteno (parseChordMaybe)
 import TextShow (TextShow (showb, showt), fromText)
 import qualified Palantype.DE.Keys as DE
 import Data.Function (($))
 import Data.Semigroup ((<>))
 import Data.Data (Data)
+import Data.Maybe (Maybe(..))
+import Palantype.Common.TH (failure)
+import Text.Show (Show(show))
 
 {-|
 a "key-index chord", an index based steno chord representation
@@ -51,3 +57,8 @@ fromChord = KIChord <<< toKeyIndices
 
 toKeys :: forall key . Data key => KIChord -> [key]
 toKeys = fmap fromIndex <<< unKIChord
+
+parseChordDE :: RawSteno -> KIChord
+parseChordDE raw = case parseChordMaybe @DE.Key raw of
+  Just chord -> fromChord chord
+  Nothing    -> $failure $ "Parse error: " <> show raw
