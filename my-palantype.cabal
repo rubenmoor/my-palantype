@@ -27,10 +27,10 @@ library
       Palantype.Common.AutoDoc
       Palantype.Common.Class
       Palantype.Common.Dictionary
+      Palantype.Common.Dictionary.Numbers
       Palantype.Common.Indices
       Palantype.Common.Internal
       Palantype.Common.KeyIndex
-      Palantype.Common.Numbers
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
       Palantype.Common.TH

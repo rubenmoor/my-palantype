@@ -1,17 +1,17 @@
 {-|
-special characters: @ / ( ) $ ...
-white space: TAB SPACE RETURN
-command keys: UP DOWN LEFT RIGHT PAGE UP HOME
-extra: CTRL+ALT+DEL, Windows-Tap
+special characters for finger spelling: @ / ( ) $ ...
 
 the most common keys will correspond to the fingerspelling dictionary like this:
-the first character of the key (T for TAB, D for $, ...) will serve as the
+the first character of the key (D for $, P for %, B for `) will serve as the
 steno key for that key
 -}
 
 {-# LANGUAGE TemplateHaskell #-}
 
-module Palantype.DE.Special where
+module Palantype.DE.Special
+  ( dictSpecial
+  )
+  where
 
 import Data.Text (Text)
 import Data.Semigroup (Semigroup((<>)))
@@ -26,6 +26,52 @@ import Data.Tuple (snd)
 import Data.Ord (Ord((<)))
 import Palantype.DE.Keys (Key(LeftL, LeftM))
 
+keysMN :: [(Text, Text)]
+keysMN =
+  [ ("c", "GDM-")
+  , ("ç", "GDJ-")
+  , ("d", "D-")
+  , ("e", "E")
+  , ("é", "BE")
+  , ("ê", "DE")
+  , ("è", "JE")
+  , ("f", "F-")
+  , ("g", "G-")
+  , ("h", "H-")
+  , ("i", "I")
+  , ("j", "J")
+  , ("k", "GD-")
+  , ("l", "L-")
+  , ("m", "M-")
+  , ("n", "N-")
+  , ("o", "O")
+  , ("ô", "DO")
+  , ("p", "BD-")
+  , ("q", "GDW-")
+  , ("r", "R")
+  , ("s", "S-")
+  , ("t", "BD-")
+  , ("u", "U")
+  , ("v", "FW")
+  , ("w", "W")
+  , ("x", "GDM-")
+  , ("y", "ÄI")
+  , ("z", "SHM-")
+  , ("ä", "Ä")
+  , ("ö", "ÄO")
+  , ("ü", "Ü")
+  , ("ß", "GFW-")
+  ]
+
+dictSpecial :: [(KIChord, Text)]
+dictSpecial = do
+    modP <- modifiersPrimary
+    modS <- modifiersSecondary
+    (plover, steno) <- keysMN
+    pure ( parseChordDE $ RawSteno $ toStenoStr modP modS steno
+         , toPloverStr modP modS plover
+         )
+
 data ModifierPrimary
   = ModPrimNone
   | ModPrimCtrl
@@ -35,15 +81,6 @@ data ModifierPrimary
 data ModifierSecondary
   = ModSecShift
   | ModSecNone
-
-dictSpecial :: [(KIChord, Text)]
-dictSpecial = do
-    modP <- modifiersPrimary
-    modS <- modifiersSecondary
-    (plover, steno) <- keys
-    pure ( parseChordDE $ RawSteno $ toStenoStr modP modS steno
-         , toPloverStr modP modS plover
-         )
 
 {-|
 
@@ -94,63 +131,3 @@ modifiersSecondary =
   [ ModSecNone
   , ModSecShift
   ]
-
-keysMN :: [(Text, Text)]
-keysMN =
-  -- TODO move to DE.Plover
-  [ ("{*-|}"        , "S") -- capitalize last word retroactively
-  , ("{-|}"         , "B") -- capitalize next word
-  , ("{*>}"         , "G") -- uncapitalize last word retroactively
-  , ("{*?}"         , "H") -- retroactively add space
-  , ("{^.\n\n^}{-|}", "D") -- paragraph
-  , ("*"            , "DM") -- "* ": markdown paragraph
-  , ("{*!}"         , "F") -- retroactively delete space
-  , ("{^.}{-|}"     , "J") -- full stop: . w/o space and capitalize next word
-  , ("{^:}{-|}"     , "JL") -- full stop: . w/o space and capitalize next word
-  , ("{^?}{-|}"     , "JN") -- full stop: . w/o space and capitalize next word
-  , ("{^!}{-|}"     , "JR") -- full stop: . w/o space and capitalize next word
-  --  TODO: N
-  , ("{^,}"         , "A") -- attachkomma
-  , ("{^;}"         , "NA") -- attach semicolon
-  , ("{^:}"         , "LA") -- attach colon
-  , ("{^-^}"        , "H") -- hyphen to attach words
-  , ("{^\t^}", "DJ")
-  , ("{#BackSpace}", "B-")
-  , ("c", "GDM-")
-  , ("ç", "GDJ-")
-  , ("d", "D-")
-  , ("e", "E")
-  , ("é", "BE")
-  , ("ê", "DE")
-  , ("è", "JE")
-  , ("f", "F-")
-  , ("g", "G-")
-  , ("h", "H-")
-  , ("i", "I")
-  , ("j", "J")
-  , ("k", "GD-")
-  , ("l", "L-")
-  , ("m", "M-")
-  , ("n", "N-")
-  , ("o", "O")
-  , ("ô", "DO")
-  , ("p", "BD-")
-  , ("q", "GDW-")
-  , ("r", "R")
-  , ("s", "S-")
-  , ("t", "BD-")
-  , ("u", "U")
-  , ("v", "FW")
-  , ("w", "W")
-  , ("x", "GDM-")
-  , ("y", "ÄI")
-  , ("z", "SHM-")
-  , ("ä", "Ä")
-  , ("ö", "ÄO")
-  , ("ü", "Ü")
-  , ("ß", "GFW-")
-  ]
-
-keysExtra :: [(Text, Text)]
-keysExtra =
-  [ ("", "ILNSD")]

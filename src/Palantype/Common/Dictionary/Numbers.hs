@@ -8,7 +8,7 @@ But only the generic indices are exported.
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Palantype.Common.Numbers
+module Palantype.Common.Dictionary.Numbers
     ( dictNumbers
     , fromIndex
     ) where
@@ -22,8 +22,8 @@ import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord )
 import Palantype.Common.Class
     ( RawSteno(RawSteno), Palantype(toKeys) )
-import Palantype.Common.TH (fromJust)
-import Data.Char (Char)
+import Palantype.Common.TH (fromJust, failure)
+import Data.Char (Char, GeneralCategory (ModifierLetter))
 import Data.Ord (Ord((>=)))
 import Data.Foldable (Foldable(maximum))
 import Palantype.DE (Key(RightFWVIv))
@@ -33,18 +33,16 @@ import Palantype.Common.KeyIndex (KeyIndex)
 import GHC.Err (error)
 import Data.List ((!!))
 import qualified Palantype.Common.Indices as KI
-
-{-| modifier keys, shift isn't really a thing for number keys -}
-data Modifier
-  = ModNone
-  | ModCtrl
-  | ModWin
-  | ModAlt
+import Control.Monad (unless)
 
 dictNumbers :: [(KIChord, Text)]
-dictNumbers = catMaybes $ do
+dictNumbers = dictModified <> dictUnmodified
 
-    mod <- modifiers
+-- | combined numbers, a modifier key doesn't make too much sense
+--   and requires plover command syntax instead of just a string
+dictUnmodified :: [(KIChord, Text)]
+dictUnmodified = catMaybes $ do
+
     mLT <- Nothing : (Just <$> keysLeftThumb )
     mRT <- Nothing : (Just <$> keysThumb )
     mI  <- Nothing : (Just <$> keysIndex )
@@ -62,51 +60,108 @@ dictNumbers = catMaybes $ do
 
     pure $ mEntry <&> \(strNum, rightHand) ->
         let fstRight = maximum $ toKeys $ fst $ $fromJust $ Text.uncons rightHand
-        in  ( KI.parseChordDE $ RawSteno $ toStenoStr mod
+        in  ( KI.parseChordDE $ RawSteno $ "WN"
               <> ( if fstRight >= RightFWVIv then "-" else "" )
               <> rightHand
-            , toPloverStr mod strNum
+
+            -- number input is glued using {& }, such that plover's space is suppressed
+            , "{&" <> strNum <> "}"
             )
   where
     combine Nothing (Just (strNum, chr)) = Just (strNum, Text.singleton chr)
     combine x Nothing = x
     combine (Just (strNums, strSteno)) (Just (strNum, chr)) =
-      Just (strNums <> strNum
+      Just ( strNums <> strNum
            , strSteno <> Text.singleton chr
            )
 
-{-|
+{-| modifier keys -}
+data ModifierPrimary
+  = ModPrimCtrl
+  | ModPrimWin
+  | ModPrimAlt
 
-{#Control_L(0)}
-{#Alt_L(0)}
-{#Super_L(0)}
+data ModifierSecondary
+  = ModSecNone
+  | ModSecShift
 
-cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format
+-- | single digit numbers, can be modified and then will be
+--   treated as plover commands
+dictModified :: [(KIChord, Text)]
+dictModified = do
 
-number input is glued using {& }, such that plover's space is suppressed
--}
-toPloverStr :: Modifier -> Text -> Text
-toPloverStr mod str = case mod of
-    ModNone  -> "{&" <> str <> "}"
-    ModCtrl  -> "{#control(" <> str <> ")}"
-    ModWin   -> "{#super("   <> str <> ")}"
-    ModAlt   -> "{#alt("     <> str <> ")}"
-    -- ModShift -> "Shift_L"
+    modPrim <- modifiersPrimary
+    modSec  <- modifiersSecondary
+    (strNum, chrSteno) <- keysThumb
+                       <> keysIndex
+                       <> keysMiddle
+                       <> keysRing
+                       <> [keysPinky !! 1] -- 0
 
-toStenoStr :: Modifier -> Text
-toStenoStr = \case
-    ModNone  -> "WN"
-    ModCtrl  -> "HWN"
-    ModWin   -> "DWN"
-    ModAlt   -> "FWN"
-    -- ModShift -> "Shift_L"
+    let (chrNum, rem) = $fromJust $ Text.uncons strNum
+    unless (Text.null rem) $
+        $failure $ "Expected empty string: " <> Text.unpack rem
 
-modifiers :: [Modifier]
-modifiers =
-    [ ModNone
-    , ModCtrl
-    , ModWin
-    , ModAlt
+    let fstRight = maximum $ toKeys chrSteno
+    pure ( KI.parseChordDE $ RawSteno $ toStenoStr modPrim modSec
+              <> ( if fstRight >= RightFWVIv then "-" else "" )
+              <> Text.singleton chrSteno
+         , toPloverStr modPrim modSec chrNum
+         )
+  where
+    {-|
+
+    {#control(1)}
+    {#alt(2)}
+    {#super(3)}
+
+    Note that the output of {#shift(2)} depends on the keyboard layout
+    as configured by your system. Palantype.DE.Special contains finger spelling
+    for special characters too and thus offers a layout-independent alternative.
+
+    {#shift(4)}
+
+    cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format
+    -}
+    toPloverStr :: ModifierPrimary -> ModifierSecondary -> Char -> Text
+    toPloverStr modPrim modSec chr =
+      let str = Text.singleton chr
+          commandStr = case modPrim of
+              -- ModShift -> "shift"
+              ModPrimCtrl  -> "control"
+              ModPrimWin   -> "super"
+              ModPrimAlt   -> "alt"
+          (shiftStr, closing) = case modSec of
+              ModSecNone -> ("", "")
+              ModSecShift -> ("shift(", ")")
+      in  "{#" <> commandStr <> "(" <> shiftStr <> str <> closing <> ")}"
+
+        -- ModShift -> "Shift_L"
+
+    toStenoStr :: ModifierPrimary -> ModifierSecondary -> Text
+    toStenoStr modPrim modSec =
+        let stenoPrim = case modPrim of
+                ModPrimCtrl  -> "HWN"
+                ModPrimWin   -> "DWN"
+                ModPrimAlt   -> "FWN"
+            stenoSec = case modSec of
+                ModSecNone  -> ""
+                ModSecShift -> "B"
+        in  stenoSec <> stenoPrim
+
+-- | Ctrl, Win, and Alt
+modifiersPrimary :: [ModifierPrimary]
+modifiersPrimary =
+    [ ModPrimCtrl
+    , ModPrimWin
+    , ModPrimAlt
+    ]
+
+-- | None or Shift
+modifiersSecondary :: [ModifierSecondary]
+modifiersSecondary =
+    [ ModSecNone
+    , ModSecShift
     ]
 
 keysLeftThumb :: [(Text, Char)]

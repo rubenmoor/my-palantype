@@ -1,6 +1,34 @@
 {-|
-Description: Common, language-independent dictionary for commands
-and special keys
+Common, language-independent dictionary for the "arrow key group",
+"extra commands", and "plover commands".
+
+The "arrow key group" can be combined with modifier keys (Ctrl, Shift,
+Alt, Super):
+
+    Insert Home   PageUp   Backspace
+    Delete End    PageDown Return
+    Left   Up     Down     Right
+
+           Escape Tab      Win (Tap) Space
+
+missing:
+
+caps lock
+pause
+print screen
+
+"Extra commands" cannot be combined with any modifier keys
+
+    Ctrl+Alt+Delete
+
+"Plover commands" cannot be combined with any modifier keys
+
+    back up (remove last input)
+    toggle plover
+    full stop
+    paragraph
+    indent
+    ...
 
 For simplicity, the commands are defined using Palantype.DE.
 But only the generic indices are exported.
@@ -152,3 +180,22 @@ commands = HashMap.union m mModified
         HashMap.fromList
             $   first unmodifiedKIChord
             <$> HashMap.toList mapENModify
+
+-- TODO:
+--  [ ("{*-|}"        , "S") -- capitalize last word retroactively
+--  , ("{-|}"         , "B") -- capitalize next word
+--  , ("{*>}"         , "G") -- uncapitalize last word retroactively
+--  , ("{*?}"         , "H") -- retroactively add space
+--  , ("{^.\n\n^}{-|}", "D") -- paragraph
+--  , ("*"            , "DM") -- "* ": markdown paragraph
+--  , ("{*!}"         , "F") -- retroactively delete space
+--  , ("{^.}{-|}"     , "J") -- full stop: . w/o space and capitalize next word
+--  , ("{^:}{-|}"     , "JL") -- full stop: . w/o space and capitalize next word
+--  , ("{^?}{-|}"     , "JN") -- full stop: . w/o space and capitalize next word
+--  , ("{^!}{-|}"     , "JR") -- full stop: . w/o space and capitalize next word
+--  --  TODO: N
+--  , ("{^,}"         , "A") -- attachkomma
+--  , ("{^;}"         , "NA") -- attach semicolon
+--  , ("{^:}"         , "LA") -- attach colon
+--  , ("{^-^}"        , "H") -- hyphen to attach words
+--  , ("{^\t^}", "DJ")
