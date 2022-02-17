@@ -31,6 +31,7 @@
 , ["dass",          "DAs", "PatBrief"]          // < das
 , ["Dealer",        "D~I/LEÜ", "PatAnglI"]          // < das
 , ["Dean",          "D~I+N", "PatAnglOther"]
+, ["Deutschland",   "SJLAND", "PatBrief", "DEU+ʃD/LAND", "PatSwapSch"]
 , ["Dike",          "D~I/GDE", "PatSCStretch"]      // < Dicke
 , ["Diken",         "D~I/GDEN", "PatSCStretch", "D~I/GDn", "PatSCStretch"] // < Dicke
 , ["East",          "~I+SD", "PatAnglI"]
@@ -57,7 +58,8 @@
 , ["Hadsch",        "HA+ʃD", "PatSCPlus"]
 , ["Ham",           "HÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
-, ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"]
+, ["hatte",         "HA+D", "PatBrief", "HA+D/DJE", "PatReplCommon"]
+//, ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"] // greediness /= 0!
 , ["Haydn",         "HAI/DN", "PatSCOther"]
 , ["hehr",          "HEÜ+", "PatSCPlus"]         // < her
 , ["Hemd",          "BDJNN/HEMD", "PatCapitalize"]
@@ -66,6 +68,7 @@
 , ["Hofmann",       "H~OF/MA+N", "PatSCStretch"]
 , ["ihre",          "~Is", "PatBrief"]
 , ["immer",         "IMs", "PatBrief", "IM/MEÜ", "PatCodaR"]
+, ["Inc",           "NÜM/IMN", "PatAcronym"]
 , ["Iod",           "J~OD", "PatSCStretch"]         // < Jod
 , ["iPhone",        "AI/FON", "PatAnglEI"]
 , ["iPhones",       "AI/FONS", "PatAnglEI"]
@@ -107,6 +110,7 @@
 , ["Mall",          "BDJNN/M~OL", "PatAnglStretchO"]
 , ["Met",           "BDJNN/MEÜ+D", "PatSCStretch"]
 , ["Mayer",         "MAI+/EÜ", "PatSCPlus"]
+, ["ml",            "NÜM/ML-", "PatAcronym"]
 , ["Modell",        "M~O/DEL", "PatSCPlus"] // < Model
 , ["Modells",       "M~O/DELS", "PatSCPlus"]
 , ["Moore",         "M~U+", "PatSCPlus"]
@@ -123,6 +127,8 @@
 , ["Pakt",          "BDJNN/BDA+GD", "PatCapitalize"]
 , ["Piek",          "BD~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "BDI+S", "PatSCPlus"]        // < Pilz
+, ["Polizei",       "BDO/LI/SHMEI", "PatReplCommon", "SHMEI", "PatBrief"]
+, ["Prozent",       "BDRO/SHME+ND", "PatReplCommon", "SHMEND", "PatBrief"]
 //, "Rappen"      : ["RA+B/BDn"]      // < Raben    
 //, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
 //, "Robbe"       : ["ROB/B"]        // < Robe

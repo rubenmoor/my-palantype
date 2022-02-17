@@ -4,8 +4,8 @@ fingerspelling: access to all the letters of the alphabet individually
 
 {-# LANGUAGE TemplateHaskell #-}
 
-module Palantype.DE.FingerSpelling
-    ( dictFingerSpelling
+module Palantype.Common.Dictionary.Special
+    (
     ) where
 
 import Data.Text (Text)

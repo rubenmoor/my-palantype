@@ -23,7 +23,6 @@ import           Palantype.Common.Indices       ( KIChord )
 import Palantype.Common.Class
     ( RawSteno(RawSteno), Palantype(toKeys) )
 import Palantype.Common.TH (fromJust, failure)
-import Data.Char (Char, GeneralCategory (ModifierLetter))
 import Data.Ord (Ord((>=)))
 import Data.Foldable (Foldable(maximum))
 import Palantype.DE (Key(RightFWVIv))
@@ -34,6 +33,7 @@ import GHC.Err (error)
 import Data.List ((!!))
 import qualified Palantype.Common.Indices as KI
 import Control.Monad (unless)
+import Data.Char (Char)
 
 dictNumbers :: [(KIChord, Text)]
 dictNumbers = dictModified <> dictUnmodified
@@ -215,7 +215,7 @@ This servers to visualize the number mode on the virtual keyboard.
 fromIndex :: KeyIndex -> Maybe Text
 fromIndex = \case
     1  -> Nothing
-    2  -> Nothing
+    2  -> Just "SHIFT"
     3  -> Nothing
     4  -> Just "CTRL"
     5  -> Just "WIN"

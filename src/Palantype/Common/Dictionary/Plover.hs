@@ -37,13 +37,12 @@ But only the generic indices are exported.
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Palantype.Common.Dictionary
+module Palantype.Common.Dictionary.Plover
     ( kiUp
     , kiDown
     , kiBackUp
     , kiEnter
     , kiCapNext
-    , commands
     , kiAcronym
     ) where
 

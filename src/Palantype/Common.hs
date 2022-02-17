@@ -5,7 +5,10 @@ module Palantype.Common
   , module Palantype.Common.AutoDoc
   , module Palantype.Common.Indices
   , module Palantype.Common.KeyIndex
-  , module Palantype.Common.Dictionary
+  , module Palantype.Common.Dictionary.Commands
+  , module Palantype.Common.Dictionary.Numbers
+  , module Palantype.Common.Dictionary.Plover
+  , module Palantype.Common.Dictionary.Special
   , module Palantype.Common.RawSteno
   , MapStenoWordTake100
   ) where
@@ -51,8 +54,11 @@ import Palantype.Common.RawSteno
       keyLeftHand,
       keyOrHyphenKey,
       key )
-import Palantype.Common.Dictionary
-    ( kiUp, kiDown, kiBackUp, kiCapNext, kiEnter, kiAcronym, commands )
+import Palantype.Common.Dictionary.Commands
+import Palantype.Common.Dictionary.Plover
+    ( kiUp, kiDown, kiBackUp, kiCapNext, kiEnter, kiAcronym )
+import Palantype.Common.Dictionary.Special
+import Palantype.Common.Dictionary.Numbers (dictNumbers)
 import Data.Map.Strict (Map)
 import Data.Int (Int)
 import Data.Text (Text)

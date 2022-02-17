@@ -28,7 +28,7 @@ import Data.Bifunctor (Bifunctor(first))
 import Control.Category ((<<<))
 import Palantype.Common.Class (patCapitalize, Palantype (PatternGroup, lsPrimitives), RawSteno)
 import qualified Palantype.Common.Indices as KI
-import Palantype.Common.Dictionary (kiCapNext)
+import Palantype.Common.Dictionary.Plover (kiCapNext)
 
 {-|
 Pattern documentation, automatically generated from the primitives
