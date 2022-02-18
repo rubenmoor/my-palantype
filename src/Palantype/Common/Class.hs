@@ -57,13 +57,14 @@ import           TextShow                       (TextShow
                                                 )
 import Data.ByteString (ByteString)
 import Control.DeepSeq (NFData)
-import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord, unChord))
-import Palantype.Common.KeyIndex
+import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord))
+import Palantype.Common.KeyIndex ( keyIndex )
 import Data.Bool (Bool)
 import Data.String (IsString (fromString))
 import GHC.Show (Show (show))
 import Data.Map (Map)
-import Data.ByteString.Builder (char7)
+import Data.List.NonEmpty (NonEmpty, nonEmpty)
+import Data.Maybe (Maybe)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
@@ -147,12 +148,12 @@ class ( Data key
   -- | get all the Palantype Keys that are represented by the given char
   --   valid chars result in lists of one or two keys
   --   invalid chars (that do not represent any key) result in an empty list
-  toKeys :: Char -> [key]
+  toKeys :: Char -> Maybe (NonEmpty key)
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
         ks = fromConstr . indexConstr t <$> [1 .. maxConstrIndex t]
         m = foldl (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
-    in  Map.findWithDefault [] c m
+    in  nonEmpty $ Map.findWithDefault [] c m
 
   toDescription :: PatternGroup key -> Text
   patSimpleMulti :: PatternGroup key

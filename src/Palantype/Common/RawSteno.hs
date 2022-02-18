@@ -3,6 +3,7 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Palantype.Common.RawSteno where
 
@@ -57,11 +58,12 @@ import           TextShow                       ( TextShow(showt)
 
                                                 )
 import Control.Monad.Fail (MonadFail(fail))
-import Data.List (head)
 import Data.Bool ((&&), otherwise)
 import Palantype.Common.Class (Palantype (toKeys, toFinger), RawSteno (RawSteno, unRawSteno))
 import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
 import Palantype.Common.KeyIndex (fromIndex)
+import qualified Data.List.NonEmpty as NonEmpty
+import Palantype.Common.TH (fromJust)
 
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord = RawSteno <<< showt
@@ -87,7 +89,7 @@ evalStenoPattern (RawSteno str) =
         Right (_, (Nothing, _)) -> Left $ "inconsisent result from evalParser for " <> str
   where
     getFinger '-' = RightIndex
-    getFinger c = toFinger $ head $ toKeys @key c
+    getFinger c = toFinger $ NonEmpty.head $ $fromJust $ toKeys @key c
 
 
 -- | parse raw steno code where words are separated by space(s) and
@@ -164,7 +166,8 @@ keyLeftHand = do
             guard $ f < RightThumb
             pure k
 
-    foldl' (\p k -> p <|> reach k) (fail "key left hand no reach") (toKeys c)
+    foldl' (\p k -> p <|> reach k) (fail "key left hand no reach") $
+        $fromJust $ toKeys c
 
 keyOrHyphenKey :: Palantype key => Parsec Text (Maybe Finger, Maybe key) key
 keyOrHyphenKey = do
@@ -194,6 +197,6 @@ key = do
                 else unless (Just (toFinger k) > mFinger) mzero
             anyChar $> k
 
-    k <- foldl' (\parser k -> parser <|> reach k) mzero $ toKeys c
+    k <- foldl' (\parser k -> parser <|> reach k) mzero $ $fromJust $ toKeys c
     setState (Just $ toFinger k, Just k)
     pure k

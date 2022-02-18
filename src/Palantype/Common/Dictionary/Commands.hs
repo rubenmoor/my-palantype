@@ -2,6 +2,8 @@
 Common, language-independent dictionary for the "arrow key group" and
 some extra commands
 
+Use the left hand for mode selection (cf. strModeSteno) and the right hand to type.
+
 The "arrow key group" can be combined with modifier keys (Ctrl, Shift,
 Alt, Super), they are mapped to the right hand like this:
 
@@ -10,8 +12,6 @@ Alt, Super), they are mapped to the right hand like this:
            Left   Up        Down     Right
 
     Escape Tab    Win (Tap) Space
-
-... once the left hand pressed JN
 
 missing:
 
@@ -35,21 +35,24 @@ module Palantype.Common.Dictionary.Commands
     , kiUp
     , kiDown
     , kiEnter
+    , strModeSteno
     ) where
 
 import           Data.Function                  ( ($) )
 import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
-import           Palantype.Common.Indices       ( KIChord )
-import qualified Palantype.Common.Indices      as KI
+import           Palantype.Common.Indices       ( KIChord, parseChordDE )
 import Palantype.Common.Class (RawSteno (RawSteno))
 import Palantype.Common.TH (fromJust)
 import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
-import Palantype.Common.Dictionary.RightHand (toStenoStr, toPloverStr, ModifierPrimary (..), ModifierSecondary (..))
+import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..), ModifierSecondary (..), toStenoStrRightHand)
 import Data.Functor ((<&>))
 import Data.List (lookup)
+
+strModeSteno :: Text
+strModeSteno = "JN"
 
 keysModifiable :: [(Text, Char)]
 keysModifiable =
@@ -84,20 +87,17 @@ dictModifiable = do
     modSec  <- [ModSecNone, ModSecShift]
     (strCommand, chrSteno) <- keysModifiable
 
-    pure ( KI.parseChordDE $ RawSteno $
-               toStenoStr strModeSteno modPrim modSec $ Text.singleton chrSteno
-         , toPloverStr modPrim modSec strCommand
+    pure ( $parseChordDE $ RawSteno $
+               toStenoStrRightHand strModeSteno modPrim modSec $ Text.singleton chrSteno
+         , toPloverCommand modPrim modSec strCommand
          )
 
 dictUnmodifiable :: [(KIChord, Text)]
 dictUnmodifiable = keysUnmodifiable <&> \(strPlover, strSteno) ->
-   ( KI.parseChordDE $ RawSteno $
-         toStenoStr strModeSteno ModPrimNone ModSecNone strSteno
+   ( $parseChordDE $ RawSteno $
+         toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
    , strPlover
    )
-
-strModeSteno :: Text
-strModeSteno = "JN"
 
 {-|
 arrow key: up
@@ -108,8 +108,9 @@ kiUp = mkKIChordSimple "up"
 mkKIChordSimple :: Text -> KIChord
 mkKIChordSimple str =
     let strSteno = Text.singleton $ $fromJust $ lookup str keysModifiable
-    in  KI.parseChordDE $ RawSteno $
-            toStenoStr strModeSteno ModPrimNone ModSecNone strSteno
+    in  $parseChordDE $ RawSteno $
+            toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
+
 {-|
 arrow key: down
 -}

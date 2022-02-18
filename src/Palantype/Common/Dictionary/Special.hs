@@ -4,13 +4,17 @@ special characters: everything on the US keyboard layout that is not
 * an alphanumeric character
 * a commando (e.g. backspace)
 
+Use the right hand to select to special-character input mode (cf. `strModeStenoModifiable`,
+and `strModeStenoUnmodifiable`) and the left hand to type.
 -}
 
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeApplications #-}
 
 module Palantype.Common.Dictionary.Special
-    ( dictSpecialModifiable
-    , dictSpecialUnmodifiable
+    ( dictSpecial
+    , strModeSteno
+    , keysExtra
     ) where
 
 import Data.Text (Text)
@@ -19,13 +23,12 @@ import Palantype.Common.Indices (KIChord, parseChordDE)
 import Control.Applicative (Applicative(pure))
 import Palantype.Common.Class (RawSteno(RawSteno))
 import Data.Function (($))
-import Palantype.Common.TH (failure)
 import GHC.Base (Char)
-import qualified Data.Map.Strict as Map
-import Palantype.Common.Dictionary.LeftHand (ModifierPrimary(..), ModifierSecondary (..), toStenoStr, toPloverStr)
+import Palantype.Common.Dictionary.Shared (ModifierPrimary(..), ModifierSecondary (..), toPloverCommand, toStenoStrLeftHand, toPloverLiteralGlued)
 import qualified Data.Text as Text
-import Text.Show (Show(show))
-import Data.Functor ( (<&>) )
+
+dictSpecial :: [(KIChord, Text)]
+dictSpecial = literals <> commands
 
 -- | special keys of category 1: all the special keys on US layout
 --   that are not `shift` + some number key.
@@ -33,91 +36,49 @@ import Data.Functor ( (<&>) )
 --   11 fit on the fingers of the left hand w/o use of the thumb.
 --   This is important to avoid boundary issues (or straight collisions)
 --   when using "N" as mode selector
-strModeStenoModifiable :: Text
-strModeStenoModifiable = "N"
+strModeSteno :: Text
+strModeSteno = "N"
 
-keysModifiable :: [(Char, Char)]
-keysModifiable =
-    [ ('`' , 'S')
-    --        H   not in use
-    , ('-' , 'M')
-    , ('=' , 'L')
-    , ('[' , 'B')
-    , (']' , 'D')
-    , ('\\', 'J')
-    , ('\'', 'N')
-    , (',' , 'G')
-    , ('.' , 'F')
-    , (';' , 'W')
-    , ('/' , 'R')
+keysExtra :: [(Char, Text, Char, Text)]
+keysExtra =
+    [ ('`' , "~"  , 'S', "grave"       )
+    --               H not in use
+    , ('-' , "_"  , 'M', "minus"       )
+    , ('=' , "+"  , 'L', "equal"       )
+    , ('[' , "\\{", 'B', "bracketleft" )
+    , (']' , "}"  , 'D', "bracketright")
+    , ('\\', "|"  , 'J', "backslash"   )
+    , ('\'', "\"" , 'N', "apostrophe"  )
+    , (',' , "<"  , 'G', "comma"       )
+    , ('.' , ">"  , 'F', "period"      )
+    , (';' , ":"  , 'W', "semicolon"   )
+    , ('/' , "?"  , 'R', "slash"       )
     ]
 
-dictSpecialModifiable :: [(KIChord, Text)]
-dictSpecialModifiable = do
-    modPrim <- [ModPrimNone, ModPrimAlt, ModPrimCtrl, ModPrimWin]
+literals :: [(KIChord, Text)]
+literals = do
+    (literal, shifted, steno, _) <- keysExtra
+    modSec <- [ModSecNone, ModSecShift]
+    pure
+        ( $parseChordDE $ RawSteno $
+              toStenoStrLeftHand strModeSteno
+                                 ModPrimNone
+                                 modSec
+                                 $ Text.singleton steno
+        , case modSec of
+              ModSecNone  -> toPloverLiteralGlued $ Text.singleton literal
+              ModSecShift -> toPloverLiteralGlued shifted
+        )
+
+commands :: [(KIChord, Text)]
+commands = do
+    modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec  <- [ModSecNone, ModSecShift]
-    (plover, steno) <- keysModifiable
-    pure ( parseChordDE $ RawSteno $
-               toStenoStr strModeStenoModifiable
-                          modPrim
-                          modSec
-                          (Text.singleton steno)
-         , toPloverStr modPrim modSec shiftSpecialCharUS plover
+    (_, _, chrSteno, strCommand) <- keysExtra
+    pure ( $parseChordDE $ RawSteno $
+               toStenoStrLeftHand strModeSteno
+                                  modPrim
+                                  modSec
+                                  (Text.singleton chrSteno)
+         , toPloverCommand modPrim modSec strCommand
          )
-
-shiftSpecialCharUS :: Char -> Text
-shiftSpecialCharUS chr =
-    Map.findWithDefault ($failure $ "Unknown character: " <> show chr)
-                        chr
-                        mapChars
-  where
-    mapChars = Map.fromList
-        [ ('`' , "~"  )
-        , ('-' , "_"  )
-        , ('=' , "+"  )
-        , ('\\', "|"  )
-        , ('[' , "\\{") -- plover dictionary syntax: { needs escaping
-        , (']' , "}"  )
-        , (';' , ":"  )
-        , (',' , "<"  )
-        , ('.' , ">"  )
-        , ('/' , "?"  )
-        , ('\'', "\""  )
-        ]
-
-strModeStenoUnmodifiable :: Text
-strModeStenoUnmodifiable = "LN"
-
-keysUnmodifiable :: [(Char, Text)]
-keysUnmodifiable =
-    [ ('!', "S" )
-    , ('@', "H" )
-    , ('#', "M" )
-    , ('$', "L" )
-    , ('§', "B" )
-    , ('%', "D" )
-    , ('^', "J" )
-    , ('&', "N" )
-    , ('*', "G" )
-    , ('(', "F" )
-    , (')', "W" )
-    , ('°', "R" )
-    , ('«', "GF")
-    , ('»', "WR")
-    , ('„', "BD")
-    , ('“', "JN")
-    , ('™', "Ä" )
-    , ('©', "E" )
-    , ('€', "A" )
-    , ('—', "~" )
-    ]
-
-dictSpecialUnmodifiable :: [(KIChord, Text)]
-dictSpecialUnmodifiable = keysUnmodifiable <&> \(plover, steno) ->
-    ( parseChordDE $ RawSteno $
-          toStenoStr strModeStenoUnmodifiable
-                     ModPrimNone
-                     ModSecNone
-                     steno
-    , toPloverStr ModPrimNone ModSecNone ($failure "impossible") plover
-    )

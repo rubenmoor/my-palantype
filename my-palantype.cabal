@@ -27,10 +27,9 @@ library
       Palantype.Common.AutoDoc
       Palantype.Common.Class
       Palantype.Common.Dictionary.Commands
-      Palantype.Common.Dictionary.LeftHand
       Palantype.Common.Dictionary.Numbers
       Palantype.Common.Dictionary.Plover
-      Palantype.Common.Dictionary.RightHand
+      Palantype.Common.Dictionary.Shared
       Palantype.Common.Dictionary.Special
       Palantype.Common.Indices
       Palantype.Common.Internal
@@ -41,7 +40,6 @@ library
       Palantype.DE
       Palantype.DE.FingerSpelling
       Palantype.DE.Keys
-      Palantype.DE.Special
       Palantype.EN
       Palantype.EN.Keys
     default-extensions:

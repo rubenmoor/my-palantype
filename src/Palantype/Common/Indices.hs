@@ -18,6 +18,7 @@ module Palantype.Common.Indices
     , toKeys
     ) where
 
+import Language.Haskell.TH (Exp, Q)
 import           Control.Category               ( (<<<) )
 import           Data.Eq                        ( Eq )
 import           Data.Functor                   ( Functor(fmap)
@@ -58,7 +59,10 @@ fromChord = KIChord <<< toKeyIndices
 toKeys :: forall key . Data key => KIChord -> [key]
 toKeys = fmap fromIndex <<< unKIChord
 
-parseChordDE :: RawSteno -> KIChord
-parseChordDE raw = case parseChordMaybe @DE.Key raw of
-  Just chord -> fromChord chord
-  Nothing    -> $failure $ "Parse error: " <> show raw
+parseChordDE :: Q Exp
+parseChordDE =
+  [|
+    \raw -> case parseChordMaybe @DE.Key raw of
+        Just chord -> fromChord chord
+        Nothing    -> $failure $ "Parse error: " <> show raw
+  |]

@@ -1,6 +1,9 @@
 {-|
 Description: Common, language-independent dictionary for numbers
 
+Use the left hand to select the numbers mode (cf. `strModeSteno`)
+and use the right hand to type.
+
 For simplicity, the commands are defined using Palantype.DE.
 But only the generic indices are exported.
 -}
@@ -11,6 +14,7 @@ But only the generic indices are exported.
 module Palantype.Common.Dictionary.Numbers
     ( dictNumbers
     , fromIndex
+    , strModeSteno
     ) where
 
 import           Data.Function                  ( ($) )
@@ -19,7 +23,7 @@ import           Data.Maybe                     ( Maybe(..), catMaybes )
 import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
-import           Palantype.Common.Indices       ( KIChord )
+import           Palantype.Common.Indices       ( KIChord, parseChordDE )
 import Palantype.Common.Class
     ( RawSteno(RawSteno) )
 import Palantype.Common.TH (fromJust, failure)
@@ -28,22 +32,30 @@ import Data.Tuple (fst, snd)
 import Palantype.Common.KeyIndex (KeyIndex)
 import GHC.Err (error)
 import Data.List ((!!))
-import qualified Palantype.Common.Indices as KI
 import Control.Monad (unless)
 import Data.Char (Char)
-import Palantype.Common.Dictionary.RightHand
-    ( ModifierPrimary(..), ModifierSecondary(..), toStenoStr, toPloverStr )
+import Palantype.Common.Dictionary.Shared
+    ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
+import qualified Data.Map.Strict as Map
+import Text.Show (Show(show))
+import Data.Bifunctor (Bifunctor(first))
 
+-- | mode selection for numbers mode: WN-
+--   the string is combined and the - is added on demand
 strModeSteno :: Text
 strModeSteno = "WN"
 
 dictNumbers :: [(KIChord, Text)]
-dictNumbers = dictModified <> dictUnmodified
+dictNumbers =
+       unmodifiedNumberStrs
+    <> shiftedNumberUSSpecialChars
+    <> numberCommands
 
--- | combined numbers, a modifier key doesn't make too much sense
---   and requires plover command syntax instead of just a string
-dictUnmodified :: [(KIChord, Text)]
-dictUnmodified = catMaybes $ do
+-- | combined numbers, a modifier key for more than a single digit doesn't
+--   make too much sense and would require plover command syntax instead of
+--   just a string
+unmodifiedNumberStrs :: [(KIChord, Text)]
+unmodifiedNumberStrs = catMaybes $ do
 
     mLT <- Nothing : (Just <$> keysLeftThumb )
     mRT <- Nothing : (Just <$> keysThumb )
@@ -61,10 +73,11 @@ dictUnmodified = catMaybes $ do
                   `combine` mP
 
     pure $ mEntry <&> \(strNum, rightHand) ->
-        ( KI.parseChordDE $ RawSteno $
-              toStenoStr strModeSteno ModPrimNone ModSecNone rightHand
+        ( $parseChordDE $ RawSteno $
+              toStenoStrRightHand strModeSteno ModPrimNone ModSecNone rightHand
         -- number input is glued using {& }, such that plover's space is suppressed
-        , "{&" <> strNum <> "}"
+        --, "{&" <> strNum <> "}"
+        , toPloverLiteralGlued strNum
         )
   where
     combine Nothing (Just (strNum, chr)) = Just (strNum, Text.singleton chr)
@@ -74,25 +87,48 @@ dictUnmodified = catMaybes $ do
            , strSteno <> Text.singleton chr
            )
 
+-- | Shift + some number key on US keyboard layout gives one of the
+--   `shiftedNumberUSSpecialChars`. They are treated as literals, not
+--   commands, because literals give the user more flexibility
+shiftedNumberUSSpecialChars :: [(KIChord, Text)]
+shiftedNumberUSSpecialChars = do
+    (literal, steno) <- first shiftNumberUS
+        <$>    keysThumb
+            <> keysIndex
+            <> keysMiddle
+            <> keysRing
+            <> [keysPinky !! 1] -- 0
+    pure
+        ( $parseChordDE $ RawSteno $
+              toStenoStrRightHand strModeSteno
+                                  ModPrimNone
+                                  ModSecShift
+                                  $ Text.singleton steno
+        , toPloverLiteralGlued literal
+        )
+
 -- | single digit numbers, can be modified and then will be
 --   treated as plover commands
-dictModified :: [(KIChord, Text)]
-dictModified = do
+numberCommands :: [(KIChord, Text)]
+numberCommands = do
     modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec  <- [ModSecNone, ModSecShift]
-    (strNum, chrSteno) <- keysThumb
-                       <> keysIndex
-                       <> keysMiddle
-                       <> keysRing
-                       <> [keysPinky !! 1] -- 0
+    (literal, steno) <- keysThumb
+                     <> keysIndex
+                     <> keysMiddle
+                     <> keysRing
+                     <> [keysPinky !! 1] -- 0
 
-    let rem = snd $ $fromJust $ Text.uncons strNum
+    let rem = snd $ $fromJust $ Text.uncons literal
     unless (Text.null rem) $
         $failure $ "Expected empty string: " <> Text.unpack rem
 
-    pure ( KI.parseChordDE $ RawSteno $
-               toStenoStr strModeSteno modPrim modSec $ Text.singleton chrSteno
-         , toPloverStr modPrim modSec strNum
+    pure ( $parseChordDE $ RawSteno $
+               toStenoStrRightHand strModeSteno
+                                   modPrim
+                                   modSec
+                                   $ Text.singleton steno
+         , toPloverCommand modPrim modSec literal
          )
 
 keysLeftThumb :: [(Text, Char)]
@@ -178,3 +214,22 @@ fromIndex = \case
     31 -> Just $ fst $ keysPinky !! 1
     32 -> Just $ fst $ keysPinky !! 0
     _  -> error "Numbers.fromIndex: impossible"
+
+shiftNumberUS :: Text -> Text
+shiftNumberUS chr =
+    Map.findWithDefault ($failure $ "Unknown character: " <> show chr)
+                        chr
+                        mapChars
+  where
+    mapChars = Map.fromList
+        [ ("1", "!")
+        , ("2", "@")
+        , ("3", "#")
+        , ("4", "$")
+        , ("5", "%")
+        , ("6", "^")
+        , ("7", "&")
+        , ("8", "*")
+        , ("9", "(")
+        , ("0", ")")
+        ]

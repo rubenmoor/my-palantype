@@ -19,88 +19,105 @@ module Palantype.Common.Dictionary.Plover
     , dictPlover
     ) where
 
-import           Control.Category               ( (<<<) )
-import           Data.Bifunctor                 ( Bifunctor(first) )
 import           Data.Function                  ( ($) )
-import           Data.Functor                   ( (<$>) )
-import           Data.HashMap.Strict            ( HashMap )
-import qualified Data.HashMap.Strict           as HashMap
-import           Data.Maybe                     ( Maybe(..) )
-import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
-import qualified Data.Text                     as Text
-import           Data.Tuple                     ( fst )
-import           GHC.Err                        ( error )
-import           Palantype.Common.Indices       ( KIChord )
-import qualified Palantype.Common.Indices      as KI
-import           Palantype.Common.RawSteno      ( parseChordMaybe
-                                                )
-import qualified Palantype.DE.Keys             as DE
+import           Palantype.Common.Indices       ( KIChord, parseChordDE)
 import Palantype.Common.Class (RawSteno (RawSteno))
 import Palantype.Common.TH (fromJust)
+import Data.List (lookup)
+import Data.Functor ((<&>))
 
 lsCommands :: [(Text, Text)]
 lsCommands =
-    [ ("{^,}"         , "A"  ) -- attach comma
-    , ("{^;}"         , "NA" ) -- attach semicolon
-    , ("{^-^}"        , "~"  ) -- hyphen to attach words
-    , ("{^\t^}"       , "DJ" ) -- tab: like T
-    , ("{*-|}"        , "B-" ) -- capitalize last word retroactively
-    , ("{-|}"         , "D-" ) -- capitalize next word
-    , ("{*>}"         , "S-" ) -- uncapitalize last word retroactively
-    , ("{*?}"         , "G-" ) -- retroactively add space
-    , ("{^.\n\n^}{-|}", "J"  ) -- paragraph
-    , ("*"            , "DM-") -- "* ": markdown paragraph
-    , ("{*!}"         , "F-" ) -- retroactively delete space
-    , ("{^.}{-|}"     , "N-" ) -- full stop: period (capitalize next word)
-    , ("{^:}"         , "L-" ) -- attach colon
-    , ("{^:}{-|}"     , "JL-") -- full stop: . w/o space and capitalize next word
-    , ("{^?}{-|}"     , "JN-") -- full stop: . w/o space and capitalize next word
-    , ("{^!}"         , "R"  ) -- attach exclamation mark
-    , ("{^!}{-|}"     , "JR" ) -- full stop exclamation mark
-    , ("{PLOVER:TOGGLE}", "BDJNLNSD")
+
+    -- common orthography
+    [ ("{^,}"         , "A"   ) -- attach comma
+    , ("{^;}"         , "NA"  ) -- attach semicolon
+    , ("{^-^}"        , "~"   ) -- hyphen to attach words
+    , ("{^\t^}"       , "DJ"  ) -- tab: like T
+    , ("{*-|}"        , "B-"  ) -- capitalize last word retroactively
+    , ("{-|}"         , "D-"  ) -- capitalize next word
+    , ("{*>}"         , "S-"  ) -- uncapitalize last word retroactively
+    , ("{*?}"         , "G-"  ) -- retroactively add space
+    , ("{^.\n\n^}{-|}", "J"   ) -- paragraph
+    , ("{*!}"         , "F-"  ) -- retroactively delete space
+    , ("{^.}{-|}"     , "N-"  ) -- full stop: attach period and capitalize next word
+    , ("{^:}"         , "L-"  ) -- attach colon
+    , ("{^:}{-|}"     , "JL-" ) -- attach colon and capitalize next word
+    , ("{^?}{-|}"     , "JN-" ) -- attach question mark and capitalize next word
+    , ("{^!}{-|}"     , "JR"  ) -- attach exclamation mark and capitalize next word
+    , ("{\\#^}"       , "H"   ) -- hashtag with next word attached
+    , ("§"            , "BD-" )
+    , ("{^°}"         , "GD-" ) -- attach °
+    , ("{^™}"         , "DM-" )
+    , ("{^©}"         , "GDM-")
+    , ("€"            , "E"   )
+    , ("—"            , "~Ü"  ) -- Gevierstrich
+
+    -- parentheses
+    , ("{«^}"  , "+" ) -- guillemet: attach to next word
+    , ("{^»}"  , "-G") --            attach
+    , ("{„^}"  , "-L") -- german quotation marks: attach to next word
+    , ("{^“}"  , "-N") --                         attach
+    , ("{‹^}"  , "-M") -- chevron: attach to next word
+    , ("{^›}"  , "-B") --          attach
+    , ("{[^}"  , "-F") -- square brackets: attach to next word
+    , ("{^]}"  , "s" ) --                  attach
+    , ("{(^}"  , "-S") -- parenthesis: attach to next word
+    , ("{^)}"  , "-D") --              attach
+    , ("{\\{^}", "ʃ" ) -- brackets: attach to next word
+    , ("{^\\}}", "n" ) --           attach
+
+    -- ascii smileys
+    , ("¯\\_(ツ)_/¯"   , "SLNSD" )
+    , ("ʕ•ᴥ•ʔ"        , "BLNSD" )
+    , ("(´･_･`)"       , "GLNSD" )
+    , ("(⊃｡•́‿•̀｡)⊃"     , "HLNSD" )
+    , ("(╯°□°）╯︵ ┻━┻", "DLNSD" )
+    , ("(☞ﾟヮﾟ)☞"      , "FLNSD" )
+    , ("(๑•́ ₃ •̀๑)"     , "MLNSD" )
+    , ("┬─┬⃰͡ (ᵔᵕᵔ͜ )" , "JLNSD" )
+    , ("( ˘ ³˘)♥"      , "WLNSD" )
+    , ("( ͡° ͜ʖ ͡°)"    , "LLNSD" )
+    , ("( ಠ ʖ̯ ಠ )"    , "NLNSD" )
+    , ("(ᵔᴥᵔ)"         , "RLNSD" )
+
+    -- plover
+    , ("=undo"                   , "ILNSD" ) -- undo last input
+    , ("{PLOVER:TOGGLE}"         , "BDJN+D")
+    , ("{PLOVER:ADD_TRANSLATION}", "BDJNA" )
+    , ("{PLOVER:LOOKUP}"         , "BDJNL" ) -- plover search dialogue
+    , ("{PLOVER:SUGGESTIONS}"    , "BDJNS" ) -- plover suggestions window
+    , ("{PLOVER:FOCUS}"          , "BDJNF" ) -- focus plvoer main window
+    , ("{PLOVER:CONFIGURE}"      , "BDJNG" ) -- plover configuration window
+    , ("{PLOVER:CONFIGURE}"      , "BDJN+G") -- quit plover
     ]
 
 dictPlover :: [(KIChord, Text)]
-dictPlover = []
-
-{-|
-DE raw steno for back-up command, i.e. undo last input
--}
-rawBackUp :: RawSteno
-rawBackUp = "ILNSD"
-
-{-|
-DE raw steno for capitalization of next word
--}
-rawCapNext :: RawSteno
-rawCapNext = "D"
+dictPlover = lsCommands <&> \(plover, steno) ->
+    ( $parseChordDE $ RawSteno steno
+    , plover
+    )
 
 {-|
 back-up, i.e. undo last input
 -}
 kiBackUp :: KIChord
-kiBackUp = simpleKIChord rawBackUp
+kiBackUp = mkKIChordSimple "=undo"
 
 {-|
 capitalize next chord
 -}
 kiCapNext :: KIChord
-kiCapNext = simpleKIChord rawCapNext
+kiCapNext = mkKIChordSimple "{-|}"
 
 {-|
 qualifier for acronyms
 -}
 kiAcronym :: KIChord
-kiAcronym = simpleKIChord "NÜM"
+kiAcronym = $parseChordDE $ RawSteno "NÜM"
 
-{-|
-more commands that are steno specific and cannot be modified by CTRL, SHIFT, ALT
-cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format#capitalizing
--}
-mapEN :: [(RawSteno, Text)]
-mapEN =
-    [ (rawBackUp , "=undo")
-    , (rawCapNext, "{-|}")  -- plover: capitalize next word
-    , ("BDJNLNSD", "{PLOVER:TOGGLE}")
-    ]
+mkKIChordSimple :: Text -> KIChord
+mkKIChordSimple str =
+    let strSteno = $fromJust $ lookup str lsCommands
+    in  $parseChordDE $ RawSteno strSteno
