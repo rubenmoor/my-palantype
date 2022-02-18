@@ -21,19 +21,21 @@ import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord )
 import Palantype.Common.Class
-    ( RawSteno(RawSteno), Palantype(toKeys) )
+    ( RawSteno(RawSteno) )
 import Palantype.Common.TH (fromJust, failure)
-import Data.Ord (Ord((>=)))
-import Data.Foldable (Foldable(maximum))
-import Palantype.DE (Key(RightFWVIv))
 import Control.Applicative (Applicative(pure))
-import Data.Tuple (fst)
+import Data.Tuple (fst, snd)
 import Palantype.Common.KeyIndex (KeyIndex)
 import GHC.Err (error)
 import Data.List ((!!))
 import qualified Palantype.Common.Indices as KI
 import Control.Monad (unless)
 import Data.Char (Char)
+import Palantype.Common.Dictionary.RightHand
+    ( ModifierPrimary(..), ModifierSecondary(..), toStenoStr, toPloverStr )
+
+strModeSteno :: Text
+strModeSteno = "WN"
 
 dictNumbers :: [(KIChord, Text)]
 dictNumbers = dictModified <> dictUnmodified
@@ -59,14 +61,11 @@ dictUnmodified = catMaybes $ do
                   `combine` mP
 
     pure $ mEntry <&> \(strNum, rightHand) ->
-        let fstRight = maximum $ toKeys $ fst $ $fromJust $ Text.uncons rightHand
-        in  ( KI.parseChordDE $ RawSteno $ "WN"
-              <> ( if fstRight >= RightFWVIv then "-" else "" )
-              <> rightHand
-
-            -- number input is glued using {& }, such that plover's space is suppressed
-            , "{&" <> strNum <> "}"
-            )
+        ( KI.parseChordDE $ RawSteno $
+              toStenoStr strModeSteno ModPrimNone ModSecNone rightHand
+        -- number input is glued using {& }, such that plover's space is suppressed
+        , "{&" <> strNum <> "}"
+        )
   where
     combine Nothing (Just (strNum, chr)) = Just (strNum, Text.singleton chr)
     combine x Nothing = x
@@ -75,94 +74,26 @@ dictUnmodified = catMaybes $ do
            , strSteno <> Text.singleton chr
            )
 
-{-| modifier keys -}
-data ModifierPrimary
-  = ModPrimCtrl
-  | ModPrimWin
-  | ModPrimAlt
-
-data ModifierSecondary
-  = ModSecNone
-  | ModSecShift
-
 -- | single digit numbers, can be modified and then will be
 --   treated as plover commands
 dictModified :: [(KIChord, Text)]
 dictModified = do
-
-    modPrim <- modifiersPrimary
-    modSec  <- modifiersSecondary
+    modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
+    modSec  <- [ModSecNone, ModSecShift]
     (strNum, chrSteno) <- keysThumb
                        <> keysIndex
                        <> keysMiddle
                        <> keysRing
                        <> [keysPinky !! 1] -- 0
 
-    let (chrNum, rem) = $fromJust $ Text.uncons strNum
+    let rem = snd $ $fromJust $ Text.uncons strNum
     unless (Text.null rem) $
         $failure $ "Expected empty string: " <> Text.unpack rem
 
-    let fstRight = maximum $ toKeys chrSteno
-    pure ( KI.parseChordDE $ RawSteno $ toStenoStr modPrim modSec
-              <> ( if fstRight >= RightFWVIv then "-" else "" )
-              <> Text.singleton chrSteno
-         , toPloverStr modPrim modSec chrNum
+    pure ( KI.parseChordDE $ RawSteno $
+               toStenoStr strModeSteno modPrim modSec $ Text.singleton chrSteno
+         , toPloverStr modPrim modSec strNum
          )
-  where
-    {-|
-
-    {#control(1)}
-    {#alt(2)}
-    {#super(3)}
-
-    Note that the output of {#shift(2)} depends on the keyboard layout
-    as configured by your system. Palantype.DE.Special contains finger spelling
-    for special characters too and thus offers a layout-independent alternative.
-
-    {#shift(4)}
-
-    cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format
-    -}
-    toPloverStr :: ModifierPrimary -> ModifierSecondary -> Char -> Text
-    toPloverStr modPrim modSec chr =
-      let str = Text.singleton chr
-          commandStr = case modPrim of
-              -- ModShift -> "shift"
-              ModPrimCtrl  -> "control"
-              ModPrimWin   -> "super"
-              ModPrimAlt   -> "alt"
-          (shiftStr, closing) = case modSec of
-              ModSecNone -> ("", "")
-              ModSecShift -> ("shift(", ")")
-      in  "{#" <> commandStr <> "(" <> shiftStr <> str <> closing <> ")}"
-
-        -- ModShift -> "Shift_L"
-
-    toStenoStr :: ModifierPrimary -> ModifierSecondary -> Text
-    toStenoStr modPrim modSec =
-        let stenoPrim = case modPrim of
-                ModPrimCtrl  -> "HWN"
-                ModPrimWin   -> "DWN"
-                ModPrimAlt   -> "FWN"
-            stenoSec = case modSec of
-                ModSecNone  -> ""
-                ModSecShift -> "B"
-        in  stenoSec <> stenoPrim
-
--- | Ctrl, Win, and Alt
-modifiersPrimary :: [ModifierPrimary]
-modifiersPrimary =
-    [ ModPrimCtrl
-    , ModPrimWin
-    , ModPrimAlt
-    ]
-
--- | None or Shift
-modifiersSecondary :: [ModifierSecondary]
-modifiersSecondary =
-    [ ModSecNone
-    , ModSecShift
-    ]
 
 keysLeftThumb :: [(Text, Char)]
 keysLeftThumb =

@@ -55,9 +55,10 @@ import Palantype.Common.RawSteno
       keyOrHyphenKey,
       key )
 import Palantype.Common.Dictionary.Commands
+    ( kiEnter, kiDown, kiUp, dictCommands )
 import Palantype.Common.Dictionary.Plover
-    ( kiUp, kiDown, kiBackUp, kiCapNext, kiEnter, kiAcronym )
-import Palantype.Common.Dictionary.Special
+    ( kiBackUp, kiCapNext, kiAcronym )
+import Palantype.Common.Dictionary.Special (dictSpecialModifiable, dictSpecialUnmodifiable)
 import Palantype.Common.Dictionary.Numbers (dictNumbers)
 import Data.Map.Strict (Map)
 import Data.Int (Int)

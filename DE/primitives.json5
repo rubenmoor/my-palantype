@@ -158,7 +158,7 @@
 , [ "ei|ß", [1, "EIS", "PatSZ", "no-doc"]]
 , [ "ei|ß", [1, "EI/S", "PatSZ"]]
 , [ "ej"  , [0, "EI", "PatReplCommon"]]
-, [ "en"  , [6, "N-", "PatShortSyllable"]] 
+//, [ "en"  , [6, "N-", "PatShortSyllable"]]  // causes conflict with Dictionary.Commands, and some confusing patterns
 , [ "en"  , [6, "n", "PatShortSyllable"]]        // TODO: greedier: "ren" -> n
 // TODO: ent-: ENT should be valid, too, because BDN adds little efficiency
 // maybe BDN for ent^ (works already implicitly)

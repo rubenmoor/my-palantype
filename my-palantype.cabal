@@ -26,10 +26,12 @@ library
       Palantype.Common
       Palantype.Common.AutoDoc
       Palantype.Common.Class
-      Palantype.Common.Dictionary.Numbers
-      Palantype.Common.Dictionary.Special
       Palantype.Common.Dictionary.Commands
+      Palantype.Common.Dictionary.LeftHand
+      Palantype.Common.Dictionary.Numbers
       Palantype.Common.Dictionary.Plover
+      Palantype.Common.Dictionary.RightHand
+      Palantype.Common.Dictionary.Special
       Palantype.Common.Indices
       Palantype.Common.Internal
       Palantype.Common.KeyIndex
