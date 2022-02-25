@@ -1,5 +1,5 @@
 {-|
-special characters: everything on the US keyboard layout that is not
+special characters: everything on the US keyboard layout that is NOT
 
 * an alphanumeric character
 * a commando (e.g. backspace)
@@ -37,8 +37,9 @@ dictSpecial = literals <> commands
 --   This is important to avoid boundary issues (or straight collisions)
 --   when using "N" as mode selector
 strModeSteno :: Text
-strModeSteno = "N"
+strModeSteno = "N" -- key index 25
 
+-- | special characters, with and w/o Shift
 keysExtra :: [(Char, Text, Char, Text)]
 keysExtra =
     [ ('`' , "~"  , 'S', "grave"       )

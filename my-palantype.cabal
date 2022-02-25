@@ -36,6 +36,7 @@ library
       Palantype.Common.KeyIndex
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
+      Palantype.Common.RenderPlover
       Palantype.Common.TH
       Palantype.DE
       Palantype.DE.FingerSpelling

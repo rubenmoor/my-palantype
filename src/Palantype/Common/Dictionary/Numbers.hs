@@ -38,12 +38,11 @@ import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
 import qualified Data.Map.Strict as Map
 import Text.Show (Show(show))
-import Data.Bifunctor (Bifunctor(first))
 
 -- | mode selection for numbers mode: WN-
 --   the string is combined and the - is added on demand
 strModeSteno :: Text
-strModeSteno = "WN"
+strModeSteno = "WN" -- key indices 9 and 11
 
 dictNumbers :: [(KIChord, Text)]
 dictNumbers =
@@ -80,10 +79,11 @@ unmodifiedNumberStrs = catMaybes $ do
         , toPloverLiteralGlued strNum
         )
   where
-    combine Nothing (Just (strNum, chr)) = Just (strNum, Text.singleton chr)
+    combine :: Maybe (Text, Text) -> Maybe ((Text, Maybe Text), Char) -> Maybe (Text, Text)
+    combine Nothing (Just ((strNum, _), chr)) = Just (strNum, Text.singleton chr)
     combine x Nothing = x
-    combine (Just (strNums, strSteno)) (Just (strNum, chr)) =
-      Just ( strNums <> strNum
+    combine (Just (strs, strSteno)) (Just ((strNum, _), chr)) =
+      Just ( strs <> strNum
            , strSteno <> Text.singleton chr
            )
 
@@ -92,19 +92,19 @@ unmodifiedNumberStrs = catMaybes $ do
 --   commands, because literals give the user more flexibility
 shiftedNumberUSSpecialChars :: [(KIChord, Text)]
 shiftedNumberUSSpecialChars = do
-    (literal, steno) <- first shiftNumberUS
-        <$>    keysThumb
-            <> keysIndex
-            <> keysMiddle
-            <> keysRing
-            <> [keysPinky !! 1] -- 0
+    ((_, mLiteral), steno) <-
+           keysThumb
+        <> keysIndex
+        <> keysMiddle
+        <> keysRing
+        <> [keysPinky !! 1] -- 0
     pure
         ( $parseChordDE $ RawSteno $
               toStenoStrRightHand strModeSteno
                                   ModPrimNone
                                   ModSecShift
                                   $ Text.singleton steno
-        , toPloverLiteralGlued literal
+        , toPloverLiteralGlued $ $fromJust mLiteral
         )
 
 -- | single digit numbers, can be modified and then will be
@@ -113,11 +113,11 @@ numberCommands :: [(KIChord, Text)]
 numberCommands = do
     modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec  <- [ModSecNone, ModSecShift]
-    (literal, steno) <- keysThumb
-                     <> keysIndex
-                     <> keysMiddle
-                     <> keysRing
-                     <> [keysPinky !! 1] -- 0
+    ((literal, _), steno) <- keysThumb
+                          <> keysIndex
+                          <> keysMiddle
+                          <> keysRing
+                          <> [keysPinky !! 1] -- 0
 
     let rem = snd $ $fromJust $ Text.uncons literal
     unless (Text.null rem) $
@@ -131,67 +131,67 @@ numberCommands = do
          , toPloverCommand modPrim modSec literal
          )
 
-keysLeftThumb :: [(Text, Char)]
+keysLeftThumb :: [((Text, Maybe Text), Char)]
 keysLeftThumb =
-  [ ("19", 'Ä')
-  , ("20", 'E')
-  , ("'" , 'A')
-  , ("," , '~')
+  [ (("19", Nothing), 'Ä')
+  , (("20", Nothing), 'E')
+  , (("'" , Nothing), 'A')
+  , (("," , Nothing), '~')
   ]
 
-keysThumb :: [(Text, Char)]
+keysThumb :: [((Text, Maybe Text), Char)]
 keysThumb =
-  [ ("0", 'U')
-  , ("1", 'I')
-  , ("2", 'O')
-  , ("9", 'Ü')
+  [ (("0", Just ")"), 'U')
+  , (("1", Just "!"), 'I')
+  , (("2", Just "@"), 'O')
+  , (("9", Just "("), 'Ü')
   ]
 
-keysIndex :: [(Text, Char)]
+keysIndex :: [((Text, Maybe Text), Char)]
 keysIndex =
-  [ ("1", 'M')
-  , ("4", 'L')
-  , ("7", '+')
+  [ (("1", Just "!"), 'M')
+  , (("4", Just "$"), 'L')
+  , (("7", Just "&"), '+')
   ]
 
-keysMiddle :: [(Text, Char)]
+keysMiddle :: [((Text, Maybe Text), Char)]
 keysMiddle =
-  [ ("2", 'B')
-  , ("5", 'N')
-  , ("8", 'G')
+  [ (("2", Just "@"), 'B')
+  , (("5", Just "%"), 'N')
+  , (("8", Just "*"), 'G')
   ]
 
-keysRing :: [(Text, Char)]
+keysRing :: [((Text, Maybe Text), Char)]
 keysRing =
-  [ ("3", 'ʃ')
-  , ("6", 'S')
-  , ("9", 'F')
+  [ (("3", Just "#"), 'ʃ')
+  , (("6", Just "^"), 'S')
+  , (("9", Just "("), 'F')
   ]
 
-keysPinky :: [(Text, Char)]
+keysPinky :: [((Text, Maybe Text), Char)]
 keysPinky =
-  [ (".", 's')
-  , ("0", 'D')
-  , (":", 'n')
+  [ ((".", Nothing ), 'n')
+  , (("0", Just ")"), 'D')
+  , ((":", Nothing ), 's')
   ]
 
 {-|
 Map a key index to a character in number mode.
 This servers to visualize the number mode on the virtual keyboard.
 -}
-fromIndex :: KeyIndex -> Maybe Text
+fromIndex :: KeyIndex -> Maybe (Text, Maybe Text)
 fromIndex = \case
     1  -> Nothing
-    2  -> Just "SHIFT"
+    2  -> Just ("SHIFT", Just "SHIFT")
     3  -> Nothing
-    4  -> Just "CTRL"
-    5  -> Just "WIN"
-    6  -> Just "ALT"
+    4  -> Just ("CTRL", Just "CTRL")
+    5  -> Just ("WIN", Just "WIN")
+    6  -> Just ("ALT", Just "ALT")
     7  -> Nothing
     8  -> Nothing
-    9  -> Just "W"
+    9  -> Just ("W", Just "W")
     10 -> Nothing
-    11 -> Just "N"
+    11 -> Just ("N", Just "N")
     12 -> Nothing
     13 -> Just $ fst $ keysLeftThumb !! 0
     14 -> Just $ fst $ keysLeftThumb !! 1
@@ -214,22 +214,3 @@ fromIndex = \case
     31 -> Just $ fst $ keysPinky !! 1
     32 -> Just $ fst $ keysPinky !! 0
     _  -> error "Numbers.fromIndex: impossible"
-
-shiftNumberUS :: Text -> Text
-shiftNumberUS chr =
-    Map.findWithDefault ($failure $ "Unknown character: " <> show chr)
-                        chr
-                        mapChars
-  where
-    mapChars = Map.fromList
-        [ ("1", "!")
-        , ("2", "@")
-        , ("3", "#")
-        , ("4", "$")
-        , ("5", "%")
-        , ("6", "^")
-        , ("7", "&")
-        , ("8", "*")
-        , ("9", "(")
-        , ("0", ")")
-        ]

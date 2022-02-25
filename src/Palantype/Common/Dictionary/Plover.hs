@@ -34,7 +34,7 @@ lsCommands =
     [ ("{^,}"         , "A"   ) -- attach comma
     , ("{^;}"         , "NA"  ) -- attach semicolon
     , ("{^-^}"        , "~"   ) -- hyphen to attach words
-    , ("{^\t^}"       , "DJ"  ) -- tab: like T
+    , ("{^\t^}"       , "DJ"  ) -- tab like T
     , ("{*-|}"        , "B-"  ) -- capitalize last word retroactively
     , ("{-|}"         , "D-"  ) -- capitalize next word
     , ("{*>}"         , "S-"  ) -- uncapitalize last word retroactively
@@ -47,12 +47,12 @@ lsCommands =
     , ("{^?}{-|}"     , "JN-" ) -- attach question mark and capitalize next word
     , ("{^!}{-|}"     , "JR"  ) -- attach exclamation mark and capitalize next word
     , ("{\\#^}"       , "H"   ) -- hashtag with next word attached
-    , ("§"            , "BD-" )
+    , ("§"            , "BD-" ) -- p like paragraph
     , ("{^°}"         , "GD-" ) -- attach °
-    , ("{^™}"         , "DM-" )
-    , ("{^©}"         , "GDM-")
-    , ("€"            , "E"   )
-    , ("—"            , "~Ü"  ) -- Gevierstrich
+    , ("{^™}"         , "DM-" ) -- t like trademark
+    , ("{^©}"         , "GDM-") -- c like copyright
+    , ("€"            , "E"   ) -- e like euro
+    , ("—"            , "~Ü"  ) -- em dash/Geviertstrich
 
     -- parentheses
     , ("{«^}"  , "+" ) -- guillemet: attach to next word

@@ -197,6 +197,10 @@ key = do
                 else unless (Just (toFinger k) > mFinger) mzero
             anyChar $> k
 
-    k <- foldl' (\parser k -> parser <|> reach k) mzero $ $fromJust $ toKeys c
+    ks <- case toKeys c of
+        Nothing -> fail $ "Could not parse char as key: " <> pure c
+        Just ls -> pure ls
+
+    k <- foldl' (\parser k -> parser <|> reach k) mzero ks
     setState (Just $ toFinger k, Just k)
     pure k

@@ -10,6 +10,7 @@ module Palantype.Common
   , module Palantype.Common.Dictionary.Plover
   , module Palantype.Common.Dictionary.Special
   , module Palantype.Common.RawSteno
+  , module Palantype.Common.RenderPlover
   , MapStenoWordTake100
   ) where
 
@@ -63,6 +64,7 @@ import Palantype.Common.Dictionary.Numbers (dictNumbers)
 import Data.Map.Strict (Map)
 import Data.Int (Int)
 import Data.Text (Text)
+import Palantype.Common.RenderPlover (renderPlover)
 
 type MapStenoWordTake100 key =
   Map (PatternGroup key) (Map Greediness (Int, [(Text, RawSteno)]))
