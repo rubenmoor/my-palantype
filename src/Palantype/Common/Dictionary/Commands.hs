@@ -76,7 +76,8 @@ keysModifiable =
 
 keysUnmodifiable :: [(Text, Text)]
 keysUnmodifiable =
-  [ ("{#control(alt(delete))}", "LNSD")]
+  [ ("{#control(alt(delete))}", "LNSD")
+  ]
 
 dictCommands :: [(KIChord, Text)]
 dictCommands = dictModifiable <> dictUnmodifiable
