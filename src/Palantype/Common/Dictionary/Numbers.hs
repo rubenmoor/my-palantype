@@ -36,8 +36,6 @@ import Control.Monad (unless)
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
-import qualified Data.Map.Strict as Map
-import Text.Show (Show(show))
 
 -- | mode selection for numbers mode: WN-
 --   the string is combined and the - is added on demand

@@ -148,9 +148,12 @@ instance Palantype Key where
       PatSimple -> "Identical letters, one single chord"
       PatSimpleMulti -> "Identical letters, multiple chords"
       PatCapitalize -> "Explicit capitalization"
+      PatAcronym -> "Acronym spellings"
 
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize
+    patAcronym = PatAcronym
+
     lsPrimitives = []
     mapExceptions = Map.empty
 
@@ -161,6 +164,7 @@ data Pattern
   = PatSimple
   | PatSimpleMulti
   | PatCapitalize
+  | PatAcronym
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Pattern

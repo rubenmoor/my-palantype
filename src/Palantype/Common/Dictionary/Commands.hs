@@ -35,6 +35,7 @@ module Palantype.Common.Dictionary.Commands
     , kiUp
     , kiDown
     , kiEnter
+    , kiChordsStart
     , strModeSteno
     ) where
 
@@ -48,8 +49,9 @@ import Palantype.Common.TH (fromJust)
 import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..), ModifierSecondary (..), toStenoStrRightHand)
-import Data.Functor ((<&>))
+import Data.Functor ((<&>), (<$>))
 import Data.List (lookup)
+import Control.Category (Category((.)))
 
 strModeSteno :: Text
 strModeSteno = "JN"
@@ -123,3 +125,9 @@ enter key, not to be confused with paragraph
 -}
 kiEnter :: KIChord
 kiEnter = mkKIChordSimple "return"
+
+{-|
+the word "Start" in two versions
+-}
+kiChordsStart :: [KIChord]
+kiChordsStart = $parseChordDE . RawSteno <$> ["SDAÜD", "SDAÜ+D"]

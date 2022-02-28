@@ -56,7 +56,7 @@ import Palantype.Common.RawSteno
       keyOrHyphenKey,
       key )
 import Palantype.Common.Dictionary.Commands
-    ( kiEnter, kiDown, kiUp, dictCommands )
+    ( kiEnter, kiDown, kiUp, dictCommands, kiChordsStart )
 import Palantype.Common.Dictionary.Plover
     ( dictPlover, kiBackUp, kiCapNext, kiAcronym )
 import Palantype.Common.Dictionary.Special (dictSpecial)

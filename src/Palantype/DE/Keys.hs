@@ -113,6 +113,7 @@ instance Palantype Key where
 
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize
+    patAcronym = PatAcronym
 
     toDescription = \case
       PatSimple -> "Identical letters"
