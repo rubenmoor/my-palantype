@@ -54,7 +54,8 @@ import           Text.Show                      ( Show(show) )
 import Data.Bool (Bool(True, False))
 import Data.Bifunctor (Bifunctor(second))
 import Data.Ord (Ord((>=)))
-import Palantype.Common.Class (Palantype (PatternGroup, lsPrimitives), RawSteno)
+import Palantype.Common.Class (Palantype (PatternGroup, lsPrimitives))
+import Palantype.Common.RawSteno.Type (RawSteno)
 
 lsPatterns
   :: forall key

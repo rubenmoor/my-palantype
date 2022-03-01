@@ -1,4 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -7,14 +6,17 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 
-module Palantype.Common.Class where
+module Palantype.Common.Class
+  ( Palantype (..)
+  , mkChord
+  ) where
 
 import           Control.Category               ( (.)
-                                                , (<<<)
+
                                                 )
 import           Control.Exception              ( assert )
 import           Data.Aeson                     ( FromJSON
-                                                , FromJSONKey
+
                                                 , ToJSON
                                                 , ToJSONKey
                                                 )
@@ -35,7 +37,6 @@ import           Data.Function                  ( ($)
 import           Data.Functor                   ( (<$>)
 
                                                 )
-import           Data.Hashable                  ( Hashable )
 import           Data.List                      ( (++)
 
                                                 , sort
@@ -47,37 +48,16 @@ import           Data.Semigroup                 ( Semigroup((<>)) )
 import qualified Data.Text                     as Text
 import           Data.Text                      ( Text )
 import           GHC.Err                        ( error )
-import           TextShow                       (TextShow
-                                                    ( showb, showt
-
-
-                                                    )
-                                                , fromText
-
-                                                )
+import           TextShow                       (TextShow)
 import Data.ByteString (ByteString)
 import Control.DeepSeq (NFData)
 import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord))
 import Palantype.Common.KeyIndex ( keyIndex )
 import Data.Bool (Bool)
-import Data.String (IsString (fromString))
-import GHC.Show (Show (show))
 import Data.Map (Map)
 import Data.List.NonEmpty (NonEmpty, nonEmpty)
 import Data.Maybe (Maybe)
-
-newtype RawSteno = RawSteno { unRawSteno :: Text }
-  deriving stock (Eq, Ord)
-  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable, NFData)
-
-instance TextShow RawSteno where
-    showb = fromText <<< unRawSteno
-
-instance IsString RawSteno where
-    fromString = RawSteno <<< fromString
-
-instance Show RawSteno where
-    show = Text.unpack <<< showt
+import Palantype.Common.RawSteno.Type (RawSteno)
 
 -- | defines a steno key layout
 -- |
@@ -168,14 +148,6 @@ class ( Data key
   -- exceptions that span several chords go here
   mapExceptions
     :: Map Text [(RawSteno, PatternGroup key)]
-
--- | show the key, with a hyphen attached
---   x- for the keys of the left hand,
---   -x for the keys of the right hand
-showH :: Palantype key => key -> Text
-showH k =
-    let f = if constrIndex (toConstr k) <= 16 then (<> "-") else ("-" <>)
-    in  f $ Text.singleton $ keyCode k
 
 mkChord :: forall k. (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys

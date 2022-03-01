@@ -6,7 +6,7 @@ module Palantype.Common.RenderPlover
 
 import Data.Map.Strict (Map)
 import Data.Text (Text)
-import Palantype.Common.Class (RawSteno, Palantype)
+import Palantype.Common.Class (Palantype)
 import Palantype.Common.Internal (Chord)
 import qualified Palantype.Common.RawSteno as Raw
 import qualified Data.Map.Strict as Map
@@ -22,6 +22,7 @@ import Control.Applicative (Applicative(pure), Alternative ((<|>)))
 import Data.Char (Char)
 import Data.Maybe
 import Data.Monoid ((<>), Monoid(mconcat))
+import Palantype.Common.RawSteno.Type (RawSteno)
 
 -- TODO: bytestring trie
 -- TODO: properly deal with spaces

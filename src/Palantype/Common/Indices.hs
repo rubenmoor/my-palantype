@@ -27,7 +27,7 @@ import           Data.Hashable                  ( Hashable )
 import qualified Data.Text                     as Text
 import           Palantype.Common.Internal      ( Chord (..)
                                                 )
-import Palantype.Common.Class (Palantype (keyCode), RawSteno (..))
+import Palantype.Common.Class (Palantype (keyCode))
 import Palantype.Common.KeyIndex (KeyIndex, fromIndex, toKeyIndices)
 import Palantype.Common.RawSteno (parseChordMaybe)
 import TextShow (TextShow (showb, showt), fromText)
@@ -38,6 +38,8 @@ import Data.Data (Data)
 import Data.Maybe (Maybe(..))
 import Palantype.Common.TH (failure)
 import Text.Show (Show(show))
+import Palantype.Common.RawSteno.Type (RawSteno)
+import qualified Palantype.Common.RawSteno as Raw
 
 {-|
 a "key-index chord", an index based steno chord representation
@@ -51,7 +53,7 @@ instance TextShow KIChord where
 
 toRaw :: forall key . Palantype key => KIChord -> RawSteno
 toRaw =
-    RawSteno <<< Text.pack <<< fmap (keyCode <<< fromIndex @key) <<< unKIChord
+    Raw.fromChord <<< Chord <<< fmap (fromIndex @key) <<< unKIChord
 
 fromChord :: Palantype k => Chord k -> KIChord
 fromChord = KIChord <<< toKeyIndices

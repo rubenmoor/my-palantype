@@ -9,7 +9,6 @@ module Palantype.Common.RawSteno where
 
 import           Control.Applicative            ( Applicative((<*), pure, (<*>))
                                                 )
-import           Control.Category               ( (<<<) )
 import           Control.Monad                  ( Monad((>>))
                                                 , MonadPlus(mzero)
                                                 , guard
@@ -22,15 +21,15 @@ import           Data.Data                      ( Proxy(Proxy)
                                                 )
 import           Data.Either                    ( Either(..) )
 import           Data.Eq                        ( Eq((==)) )
-import           Data.Foldable                  ( Foldable(foldl') )
+import           Data.Foldable                  ( Foldable(foldl', length, maximum, minimum) )
 import           Data.Function                  ( ($) )
 import           Data.Functor                   ( ($>)
                                                 , (<$>)
-                                                , void
+                                                , void, Functor (fmap)
                                                 )
 import           Data.Maybe                     ( Maybe(..) )
 import           Data.Monoid                    ( Monoid(mconcat), (<>) )
-import           Data.Ord                       ( Ord((<), (>), (>=)) )
+import           Data.Ord                       ( Ord((<), (>), (>=), (<=)) )
 import Data.Text ( Text, isInfixOf )
 import qualified Data.Text                     as Text
 import           Palantype.EN                   ( pEN )
@@ -54,19 +53,58 @@ import           Text.Parsec                    ( (<?>)
                                                 , try
                                                 )
 import           Text.Show                      ( Show(show) )
-import           TextShow                       ( TextShow(showt)
-
-                                                )
 import Control.Monad.Fail (MonadFail(fail))
-import Data.Bool ((&&), otherwise)
-import Palantype.Common.Class (Palantype (toKeys, toFinger), RawSteno (RawSteno, unRawSteno))
+import Data.Bool ((&&), otherwise, (||), Bool (False), bool)
+import Palantype.Common.Class (Palantype (toKeys, toFinger, keyCode))
+import Palantype.Common.RawSteno.Type (RawSteno (RawSteno, unRawSteno))
 import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
 import Palantype.Common.KeyIndex (fromIndex)
 import qualified Data.List.NonEmpty as NonEmpty
 import Palantype.Common.TH (fromJust)
+import Data.List ( partition, head )
+import Data.List.NonEmpty (nonEmpty)
+import Control.Category ((<<<))
 
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
-fromChord = RawSteno <<< showt
+fromChord (Chord []) = fromText ""
+fromChord (Chord lsKey) =
+    let (left, right) = partition (\k -> toFinger k <= LeftThumb) lsKey
+    in  fromText $ case nonEmpty left of
+
+            -- left is empty
+            Nothing -> (if ambiguous $ head right then "-" else "")
+                <> Text.pack (keyCode <$> right)
+
+            -- left is not empty
+            Just leftNE -> case nonEmpty right of
+                Nothing -> Text.pack (keyCode <$> left)
+                    <> (if ambiguous $ NonEmpty.last leftNE then "-" else "")
+
+                -- right is not empty
+                Just rightNE -> addHyphen leftNE rightNE
+  where
+    ambiguous k = length ($fromJust $ toKeys @k $ keyCode k) > 1
+
+    addHyphen left right =
+        let l = NonEmpty.last left
+            r = NonEmpty.head right
+            bHyphenate =
+                case (mAltFinger maximum l, mAltFinger minimum r) of
+                    (Nothing, Nothing  ) -> False
+                    (Just maxL, Nothing) -> maxL < toFinger r
+                    (Nothing, Just minR) -> minR > toFinger l
+                    (Just maxL, Just minR) -> maxL < toFinger r || minR > toFinger l
+            mHyphen = bool "" "-" bHyphenate
+        in  Text.pack $ (keyCode <$> NonEmpty.toList left)
+                     <> mHyphen
+                     <> (keyCode <$> NonEmpty.toList right)
+
+    mAltFinger f k =
+        let as = fmap toFinger $ $fromJust $ toKeys @k $ keyCode k
+        in  if length as > 1 then Just $ f as else Nothing
+
+fromText :: Text -> RawSteno
+fromText = RawSteno
 
 {-|
 Put "/"s between RawSteno in a list

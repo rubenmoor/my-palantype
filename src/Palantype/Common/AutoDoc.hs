@@ -26,9 +26,10 @@ import           Palantype.Common.Internal      ( Greediness, PatternPos (..)
                                                 )
 import Data.Bifunctor (Bifunctor(first))
 import Control.Category ((<<<))
-import Palantype.Common.Class (patCapitalize, Palantype (PatternGroup, lsPrimitives), RawSteno)
+import Palantype.Common.Class (patCapitalize, Palantype (PatternGroup, lsPrimitives))
 import qualified Palantype.Common.Indices as KI
 import Palantype.Common.Dictionary.Plover (kiCapNext)
+import Palantype.Common.RawSteno.Type (RawSteno)
 
 {-|
 Pattern documentation, automatically generated from the primitives

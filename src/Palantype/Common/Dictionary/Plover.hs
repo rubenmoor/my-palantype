@@ -22,10 +22,10 @@ module Palantype.Common.Dictionary.Plover
 import           Data.Function                  ( ($) )
 import           Data.Text                      ( Text )
 import           Palantype.Common.Indices       ( KIChord, parseChordDE)
-import Palantype.Common.Class (RawSteno (RawSteno))
 import Palantype.Common.TH (fromJust)
 import Data.List (lookup)
 import Data.Functor ((<&>))
+import qualified Palantype.Common.RawSteno as Raw
 
 lsCommands :: [(Text, Text)]
 lsCommands =
@@ -95,7 +95,7 @@ lsCommands =
 
 dictPlover :: [(KIChord, Text)]
 dictPlover = lsCommands <&> \(plover, steno) ->
-    ( $parseChordDE $ RawSteno steno
+    ( $parseChordDE $ Raw.fromText steno
     , plover
     )
 
@@ -115,9 +115,9 @@ kiCapNext = mkKIChordSimple "{-|}"
 qualifier for acronyms
 -}
 kiAcronym :: KIChord
-kiAcronym = $parseChordDE $ RawSteno "NÜM"
+kiAcronym = $parseChordDE $ Raw.fromText "NÜM"
 
 mkKIChordSimple :: Text -> KIChord
 mkKIChordSimple str =
     let strSteno = $fromJust $ lookup str lsCommands
-    in  $parseChordDE $ RawSteno strSteno
+    in  $parseChordDE $ Raw.fromText strSteno

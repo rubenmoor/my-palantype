@@ -21,10 +21,10 @@ import Data.Char (Char, toUpper)
 import Data.Function (($))
 import Data.Text (Text)
 import qualified Data.Text as Text
-import Palantype.Common.Class (RawSteno (RawSteno))
 import Palantype.Common.Dictionary.Shared (ModifierPrimary (..), ModifierSecondary (..), toStenoStrLeftHand, toPloverLiteralGlued, toPloverCommand)
 import Palantype.Common.Indices (KIChord, parseChordDE)
 import Data.Semigroup (Semigroup((<>)))
+import qualified Palantype.Common.RawSteno as Raw
 
 {- | DE raw steno for the fingerspelling mode
    The key is -L, but will be combined and the - will be added on demand
@@ -91,7 +91,7 @@ dictLiterals = do
     (literal, steno) <- keysLetterUS <> keysLetterOther
     modSec <- [ModSecNone, ModSecShift]
     pure
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno ModPrimNone modSec steno
         , Text.singleton $ case modSec of
               ModSecNone  -> literal
@@ -103,7 +103,7 @@ gluedLiterals = do
     (literal, steno) <- keysLetterUS <> keysLetterOther
     modSec <- [ModSecNone, ModSecShift]
     pure
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno ModPrimNone modSec steno
         , toPloverLiteralGlued $ Text.singleton $ case modSec of
               ModSecNone  -> literal
@@ -116,7 +116,7 @@ letterCommands = do
     modSec <- [ModSecNone, ModSecShift]
     (literal, steno) <- keysLetterUS
     pure
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno modPrim modSec steno
         , toPloverCommand modPrim
                           modSec

@@ -36,6 +36,7 @@ library
       Palantype.Common.KeyIndex
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
+      Palantype.Common.RawSteno.Type
       Palantype.Common.RenderPlover
       Palantype.Common.TH
       Palantype.DE
@@ -60,6 +61,7 @@ library
       , loch-th
       , parsec
       , proxied
+      , safe
       , servant
       , template-haskell
       , text
@@ -93,3 +95,5 @@ test-suite my-palantype-test
       , containers
       , HUnit
       , my-palantype
+      , text
+      , text-show

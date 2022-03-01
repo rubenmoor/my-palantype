@@ -21,11 +21,11 @@ import Data.Text (Text)
 import Data.Semigroup (Semigroup((<>)))
 import Palantype.Common.Indices (KIChord, parseChordDE)
 import Control.Applicative (Applicative(pure))
-import Palantype.Common.Class (RawSteno(RawSteno))
 import Data.Function (($))
 import GHC.Base (Char)
 import Palantype.Common.Dictionary.Shared (ModifierPrimary(..), ModifierSecondary (..), toPloverCommand, toStenoStrLeftHand, toPloverLiteralGlued)
 import qualified Data.Text as Text
+import qualified Palantype.Common.RawSteno as Raw
 
 dictSpecial :: [(KIChord, Text)]
 dictSpecial = literals <> commands
@@ -61,7 +61,7 @@ literals = do
     (literal, shifted, steno, _) <- keysExtra
     modSec <- [ModSecNone, ModSecShift]
     pure
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno
                                  ModPrimNone
                                  modSec
@@ -76,7 +76,7 @@ commands = do
     modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec  <- [ModSecNone, ModSecShift]
     (_, _, chrSteno, strCommand) <- keysExtra
-    pure ( $parseChordDE $ RawSteno $
+    pure ( $parseChordDE $ Raw.fromText $
                toStenoStrLeftHand strModeSteno
                                   modPrim
                                   modSec

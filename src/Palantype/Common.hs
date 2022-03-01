@@ -11,6 +11,7 @@ module Palantype.Common
   , module Palantype.Common.Dictionary.Special
   , module Palantype.Common.RawSteno
   , module Palantype.Common.RenderPlover
+  , module Palantype.Common.RawSteno.Type
   , MapStenoWordTake100
   ) where
 
@@ -20,8 +21,6 @@ import Palantype.Common.KeyIndex
 import Palantype.Common.Class
     (
       Palantype(..),
-      RawSteno(..),
-      showH,
       mkChord )
 import Palantype.Common.Internal
     ( Chord(..),
@@ -55,6 +54,7 @@ import Palantype.Common.RawSteno
       keyLeftHand,
       keyOrHyphenKey,
       key )
+import Palantype.Common.RawSteno.Type (RawSteno)
 import Palantype.Common.Dictionary.Commands
     ( kiEnter, kiDown, kiUp, dictCommands, kiChordsStart )
 import Palantype.Common.Dictionary.Plover

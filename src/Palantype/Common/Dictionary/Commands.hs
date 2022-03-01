@@ -44,7 +44,6 @@ import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord, parseChordDE )
-import Palantype.Common.Class (RawSteno (RawSteno))
 import Palantype.Common.TH (fromJust)
 import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
@@ -52,6 +51,7 @@ import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..)
 import Data.Functor ((<&>), (<$>))
 import Data.List (lookup)
 import Control.Category (Category((.)))
+import qualified Palantype.Common.RawSteno as Raw
 
 strModeSteno :: Text
 strModeSteno = "JN"
@@ -90,14 +90,14 @@ dictModifiable = do
     modSec  <- [ModSecNone, ModSecShift]
     (strCommand, chrSteno) <- keysModifiable
 
-    pure ( $parseChordDE $ RawSteno $
+    pure ( $parseChordDE $ Raw.fromText $
                toStenoStrRightHand strModeSteno modPrim modSec $ Text.singleton chrSteno
          , toPloverCommand modPrim modSec strCommand
          )
 
 dictUnmodifiable :: [(KIChord, Text)]
 dictUnmodifiable = keysUnmodifiable <&> \(strPlover, strSteno) ->
-   ( $parseChordDE $ RawSteno $
+   ( $parseChordDE $ Raw.fromText $
          toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
    , strPlover
    )
@@ -111,7 +111,7 @@ kiUp = mkKIChordSimple "up"
 mkKIChordSimple :: Text -> KIChord
 mkKIChordSimple str =
     let strSteno = Text.singleton $ $fromJust $ lookup str keysModifiable
-    in  $parseChordDE $ RawSteno $
+    in  $parseChordDE $ Raw.fromText $
             toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
 
 {-|
@@ -130,4 +130,4 @@ kiEnter = mkKIChordSimple "return"
 the word "Start" in two versions
 -}
 kiChordsStart :: [KIChord]
-kiChordsStart = $parseChordDE . RawSteno <$> ["SDAÜD", "SDAÜ+D"]
+kiChordsStart = $parseChordDE . Raw.fromText <$> ["SDAÜD", "SDAÜ+D"]

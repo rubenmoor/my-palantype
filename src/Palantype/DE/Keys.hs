@@ -30,6 +30,7 @@ import Control.DeepSeq (NFData)
 import           Data.Data                      ( Data )
 import           Data.Eq                        ( Eq )
 import           Data.Ord                       ( Ord )
+import Data.Foldable (Foldable(elem))
 
 -- the palantype.de keyboard
 --
@@ -172,14 +173,36 @@ instance Palantype Key where
               Left  err -> error $ "Could not decode DE/primitives.json5: " <> err
 
     mapExceptions =
-        -- TODO: "DE" depends on key
         let str = stripComments $(embedFile "DE/exceptions.json5")
         in  unExceptionsMap $ case Aeson.eitherDecodeStrict str of
                 Right map -> map :: ExceptionsMap Key
                 Left  err -> error $ "Could not decode exceptions.json5: " <> err
 
 instance TextShow Key where
-    showb = singleton <<< keyCode
+    showb k =
+        let ambiguousLeft =
+                [ LeftSZ
+                , LeftBP
+                , LeftGK
+                , LeftDT
+                , LeftFV
+                , LeftM
+                , LeftL
+                , LeftN
+                ]
+            ambiguousRight =
+                [ RightL
+                , RightM
+                , RightGK
+                , RightN
+                , RightBP
+                , RightFWVIv
+                , RightSZTz
+                , RightDT
+                ]
+            prefix = if k `elem` ambiguousRight then "-" else ""
+            suffix = if k `elem` ambiguousLeft  then "-" else ""
+        in  prefix <> singleton (keyCode k) <> suffix
 
 data Pattern
   -- simple pattern

@@ -24,8 +24,6 @@ import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord, parseChordDE )
-import Palantype.Common.Class
-    ( RawSteno(RawSteno) )
 import Palantype.Common.TH (fromJust, failure)
 import Control.Applicative (Applicative(pure))
 import Data.Tuple (fst, snd)
@@ -36,6 +34,7 @@ import Control.Monad (unless)
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
+import qualified Palantype.Common.RawSteno as Raw
 
 -- | mode selection for numbers mode: WN-
 --   the string is combined and the - is added on demand
@@ -70,7 +69,7 @@ unmodifiedNumberStrs = catMaybes $ do
                   `combine` mP
 
     pure $ mEntry <&> \(strNum, rightHand) ->
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrRightHand strModeSteno ModPrimNone ModSecNone rightHand
         -- number input is glued using {& }, such that plover's space is suppressed
         --, "{&" <> strNum <> "}"
@@ -97,7 +96,7 @@ shiftedNumberUSSpecialChars = do
         <> keysRing
         <> [keysPinky !! 1] -- 0
     pure
-        ( $parseChordDE $ RawSteno $
+        ( $parseChordDE $ Raw.fromText $
               toStenoStrRightHand strModeSteno
                                   ModPrimNone
                                   ModSecShift
@@ -121,7 +120,7 @@ numberCommands = do
     unless (Text.null rem) $
         $failure $ "Expected empty string: " <> Text.unpack rem
 
-    pure ( $parseChordDE $ RawSteno $
+    pure ( $parseChordDE $ Raw.fromText $
                toStenoStrRightHand strModeSteno
                                    modPrim
                                    modSec
