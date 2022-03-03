@@ -38,7 +38,7 @@ keysLetterUS :: [(Char, Text)]
 keysLetterUS =
     [ ('a', "A"   )
     , ('b', "B-"  )
-    , ('c', "GDM-")
+    , ('c', "GDW-")
     , ('d', "D-"  )
     , ('e', "E"   )
     , ('f', "F-"  )
@@ -52,7 +52,7 @@ keysLetterUS =
     , ('n', "N-"  )
     , ('o', "O"   )
     , ('p', "BD-" )
-    , ('q', "GDW-")
+    , ('q', "GDJ-")
     , ('r', "R"   )
     , ('s', "S-"  )
     , ('t', "DJ-" )
@@ -70,7 +70,7 @@ keysLetterOther :: [(Char, Text)]
 keysLetterOther =
     [ ('á', "BA"  )
     , ('à', "JA"  )
-    , ('ç', "GDJ-")
+    , ('ç', "GDWR")
     , ('é', "BE"  )
     , ('ê', "DE"  )
     , ('è', "JE"  )

@@ -29,6 +29,7 @@ import Palantype.Common.Internal
       PatternPos(..),
       Greediness,
       Lang(..) )
+import Palantype.Common.Internal.Instances ()
 import Palantype.Common.Primitives
     ( PrimMap(..),
       ExceptionsMap(..),

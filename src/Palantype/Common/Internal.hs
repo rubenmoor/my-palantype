@@ -11,7 +11,6 @@
 module Palantype.Common.Internal where
 
 import Control.Category (
-    (.),
     (<<<),
  )
 import Data.Aeson (
@@ -105,14 +104,5 @@ instance TextShow Finger where
 newtype Series k = Series {unSeries :: [Chord k]}
     deriving stock (Eq, Ord, Foldable)
 
-instance TextShow k => TextShow (Series k) where
-    showb = mconcat . intersperse (singleton '/') . fmap showb . unSeries
-
 newtype Chord k = Chord {unChord :: [k]}
     deriving stock (Eq, Ord, Foldable)
-
-instance TextShow k => TextShow (Chord k) where
-    showb = mconcat . fmap showb . unChord
-
-instance (TextShow k) => Show (Chord k) where
-    show = Text.unpack . showt

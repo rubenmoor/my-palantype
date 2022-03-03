@@ -5,7 +5,7 @@
 //     * the first entry is the original text (written German)
 //     * the second entry is an array describing a steno pattern
 //   * the same input text can appear multiple times to allow multiple distinct steno patterns
-//   * e.g. "c" points to GDM (in the onset) and +G (in the coda of a syllable)
+//   * e.g. "c" points to GDW (in the onset) and +G (in the coda of a syllable)
 //   * the arry describing the steno patterns has at least two values
 //     * the first value is the greediness (see below)
 //     * the second value is one or more steno keys
@@ -94,10 +94,10 @@
 , [ "bio" , [4, "BJO", "PatIJ"]]
 , [ "bt"  , [0, "+BD", "PatReplCommon"]]
 , [ "bts" , [0, "BSD", "PatSwapS"]]
-, [ "c"   , [0, "GDM-", "PatReplC"]]      // TODO: documentation; solution for c-/k- collisions
+, [ "c"   , [0, "GDW", "PatReplC"]]      // TODO: documentation; solution for c-/k- collisions
 , [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
 , [ "c"   , [0, "+G", "PatReplC"]]
-, [ "ç"   , [0, "GDM-", "PatReplC"]]      // U+00E7
+, [ "ç"   , [0, "GDWR", "PatReplC"]]      // U+00E7
 //, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
 //, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
 //, [ "ce"  , [3, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
@@ -344,7 +344,7 @@
 , [ "pts" , [0, "+BSD", "PatSwapS"]]     
 , [ "qa"  , [0, "GDA", "PatReplRare"]]
 , [ "qi"  , [0, "SJI", "PatReplRare"]]
-, [ "qu"  , [0, "GDW", "PatReplCommon"]]
+, [ "qu"  , [0, "GDJ", "PatReplCommon"]]
 , [ "r"   , [0, "R", "PatSimple"]]
 , [ "ren" , [6, "n", "PatShortSyllable"]]
 , [ "rh"  , [3, "R", "PatReplH"]]
@@ -536,8 +536,8 @@
 , [ "ckage"  , [0, "GDÄʃD", "PatAnglAE"]]    // e.g. package
 , [ "clou"   , [3, "GDLU", "PatAnglU"]]
 , [ "cloud"  , [0, "GDLAUD", "PatAnglAU"]]
-, [ "coa"    , [0, "GDMO", "PatAnglO"]]      // e.g. coa|chen
-, [ "code"   , [0, "GDMOD", "PatAnglO"]]
+, [ "coa"    , [0, "GDWO", "PatAnglO"]]      // e.g. coa|chen
+, [ "code"   , [0, "GDWOD", "PatAnglO"]]
 , [ "code"   , [4, "GDOD", "PatAnglO"]]
 , [ "cook"   , [0, "GDU+G", "PatAnglU"]]
 , [ "coo|k"  , [0, "GDU/GD-", "PatAnglU"]]
@@ -683,7 +683,7 @@
 , [ "pole"   , [0, "BDOL", "PatAnglO"]]      // e.g. Pole-Position
 , [ "plugged", [0, "BDLAGD", "PatAnglOther"]]
 , [ "puzz"   , [0, "BDAS", "PatAnglOther"]]
-, [ "queen"  , [0, "GDW~IN", "PatAnglI"]]
+, [ "queen"  , [0, "GDJ~IN", "PatAnglI"]]
 , [ "ral|lye", [0, "RAL/LI", "PatAnglI"]]
 , [ "res|sour", [0, "RES/S~U", "PatAnglU"]]
 , [ "ride"   , [0, "RAID", "PatAnglEI"]]
@@ -774,15 +774,15 @@
 , [ "asse" , [0, "AS", "PatFrankOther"]]
 , [ "beige", [0, "BEʃ", "PatFrankOther"]]
 , [ "bou|le",[0, "BU/LE", "PatFrankOther"]]    // e.g. boulevard
-, [ "carte", [0, "GDMAÜD", "PatFrankOther"]]    // think "kart"
+, [ "carte", [0, "GDWAÜD", "PatFrankOther"]]    // think "kart"
 , [ "charme", [0, "SJAÜM", "PatFrankOther"]]
 , [ "cierge", [0, "S~Iʃ", "PatFrankOther"]]
 , [ "ci|e|rge", [0, "S~Iʃ", "PatFrankOther"]]
-, [ "cole" , [0, "GDMOL", "PatFrankOther"]]     // e.g. Nicole
-, [ "cou|pon", [0, "GDMU/BDON", "PatFrankOther"]]
-, [ "creme", [0, "GDMREM", "PatFrankOther"]]
-, [ "coupe", [0, "GDMU+B", "PatFrankOther"]]     // schweizerisch
-, [ "coup" , [0, "GDMU", "PatFrankOther"]]
+, [ "cole" , [0, "GDWOL", "PatFrankOther"]]     // e.g. Nicole
+, [ "cou|pon", [0, "GDWU/BDON", "PatFrankOther"]]
+, [ "creme", [0, "GDWREM", "PatFrankOther"]]
+, [ "coupe", [0, "GDWU+B", "PatFrankOther"]]     // schweizerisch
+, [ "coup" , [0, "GDWU", "PatFrankOther"]]
 , [ "dou|ble", [0, "DU/BEL", "PatFrankOther"]]
 , [ "eau"  , [0, "O", "PatFrankOther"]]        // e.g. Chateau
 , [ "elle" , [0, "EL", "PatFrankOther"]]

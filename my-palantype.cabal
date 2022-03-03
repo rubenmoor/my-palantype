@@ -33,6 +33,7 @@ library
       Palantype.Common.Dictionary.Special
       Palantype.Common.Indices
       Palantype.Common.Internal
+      Palantype.Common.Internal.Instances
       Palantype.Common.KeyIndex
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
