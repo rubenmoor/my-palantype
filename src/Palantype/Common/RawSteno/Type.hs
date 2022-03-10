@@ -13,10 +13,12 @@ import Control.DeepSeq (NFData)
 import Data.Text (Text)
 import qualified Data.Text as Text
 import Control.Category ((<<<))
+import Data.Monoid (Monoid)
+import Data.Semigroup (Semigroup)
 
 newtype RawSteno = RawSteno { unRawSteno :: Text }
   deriving stock (Eq, Ord)
-  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable, NFData)
+  deriving newtype (FromJSON, ToJSON, FromJSONKey, ToJSONKey, Hashable, NFData, Monoid, Semigroup)
 
 instance TextShow RawSteno where
     showb = fromText <<< unRawSteno

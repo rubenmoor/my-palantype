@@ -162,7 +162,7 @@
 , [ "en"  , [6, "n", "PatShortSyllable"]]        // TODO: greedier: "ren" -> n
 // TODO: ent-: ENT should be valid, too, because BDN adds little efficiency
 // maybe BDN for ent^ (works already implicitly)
-, [ "ent"  , [4, "BDN", "PatCommonPrefix"]]     // TODO: documentation: ent = "tn" -> BDN
+, [ "ent"  , [7, "BDN", "PatCommonPrefix"]]     // TODO: documentation: ent = "tn" -> BDN
 , [ "er"   , [0, "EÜ", "PatCodaR"]]   
 , [ "er|"  , [5, "R", "PatShortSyllable"]]
 // "er"  : [0, "R", "EÜ"] // TODO: efficiency for "er" in onset
@@ -422,11 +422,11 @@
 , [ "trio", [4, "DJRO", "PatIJ"]]
 , [ "ts"  , [0, "SHM-", "PatReplRare"]]
 , [ "ts"  , [0, "+SD", "PatSwapS"]]
-, [ "ts"  , [3, "SD", "PatSwapS"]]
-, [ "tst" , [0, "Ss", "PatSwapS"]]
-, [ "ttst", [0, "Ss", "PatSwapS"]]
+, [ "ts"  , [3, "-SD", "PatSwapS"]]
+, [ "tst" , [0, "-Ss", "PatSwapS"]]
+, [ "ttst", [0, "-Ss", "PatSwapS"]]
 , [ "tts" , [0, "+SD", "PatSwapS"]]
-, [ "tts" , [3, "SD", "PatSwapS"]]
+, [ "tts" , [3, "-SD", "PatSwapS"]]
 , [ "tsch", [0, "SHJ", "PatReplRare"]]
 , [ "tsch", [3, "SJ", "PatReplRare"]]
 , [ "tsch", [0, "+ʃD", "PatSwapSch"]]
@@ -454,8 +454,8 @@
 , [ "u|ß" , [1, "~U/S", "PatSZ"]]
 , [ "uy"  , [0, "ÄO", "PatDiphtong"]]      // TODO: documentation
 , [ "ü"   , [0, "Ü", "PatSimple"]]
-, [ "über", [5, "BEÜ", "PatCommonPrefix"]]     
-, [ "ü|ber",[5, "BEÜ", "PatCommonPrefix", "no-doc"]]     // TODO: documentation: shortcut über BEÜ
+//, [ "über", [7, "BEÜ", "PatCommonPrefix"]]     
+, [ "ü|ber",[7, "BEÜ", "PatCommonPrefix", "no-doc"]]     // TODO: documentation: shortcut über BEÜ
 , [ "üe"  , [0, "Ü/E", "PatDiphtong", "no-doc"]]
 , [ "üe"  , [3, "Ü", "PatDiphtong"]]        // e.g. Bircher-Müesli
 , [ "üh"  , [0, "~Ü", "PatCodaH"]]
@@ -470,12 +470,12 @@
 , [ "ü|ß" , [1, "~ÜS", "PatSZ", "no-doc"]]
 , [ "ü|ß" , [1, "~Ü/S", "PatSZ"]]
 , [ "v"   , [0, "FW", "PatReplCommon"]]
-, [ "v"   , [3, "F", "PatReplCommon"]]
+, [ "v"   , [3, "F-", "PatReplCommon"]]
 , [ "v"   , [0, "-F", "PatReplCommon"]]
-, [ "ver|", [5, "F", "PatCommonPrefix"]]
+, [ "ver|" , [7, "F-", "PatCommonPrefix"]]
 , [ "w"   , [0, "W", "PatSimple"]]
 , [ "w"   , [0, "-F", "PatReplCommon"]]
-, [ "wie|der", [5, "WI+", "PatCommonPrefix"]]
+, [ "wie|der", [7, "WI+", "PatCommonPrefix"]]
 , [ "x"    , [0, "GDM-", "PatReplCommon"]]      // TODO: documentation
 , [ "x"    , [0, "+GS", "PatReplCommon"]]
 , [ "y"    , [0, "J", "PatReplCommon"]]

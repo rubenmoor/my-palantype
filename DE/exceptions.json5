@@ -82,7 +82,7 @@
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIG/GE"]      // < knicke
-, ["Kampagne",      "GDAM/BDAN/JE", "PatSCOther", "GDAM/BDAÜG/NE", "PatCodaGK"]
+, ["Kampagne",      "GDAM/BDAN/JE", "PatSCOther", "GDAM/BDAÜG/NE", "PatReplCommon"]
 , ["kam",           "GDAÜM", "PatSCStretch"]
 , ["Kerle",         "GDEÜ+/LE", "PatSCPlus"]
 , ["Kommiss",       "GDOM/MISs", "PatSCOther"]    // < Kommis

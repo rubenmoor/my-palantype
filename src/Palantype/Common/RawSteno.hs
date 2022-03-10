@@ -63,8 +63,11 @@ import qualified Data.List.NonEmpty as NonEmpty
 import Palantype.Common.TH (fromJust)
 import Data.List ( partition, head )
 import Data.List.NonEmpty (nonEmpty)
-import Control.Category ((<<<))
 
+{-|
+render a chord to raw steno code,
+placing a hyphen to avoid ambiguity
+-}
 fromChord :: forall k . Palantype k => Chord k -> RawSteno
 fromChord (Chord []) = fromText ""
 fromChord (Chord lsKey) =
@@ -103,6 +106,10 @@ fromChord (Chord lsKey) =
         let as = fmap toFinger $ $fromJust $ toKeys @k $ keyCode k
         in  if length as > 1 then Just $ f as else Nothing
 
+{-|
+unsafely wrap a text into RawSteno
+if you want to validate the steno, use `parseSteno`
+-}
 fromText :: Text -> RawSteno
 fromText = RawSteno
 

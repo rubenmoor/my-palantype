@@ -36,6 +36,8 @@ module Palantype.Common.Dictionary.Commands
     , kiDown
     , kiEnter
     , kiChordsStart
+    , kiPageUp
+    , kiPageDown
     , strModeSteno
     ) where
 
@@ -102,17 +104,16 @@ dictUnmodifiable = keysUnmodifiable <&> \(strPlover, strSteno) ->
    , strPlover
    )
 
-{-|
-arrow key: up
--}
-kiUp :: KIChord
-kiUp = mkKIChordSimple "up"
-
 mkKIChordSimple :: Text -> KIChord
 mkKIChordSimple str =
     let strSteno = Text.singleton $ $fromJust $ lookup str keysModifiable
     in  $parseChordDE $ Raw.fromText $
             toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
+{-|
+arrow key: up
+-}
+kiUp :: KIChord
+kiUp = mkKIChordSimple "up"
 
 {-|
 arrow key: down
@@ -131,3 +132,15 @@ the word "Start" in two versions
 -}
 kiChordsStart :: [KIChord]
 kiChordsStart = $parseChordDE . Raw.fromText <$> ["SDAÜD", "SDAÜ+D"]
+
+{-|
+page up key
+-}
+kiPageUp :: KIChord
+kiPageUp = mkKIChordSimple "page_up"
+
+{-|
+page down key
+-}
+kiPageDown :: KIChord
+kiPageDown = mkKIChordSimple "page_down"
