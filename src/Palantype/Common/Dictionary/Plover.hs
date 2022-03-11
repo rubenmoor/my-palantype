@@ -53,6 +53,7 @@ lsCommands =
     , ("{^©}"         , "GDM-") -- c like copyright
     , ("€"            , "E"   ) -- e like euro
     , ("—"            , "~Ü"  ) -- em dash/Geviertstrich
+    , ("{^s^}"        , "s"   ) -- attach s and attach next word
 
     -- parentheses
     , ("{«^}"  , "+" ) -- guillemet: attach to next word

@@ -4,7 +4,8 @@
 , ["Abstract",      "ÄBS/DJRÄ+GD", "PatAnglAE"]
 //, "Ahne"        : ["A/NE"]
 //, "Ahnen"       : ["A/NEN", "A/Nn"]
-, ["alle",          "LL", "PatBrief", "AL/LE", "PatSimple"]
+, ["alle",          "LAL", "PatBrief", "AL/LE", "PatSimple"]
+, ["alles",          "LALS", "PatBrief", "AL/LES", "PatSimple"]
 , ["Aorta",         "A/~O/DJA", "PatCodaR"]
 , ["Amman",         "AM/MAÜN", "PatSCStretch"]      // < Ammann
 , ["Aortenklappe",  "A/~O/DJEN/GDLA+B/BDE", "PatCodaR"]
@@ -62,7 +63,7 @@
 //, ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"] // greediness /= 0!
 , ["Haydn",         "HAI/DN", "PatSCOther"]
 , ["hehr",          "HEÜ+", "PatSCPlus"]         // < her
-, ["Hemd",          "BDJNN/HEMD", "PatCapitalize"]
+, ["Hemd",          "D-/HEMD", "PatCapitalize"]
 //, ["Hertz",         "HEÜ+Ss", "PatSCPlus"]       // < Herz
 , ["hey",           "HÄI", "PatAnglAI"]
 , ["Hofmann",       "H~OF/MA+N", "PatSCStretch"]
@@ -96,19 +97,19 @@
 //, "lass"        : ["LASs", "PatSCOther"]         // < las
 , ["Lausanne",      "LO/SAN", "PatFrankOther"]
 , ["Lead",          "L~I+D", "PatSCStretch"]
-, ["Lek",           "BDJNN/LEÜ+G", "PatSCStretch"]
+, ["Lek",           "D-/LEÜ+G", "PatSCStretch"]
 , ["Lindbergh",     "LIND/BEÜ+G", "PatSCStretch"]    
 // , "litt"        : ["LI+D"]         // < Lid
 // , "Lit"         : ["L~I+D"]        // < Lied
-, ["Log",           "BDJNN/LO+G", "PatSCPlus"]         // < Lok
+, ["Log",           "D-/LO+G", "PatSCPlus"]         // < Lok
 //, ["Logbuch",       "LOG/BUGʃ", "PatSCOther"]
 //, ["Logdatei",      "LOG/DA/DJEI", "PatSCOther"]
 //, ["Logfile",       "LOG/FAIL", "PatSCOther"]
 , ["Madame",        "MA/DAM", "PatFrankOther"]
 , ["Made|leine",    "MAD/LEN", "PatFrankOther"]
 , ["Maia",          "MAI/A", "PatSCOther"]
-, ["Mall",          "BDJNN/M~OL", "PatAnglStretchO"]
-, ["Met",           "BDJNN/MEÜ+D", "PatSCStretch"]
+, ["Mall",          "D-/M~OL", "PatAnglStretchO"]
+, ["Met",           "D-/MEÜ+D", "PatSCStretch"]
 , ["Mayer",         "MAI+/EÜ", "PatSCPlus"]
 , ["ml",            "NÜM/ML-", "PatAcronym"]
 , ["Modell",        "M~O/DEL", "PatSCPlus"] // < Model
@@ -124,7 +125,7 @@
 , ["Oker",          "~O/GDEÜ", "PatSCStretch"]      // < ocker
 , ["Oud",           "O/UD", "PatSCOther"]
 , ["pah",           "BDAÜ+", "PatSCPlus"]        // < par
-, ["Pakt",          "BDJNN/BDA+GD", "PatCapitalize"]
+, ["Pakt",          "D-/BDA+GD", "PatCapitalize"]
 , ["Piek",          "BD~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "BDI+S", "PatSCPlus"]        // < Pilz
 , ["Polizei",       "BDO/LI/SHMEI", "PatReplCommon", "SHMEI", "PatBrief"]
@@ -144,19 +145,20 @@
 , ["sol",           "S~OL", "PatSCStretch"]         // < soll
 , ["sinnt",         "SI+ND", "PatSCPlus"]        // < sind
 , ["Sir",           "SI+", "PatAnglI"]          // < Sie
-, ["Span",          "BDJNN/BFAÜN", "PatSCStretch"]
+, ["Span",          "D-/BFAÜN", "PatSCStretch"]
 , ["spuken",        "BF~U/GDEN", "PatSCStretch", "BF~U+Gn", "PatSCStretch"]      // < spucken
 , ["spundig",      "BFU+N/DIG", "PatSCPlus"]    // < pfundig
 //, "Speiseopfer" : ["BFEI/SE/OP/FEÜ", "PatSpecialCase"]
 , ["stad",          "SDAÜD", "PatSCStretch"]        // austria "still"
+, ["Stil",          "D-/SDIL", "PatCapitalize"]     // < still
 , ["stob",          "SD~OB", "PatSCStretch"]        // < stopp, stop
 , ["Suisse",        "SWIS", "PatFrankOther"]
 , ["Task",          "DJA+GS", "PatAnglOther"]
-, ["Tête-à-Tête",   "BDJNN/DJED", "PatBrief", "BDJNN/DJED/HINF/A/HINF/DJED", "PatFrankOther"]
+, ["Tête-à-Tête",   "D-/DJED", "PatBrief", "D-/DJED/HINF/A/HINF/DJED", "PatFrankOther"]
 , ["Teaser",        "DJ~I/SEÜ", "PatAnglI"]
 , ["Timm",          "DJIM/M-", "PatSCOther"]
 , ["tja",           "DJA", "PatSCOther"]   
-, ["Top",           "BDJNN/DJO+B", "PatAnglO"]
+, ["Top",           "D-/DJO+B", "PatAnglO"]
 , ["Track",         "DJRÄ+G", "PatAnglA"]
 , ["Truck",         "DJRA+G", "PatAnglA"]
 , ["Trucks",        "DJRA+GS", "PatAnglA"]
