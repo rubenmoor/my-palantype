@@ -5,20 +5,20 @@
 //     * the first entry is the original text (written German)
 //     * the second entry is an array describing a steno pattern
 //   * the same input text can appear multiple times to allow multiple distinct steno patterns
+/      that will give options to the algorithm and ultimately to the user
 //   * e.g. "c" points to GDW (in the onset) and +G (in the coda of a syllable)
-//   * the arry describing the steno patterns has at least two values
+//   * the arry describing the steno patterns has at least three values
 //     * the first value is the greediness (see below)
-//     * the second value is one or more steno keys
-//     * a / in the steno keys is allowed and marks a new chord
-//     * e.g. "Meer" maps to "ME/EÜ" due to the pattern for "eer"
-//     * the patterns containing / require part-length information
-//         * in patterns w/o / the part-length is equal to the length of the original text
-//         * in patterns with /, the part-length is given by a number
-//         * e.g. in "eer", [0, "E/EÜ", 1] the length of the first part is 1,
-//           corresponding to the first "e" in "eer"
-//         * the length of the second part is the length of the remaining text "er", 2
-//   * greediness is a number from 0 to the current maximum of 2
-//     * 0 corresponds to the minimum complete set of steno pattern
+//     * the second value is a string of one or more steno keys, i.e. a raw steno code
+//     * the third value puts the pattern in a group, which determine where it will show up in
+//       the automated documentation, where patterns are grouped by "pattern group" and greediness
+//     * the optional fourth value is "no-doc" and suppresses automated documentation for that pattern;
+//       the idea is that some patterns are confusing by itself and already sufficiently documented in
+//       another patterns
+//     * a / (slash) in the raw steno code is allowed and marks a new chord
+//         * e.g. "Meer" maps to "ME/EÜ" due to the pattern for "eer"
+//   * greediness is a number from 0 to the current maximum of 7, but any number works
+//     * 0 corresponds to the minimum complete set of steno patterns
 //     * every letter of original text must be covered by at least one greediness-0-pattern (G0-patterns)
 //     * 1 is used for collision avoidance; when the regular pattern implies a lot of collisions,
 //       it is replaced by an inefficient pattern at greediness 0 and the regular pattern 
@@ -30,8 +30,6 @@
 //   * the order of the entries does not matter, but should stay lexicographic for readability
 //   * patterns for words (or syllables) of english or french origin,
 //     are at the bottom (this isn't a 100% accurate)
-//   * patterns that describe entire syllables (usually syllables that don't follow the common
-//     rules) are at the bottom ("whole syllable exceptions")
 //   * patterns that describe entire words have their own file (exceptions.json5)
 [ [ "a"   , [0, "A", "PatSimple"]]
 , [ "á"   , [0, "A", "PatSimple"]]
@@ -87,23 +85,23 @@
 , [ "b"   , [0, "B", "PatSimple"]]
 , [ "bar|bier", [0, "BAÜ/B~I+", "PatSCPlus"]]
 , [ "bb"  , [0, "-B", "PatDiConsonant"]]
-, [ "be|"  , [5, "B-", "PatShortSyllable"]]
+, [ "be"  , [6, "b", "PatShortSyllable"]]
 // , "beau|ty" : [0, "BJU/DJI"] // / is allowed, but this pattern fails for the more efficient (but wrong
 //                              pattern eau, thus: full word exception
-, [ "bi|o", [4, "BJO", "PatIJ", "no-doc"]]
-, [ "bio" , [4, "BJO", "PatIJ"]]
-, [ "bt"  , [0, "+BD", "PatReplCommon"]]
-, [ "bts" , [0, "BSD", "PatSwapS"]]
-, [ "c"   , [0, "GDW", "PatReplC"]]      // TODO: documentation; solution for c-/k- collisions
-, [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
+//, [ "bi|o", [4, "BJO", "PatIJ", "no-doc"]]
+//, [ "bio" , [4, "BJO", "PatIJ"]]
+, [ "bt"  , [0, "-+BD", "PatReplCommon"]]
+, [ "bts" , [0, "-BSD", "PatSwapS"]]
+, [ "c"   , [0, "DʃG-", "PatReplC"]]
+//, [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
 , [ "c"   , [0, "+G", "PatReplC"]]
-, [ "ç"   , [0, "GDWR", "PatReplC"]]      // U+00E7
+, [ "ç"   , [0, "DʃGM-", "PatReplC"]]      // U+00E7
 //, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
 //, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
 //, [ "ce"  , [3, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
 //, [ "ce"  , [6, "-Ss", "PatReplC"]]
-, [ "ch"  , [0, "SHJ", "PatReplCommon"]]
-, [ "ch"  , [3, "SJ", "PatReplCommon"]]
+, [ "ch"  , [0, "ʃG-", "PatReplCommon"]]
+//, [ "ch"  , [3, "SJ", "PatReplCommon"]]
 , [ "ch"  , [0, "-Gʃ", "PatReplCommon"]]
 , [ "chia", [0, "SJA", "PatReplRare"]]
 , [ "chio", [0, "SJO", "PatReplRare"]]

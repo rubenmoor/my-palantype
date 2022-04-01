@@ -34,25 +34,25 @@ import Data.Foldable (Foldable(elem))
 
 -- the palantype.de keyboard
 --
--- S|Z   H/e  M  L       .     + G    F/W/V  -s/-er
--- B|P   D|T  J  N       .     L N    S/Z|Tz D/T
--- G|K   F/V  W  R/er-   .     M B|P  ʃ|ç    -en
--- thumb      Ä  E  A ~  . U I O Ü
+-- v ʃ G M         M G ʃ s
+-- D S N +         + N S D
+-- b F B L         L B F n
+--     Ä E A ~ U I O Ü
 
 -- a key on a steno keyboard
 data Key
-  = LeftSZ
-  | LeftBP
-  | LeftGK
-  | LeftHE
-  | LeftDT
-  | LeftFV
-  | LeftM
-  | LeftJ
-  | LeftW
-  | LeftL
+  = LeftVSmall
+  | LeftD
+  | LeftBSmall
+  | LeftSch
+  | LeftS
+  | LeftF
+  | LeftG
   | LeftN
-  | LeftREr
+  | LeftB
+  | LeftM
+  | LeftPlus
+  | LeftL
   | LeftAUmlaut
   | LeftE
   | LeftA
@@ -61,36 +61,36 @@ data Key
   | RightI
   | RightOStretch
   | RightUUmlaut
-  | RightModifier
-  | RightL
   | RightM
-  | RightGK
+  | RightPlus
+  | RightL
+  | RightG
   | RightN
-  | RightBP
-  | RightFWVIv
-  | RightSZTz
-  | RightSchCh
-  | RightSE
-  | RightDT
-  | RightEn
+  | RightB
+  | RightSch
+  | RightS
+  | RightF
+  | RightSSmall
+  | RightD
+  | RightNSmall
   deriving stock (Eq, Ord, Data)
 
 instance Palantype Key where
     type PatternGroup Key = Pattern
 
     keyCode = \case
-        LeftSZ        -> 'S'
-        LeftBP        -> 'B'
-        LeftGK        -> 'G'
-        LeftHE        -> 'H'
-        LeftDT        -> 'D'
-        LeftFV        -> 'F'
-        LeftM         -> 'M'
-        LeftJ         -> 'J'
-        LeftW         -> 'W'
-        LeftL         -> 'L'
+        LeftVSmall    -> 'v'
+        LeftD         -> 'D'
+        LeftBSmall    -> 'b'
+        LeftSch       -> 'ʃ'
+        LeftS         -> 'S'
+        LeftF         -> 'F'
+        LeftG         -> 'G'
         LeftN         -> 'N'
-        LeftREr       -> 'R'
+        LeftB         -> 'B'
+        LeftM         -> 'M'
+        LeftPlus      -> '+'
+        LeftL         -> 'L'
         LeftAUmlaut   -> 'Ä'
         LeftE         -> 'E'
         LeftA         -> 'A'
@@ -99,18 +99,18 @@ instance Palantype Key where
         RightI        -> 'I'
         RightOStretch -> 'O'
         RightUUmlaut  -> 'Ü'
-        RightModifier -> '+'
-        RightL        -> 'L'
         RightM        -> 'M'
-        RightGK       -> 'G'
+        RightPlus     -> '+'
+        RightL        -> 'L'
+        RightG        -> 'G'
         RightN        -> 'N'
-        RightBP       -> 'B'
-        RightFWVIv    -> 'F'
-        RightSZTz     -> 'S'
-        RightSchCh    -> 'ʃ' -- U+0283
-        RightSE       -> 's'
-        RightDT       -> 'D'
-        RightEn       -> 'n'
+        RightB        -> 'B'
+        RightSch      -> 'ʃ' -- U+0283
+        RightS        -> 'S'
+        RightF        -> 'F'
+        RightSSmall   -> 's'
+        RightD        -> 'D'
+        RightNSmall   -> 'n'
 
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize
@@ -130,16 +130,24 @@ instance Palantype Key where
       PatDiphtong -> "Multiple vowels"
       PatReplC -> "Different replacements for c"
 
-      -- TODO
+      -- TODO: https://github.com/rubenmoor/palantype-tools/issues/36
       PatCodaGK -> "G and k in the coda"
 
       PatSZ -> "The letter ß"
+
+      -- TODO: there's no J anymore
       PatIJ -> "Using J for i"
+
       PatSwapS -> "S-swapping in the coda"
       PatSwapSch -> "Sch-swapping in the coda"
       PatSwapZ -> "Z-swapping in the coda"
       PatDiVowel -> "Double vowels"
+
+      -- TODO: extra rule for th, both for coda and onset
+      -- TODO: common replacement for h in onset
       PatReplH -> "Replacing a silent h"
+
+      -- TODO: rework
       PatReplRare -> "Replacements for less common letters"
       PatSCStretch -> "Irregular stretch key"
       PatSCPlus -> "Irregular plus key"
@@ -181,24 +189,28 @@ instance Palantype Key where
 instance TextShow Key where
     showb k =
         let ambiguousLeft =
-                [ LeftSZ
-                , LeftBP
-                , LeftGK
-                , LeftDT
-                , LeftFV
-                , LeftM
-                , LeftL
+                [ LeftD
+                , LeftSch
+                , LeftS
+                , LeftF
+                , LeftG
                 , LeftN
+                , LeftB
+                , LeftM
+                , LeftPlus
+                , LeftL
                 ]
             ambiguousRight =
-                [ RightL
-                , RightM
-                , RightGK
+                [ RightM
+                , RightPlus
+                , RightL
+                , RightG
                 , RightN
-                , RightBP
-                , RightFWVIv
-                , RightSZTz
-                , RightDT
+                , RightB
+                , RightSch
+                , RightS
+                , RightF
+                , RightD
                 ]
             prefix = if k `elem` ambiguousRight then "-" else ""
             suffix = if k `elem` ambiguousLeft  then "-" else ""
