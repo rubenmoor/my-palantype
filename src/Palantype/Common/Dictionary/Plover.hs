@@ -56,18 +56,18 @@ lsCommands =
     , ("{^s^}"        , "s"   ) -- attach s and attach next word
 
     -- parentheses
-    , ("{«^}"  , "+" ) -- guillemet: attach to next word
-    , ("{^»}"  , "-G") --            attach
-    , ("{„^}"  , "-L") -- german quotation marks: attach to next word
-    , ("{^“}"  , "-N") --                         attach
-    , ("{‹^}"  , "-M") -- chevron: attach to next word
-    , ("{^›}"  , "-B") --          attach
-    , ("{[^}"  , "-F") -- square brackets: attach to next word
-    , ("{^]}"  , "s" ) --                  attach
-    , ("{(^}"  , "-S") -- parenthesis: attach to next word
-    , ("{^)}"  , "-D") --              attach
-    , ("{\\{^}", "ʃ" ) -- brackets: attach to next word
-    , ("{^\\}}", "n" ) --           attach
+    , ("{«^}"  , "+G" ) -- guillemet: attach to next word
+    , ("{^»}"  , "-Fs") --            attach
+    , ("{„^}"  , "-L" ) -- german quotation marks: attach to next word
+    , ("{^“}"  , "-N" ) --                         attach
+    , ("{‹^}"  , "-M" ) -- chevron: attach to next word
+    , ("{^›}"  , "-B" ) --          attach
+    , ("{[^}"  , "ʃ"  ) -- square brackets: attach to next word
+    , ("{^]}"  , "n"  ) --                  attach
+    , ("{(^}"  , "-S" ) -- parenthesis: attach to next word
+    , ("{^)}"  , "-D" ) --              attach
+    , ("{\\{^}", "+"  ) -- brackets: attach to next word
+    , ("{^\\}}", "-G" ) --           attach
 
     -- ascii smileys
     , ("¯\\_(ツ)_/¯"   , "SLNSD" )
