@@ -16,8 +16,8 @@ import qualified Data.Text as Text
 import Data.Function (($))
 import Palantype.Common.Class (Palantype(toKeys))
 import Data.Tuple (snd, fst)
-import Data.Ord (Ord((<), (>=)))
-import Palantype.DE.Keys (Key(LeftL, RightFWVIv))
+import Data.Ord (Ord((<), (>)))
+import Palantype.DE.Keys (Key(LeftM, RightL))
 import Data.Foldable (Foldable(maximum, minimum))
 import Data.Maybe (fromMaybe)
 
@@ -75,7 +75,7 @@ toStenoStrLeftHand strModeSteno modPrim modSec strSteno =
             ModSecNone  -> ""
             ModSecShift -> "S"
     in     strSteno'
-        <> ( if lastLeft < LeftL then "-" else "" )
+        <> ( if lastLeft < LeftM then "-" else "" )
         <> strModeSteno
         <> stenoSec
         <> stenoPrim
@@ -89,16 +89,16 @@ toStenoStrRightHand strModeSteno modPrim modSec strSteno =
           $ toKeys $ fst $ $fromJust $ Text.uncons strSteno'
         stenoPrim = case modPrim of
             ModPrimNone  -> ""
-            ModPrimCtrl  -> "H"
+            ModPrimCtrl  -> "v"
             ModPrimWin   -> "D"
-            ModPrimAlt   -> "F"
+            ModPrimAlt   -> "b"
         stenoSec = case modSec of
             ModSecNone  -> ""
-            ModSecShift -> "B"
+            ModSecShift -> "S"
     in     stenoSec
         <> stenoPrim
         <> strModeSteno
-        <> ( if fstRight >= RightFWVIv then "-" else "" )
+        <> ( if fstRight > RightL then "-" else "" )
         <> strSteno'
 
 {-|

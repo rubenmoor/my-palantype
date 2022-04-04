@@ -5,7 +5,7 @@
 //     * the first entry is the original text (written German)
 //     * the second entry is an array describing a steno pattern
 //   * the same input text can appear multiple times to allow multiple distinct steno patterns
-/      that will give options to the algorithm and ultimately to the user
+//     that will give options to the algorithm and ultimately to the user
 //   * e.g. "c" points to GDW (in the onset) and +G (in the coda of a syllable)
 //   * the arry describing the steno patterns has at least three values
 //     * the first value is the greediness (see below)
@@ -46,7 +46,7 @@
 , [ "ahr" , [0, "AÜ+", "PatCodaHR"]]
 , [ "ahrt", [0, "AÜ+D", "PatCodaHR"]]
 , [ "ak"  , [3, "AÜ+G", "PatCodaGK"]]
-, [ "a|k" , [3, "AÜ/GD-", "PatCodaGK"]]
+, [ "a|k" , [3, "AÜ/G+-", "PatCodaGK"]]
 , [ "a|k" , [3, "AÜ+G", "PatCodaGK"]]
 , [ "ar"  , [0, "AÜ", "PatCodaR"]]
 , [ "år"  , [0, "AÜ", "PatCodaR"]]          // Ux00E5
@@ -94,25 +94,25 @@
 , [ "bts" , [0, "-BSD", "PatSwapS"]]
 , [ "c"   , [0, "DʃG-", "PatReplC"]]
 //, [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
-, [ "c"   , [0, "+G", "PatReplC"]]
+, [ "c"   , [0, "-+G", "PatReplC"]]
 , [ "ç"   , [0, "DʃGM-", "PatReplC"]]      // U+00E7
 //, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
 //, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
 //, [ "ce"  , [3, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
 //, [ "ce"  , [6, "-Ss", "PatReplC"]]
-, [ "ch"  , [0, "ʃG-", "PatReplCommon"]]
+, [ "ch"  , [0, "ʃB-", "PatReplCommon"]]
 //, [ "ch"  , [3, "SJ", "PatReplCommon"]]
-, [ "ch"  , [0, "-Gʃ", "PatReplCommon"]]
-, [ "chia", [0, "SJA", "PatReplRare"]]
-, [ "chio", [0, "SJO", "PatReplRare"]]
-, [ "chs" , [0, "+GS", "PatReplCommon"]]
-, [ "chts", [0, "+GʃD/-S", "PatSwapSch"]]
-, [ "chts", [2, "+Gʃs", "PatSwapSch"]]
+, [ "ch"  , [0, "-Bʃ", "PatReplCommon"]]
+//, [ "chia", [0, "ʃA", "PatReplRare"]]
+//, [ "chio", [0, "ʃO", "PatReplRare"]]
+, [ "chs" , [0, "-+GS", "PatReplCommon"]]
+, [ "cht", [0, "-BʃD", "PatReplCommon"]]
+, [ "chts", [2, "-+Bʃs", "PatSwapSch"]]
 //, [ "ci"  , [0, "SHMI", "PatReplC"]]
-, [ "ci"  , [3, "GDJ", "PatReplC"]]
+//, [ "ci"  , [3, "GDJ", "PatReplC"]]
 //, [ "cia" , [0, "SHJA", "PatReplC"]]
-, [ "ck"  , [0, "GD-", "PatReplCommon"]]
-, [ "ck"  , [0, "+G", "PatReplCommon"]]
+, [ "ck"  , [0, "G+-", "PatReplCommon"]]
+, [ "ck"  , [0, "-+G", "PatReplCommon"]]
 , [ "d"   , [0, "D", "PatSimple"]]
 , [ "daq" , [0, "DAG", "PatReplRare"]]     // e.g. Nasdaq
 , [ "dd"  , [0, "-D", "PatDiConsonant"]]
@@ -120,16 +120,13 @@
 , [ "de|"  , [5, "D-", "PatShortSyllable"]]
 , [ "dh"  , [0, "D", "PatReplH"]]       // Abu-Dhabi, Buddhist
 , [ "di|"  , [5, "D-", "PatShortSyllable"]]
-, [ "dia" , [0, "DI/A", "PatSimple", "no-doc"]]  // TODO documenation ia-rule
-, [ "dia" , [4, "DJA", "PatIJ"]]      // TODO documenation ia-rule
+//, [ "dia" , [0, "DI/A", "PatSimple", "no-doc"]]
+//, [ "dia" , [4, "DA", "PatIJ"]]
 , [ "ds"  , [0, "-SD", "PatSwapS"]]
-, [ "dsch", [0, "SDJ", "PatReplCommon"]]      // note: also "ps" = SDJ TODO: documentation
 , [ "dt"  , [1, "-D", "PatDt"]]
 , [ "dt"  , [0, "-D/-D", "PatDt"]]
 , [ "duis", [0, "DÜS", "PatDiphtong"]]
 , [ "e"   , [0, "E", "PatSimple"]]
-//, [ "e"   , [4, "s"]]
-// , "e"   : [0, "e"] // TODO: greedier: -e
 , [ "é"   , [3, "E", "PatSimple"]]
 , [ "é"   , [0, "E+", "PatReplCommon"]]
 , [ "è"   , [0, "E", "PatSimple"]]
@@ -152,17 +149,15 @@
 , [ "eiß" , [0, "EI+S", "PatSZ"]]
 , [ "eiß" , [1, "EIS", "PatSZ"]]
 , [ "ei|ß", [0, "EI+S", "PatSZ", "no-doc"]]
-, [ "ei|ß", [0, "EI+/S", "PatSZ", "no-doc"]]
 , [ "ei|ß", [1, "EIS", "PatSZ", "no-doc"]]
-, [ "ei|ß", [1, "EI/S", "PatSZ"]]
 , [ "ej"  , [0, "EI", "PatReplCommon"]]
 //, [ "en"  , [6, "N-", "PatShortSyllable"]]  // causes conflict with Dictionary.Commands, and some confusing patterns
 , [ "en"  , [6, "n", "PatShortSyllable"]]        // TODO: greedier: "ren" -> n
 // TODO: ent-: ENT should be valid, too, because BDN adds little efficiency
 // maybe BDN for ent^ (works already implicitly)
-, [ "ent"  , [7, "BDN", "PatCommonPrefix"]]     // TODO: documentation: ent = "tn" -> BDN
+//, [ "ent"  , [7, "BDN", "PatCommonPrefix"]]     // TODO: documentation: ent = "tn" -> BDN
 , [ "er"   , [0, "EÜ", "PatCodaR"]]   
-, [ "er|"  , [5, "R", "PatShortSyllable"]]
+, [ "er|"  , [5, "M-", "PatShortSyllable"]]
 // "er"  : [0, "R", "EÜ"] // TODO: efficiency for "er" in onset
 , [ "err"  , [0, "EÜ+", "PatCodaRR"]]
 , [ "errt" , [0, "E+D", "PatCodaRR"]]
@@ -170,37 +165,34 @@
 , [ "eß"   , [1, "EÜS", "PatSZ"]]
 , [ "e|ß"  , [0, "EÜ+S", "PatSZ", "no-doc"]]
 , [ "e|ß"  , [1, "EÜS", "PatSZ", "no-doc"]]
-, [ "e|ß"  , [1, "EÜ/S", "PatSZ"]]
 , [ "euß"  , [0, "EU+S", "PatSZ"]]
 , [ "euß"  , [1, "EUS", "PatSZ"]]
 , [ "eu|ß" , [0, "EU+S", "PatSZ", "no-doc"]]
 , [ "eu|ß" , [1, "EUS", "PatSZ", "no-doc"]]
-, [ "eu|ß" , [1, "EU/S", "PatSZ"]]
 , [ "ey"   , [0, "ÄI", "PatDiphtong"]]
 , [ "f"    , [0, "F", "PatSimple"]]
 , [ "ff"   , [0, "-F", "PatDiConsonant"]]
 , [ "f|f"  , [4, "F-", "PatDiConsonant", "no-doc"]]
 , [ "fluor", [0, "FLU/~O", "PatDiphtong", "no-doc"]]
 , [ "fluo" , [0, "FLU/O", "PatDiphtong", "no-doc"]]
-, [ "fft"  , [0, "+FD", "PatReplCommon"]]
-, [ "ft"   , [0, "+FD", "PatReplCommon"]]
-, [ "fts"  , [0, "+FD/-S", "PatSwapS"]]
-, [ "fts"  , [2, "+Fs", "PatSwapS"]]
+, [ "fft"  , [0, "-+FD", "PatReplCommon"]]
+, [ "ft"   , [0, "-+FD", "PatReplCommon"]]
+, [ "fts"  , [2, "-+Fs", "PatSwapS"]]
 , [ "g"    , [0, "G", "PatSimple"]]
 , [ "gg"   , [0, "-G", "PatDiConsonant"]]
 , [ "ge|"  , [5, "G-", "PatShortSyllable"]]
-, [ "gt"   , [0, "+GD", "PatReplCommon"]]
-, [ "gt"   , [3, "GD", "PatReplCommon"]]
-, [ "gts"  , [0, "GSD", "PatSwapS"]]
+, [ "gt"   , [0, "-+GD", "PatReplCommon"]]
+, [ "gt"   , [3, "-GD", "PatReplCommon"]]
+, [ "gts"  , [0, "-GSD", "PatSwapS"]]
 , [ "gui"  , [0, "GI", "PatDiphtong"]]
-, [ "h"    , [0, "H", "PatSimple"]]
-, [ "ha|waii", [0, "HA/WAI", "PatSCOther"]]
-, [ "heia"  , [0, "HEI/A", "PatSimple", "no-doc"]]
-, [ "hei|ßa", [0, "HEI/SA+", "PatSCPlus"]] // TODO: check if ß in the onset causes more problems
-, [ "höff" , [0, "HÄO+F", "PatSCPlus"]]
+, [ "h"    , [0, "N+-", "PatSimple"]]
+, [ "ha|waii", [0, "N+A/FAI", "PatSCOther"]]
+, [ "heia"  , [0, "N+EI/A", "PatSimple", "no-doc"]]
+, [ "hei|ßa", [0, "N+EI/S+A", "PatSCPlus"]] // TODO: check if ß in the onset causes more problems
+, [ "höff" , [0, "N+ÄO+F", "PatSCPlus"]]
 , [ "i"    , [0, "I", "PatSimple"]]
 , [ "í"    , [0, "I", "PatSimple"]]
-, [ "ia"   , [0, "JA", "PatIJ"]]
+, [ "ia"   , [4, "A", "PatIJ"]]
 , [ "ie"   , [0, "~I", "PatCodaH"]]
 , [ "ie"   , [3, "I", "PatCodaH"]]
 , [ "ieh"  , [0, "~I", "PatCodaH"]]
@@ -209,55 +201,54 @@
 , [ "ieß"  , [1, "~IS", "PatSZ"]]
 , [ "ie|ß" , [0, "~I+S", "PatSZ", "no-doc"]]
 , [ "ie|ß" , [1, "~IS", "PatSZ", "no-doc"]]
-, [ "ie|ß" , [1, "~I/S", "PatSZ"]]
 , [ "ih"   , [0, "~I", "PatCodaH"]]
 , [ "ihr"  , [0, "~I+", "PatCodaHR"]]
 , [ "ihrt" , [0, "~I+D", "PatCodaHR"]]
-, [ "io"   , [0, "JO", "PatIJ"]]      // TODO: doesn't solve mio, wio, lio, nio, rio, note: i|o is addressed by syllable parser
+, [ "io"   , [4, "O", "PatIJ"]]
+, [ "iö"   , [4, "ÄO", "PatIJ"]]
 , [ "ir"   , [0, "~I", "PatCodaR"]]
 , [ "irr"  , [0, "I+", "PatCodaRR"]]
 , [ "irrt" , [0, "I+D", "PatCodaRR"]]
-, [ "ir|re", [0, "I+/RE", "PatSCPlus"]]       // < ihre
+, [ "ir|re", [0, "I+/ME", "PatSCPlus"]]       // < ihre
 , [ "iß"   , [0, "~I+S", "PatSZ"]]
 , [ "iß"   , [1, "~IS", "PatSZ"]]
 , [ "i|ß"  , [0, "~I+S", "PatSZ", "no-doc"]]
 , [ "i|ß"  , [1, "~IS", "PatSZ", "no-doc"]]
-, [ "i|ß"  , [1, "~I/S", "PatSZ"]]
 , [ "iv"   , [5, "-F", "PatShortSyllable"]]       // TODO: documentation
-, [ "j"    , [0, "J", "PatSimple"]]
-, [ "k"    , [0, "GD-", "PatReplCommon"]] 
-, [ "k"    , [0, "+G", "PatReplCommon"]]
-, [ "kh"   , [0, "GH", "PatReplH"]]
-, [ "kh"   , [3, "GD-", "PatReplH"]]       // Khmer
-, [ "kt"   , [3, "+GD", "PatReplCommon"]]       // Khmer
-, [ "kts"  , [0, "+GSD", "PatSwapS"]]
-, [ "kuit" , [0, "GDWID", "PatSCOther"]]     // e.g. Biskuit
+, [ "j"    , [0, "ʃ+-", "PatSimple"]]
+, [ "k"    , [0, "G+-", "PatReplCommon"]] 
+, [ "k"    , [0, "-+G", "PatReplCommon"]]
+//, [ "kh"   , [0, "GH", "PatReplH"]] // TODO
+, [ "kh"   , [3, "G+-", "PatReplH"]]       // Khmer
+, [ "kt"   , [3, "-+GD", "PatReplCommon"]]       // Khmer
+, [ "kts"  , [0, "-+GSD", "PatSwapS"]]
+, [ "kuit" , [0, "FG+ID", "PatSCOther"]]     // e.g. Biskuit
 // TODO: fe -> F maybe?
 // TODO: greedier: er : [0, "e"]
 , [ "l"   , [0, "L", "PatSimple"]]
-, [ "laie", [0, "LA/JE", "PatIJ", "no-doc"]]
+, [ "laie", [0, "LA/ʃ+E", "PatIJ", "no-doc"]]
 , [ "lern", [1, "LEÜ+N", "PatSCPlus"]]
-, [ "ler|n",[1, "LEÜ+/N", "PatSCPlus"]]
+, [ "ler|n",[1, "LEÜ+/N-", "PatSCPlus"]]
 , [ "lh"  , [0, "L", "PatReplH"]]       // e.g. Delhi
-, [ "lia" , [0, "JLA", "PatIJ"]]     // think "lia"/"ila"
-, [ "lio" , [0, "JLO", "PatIJ"]]     // think "lio"/"ilo"
+//, [ "lia" , [0, "JLA", "PatIJ"]]     // think "lia"/"ila"
+//, [ "lio" , [0, "JLO", "PatIJ"]]     // think "lio"/"ilo"
 , [ "lk"  , [0, "-LG", "PatReplCommon"]]
 , [ "ll"  , [0, "-L", "PatDiConsonant"]]
 , [ "l|l" , [4, "-L", "PatDiConsonant", "no-doc"]]
 , [ "lm"  , [0, "+", "PatReplCommon"]]
 , [ "lph" , [0, "-LBF", "PatReplRare"]]     // e.g. Ralph
-, [ "lt"  , [0, "LD", "PatReplCommon"]]
-, [ "lts" , [0, "LSD", "PatSwapS"]]
+, [ "lt"  , [0, "-LD", "PatReplCommon"]]
+, [ "lts" , [0, "-LSD", "PatSwapS"]]
 , [ "m"   , [0, "M", "PatSimple"]]
 , [ "mann", [0, "MA+N", "PatSCPlus"]]    // TODO: documentation
 , [ "mm"  , [0, "-M", "PatDiConsonant"]]
 , [ "m|m" , [4, "-M", "PatDiConsonant", "no-doc"]]
 , [ "me|"  , [5, "M-", "PatShortSyllable"]]
 , [ "mi|"  , [5, "M-", "PatShortSyllable"]]
-, [ "mia" , [0, "MI/A", "PatSimple", "no-doc"]]
-, [ "mio" , [0, "MI/O", "PatSimple", "no-doc"]]
-, [ "mt"  , [0, "MD", "PatReplCommon"]]
-, [ "mts"  , [0, "MSD", "PatSwapS"]]
+//, [ "mia" , [0, "MI/A", "PatSimple", "no-doc"]]
+//, [ "mio" , [0, "MI/O", "PatSimple", "no-doc"]]
+, [ "mt"  , [0, "-MD", "PatReplCommon"]]
+, [ "mts"  , [0, "-MSD", "PatSwapS"]]
 // TODO: "un" N
 , [ "n"   , [0, "N", "PatSimple"]]
 , [ "ñ"   , [0, "N", "PatSimple"]]
@@ -265,28 +256,27 @@
 , [ "nck" , [0, "-MN", "PatReplCommon"]]     // Planck
 , [ "ng"  , [0, "-MG", "PatReplCommon"]]
 , [ "n|gen",[6, "-MGn", "PatShortSyllable"]]    // TODO: documentation
-, [ "nia" , [0, "NI/A", "PatSimple", "no-doc"]]
-, [ "nia" , [4, "JNA", "PatIJ"]]    // think "nia"/"ina"
-, [ "nio" , [0, "NI/O", "PatSimple", "no-doc"]]
-, [ "nio" , [4, "JNO", "PatIJ"]]
+//, [ "nia" , [0, "NI/A", "PatSimple", "no-doc"]]
+//, [ "nia" , [4, "JNA", "PatIJ"]]    // think "nia"/"ina"
+//, [ "nio" , [0, "NI/O", "PatSimple", "no-doc"]]
+//, [ "nio" , [4, "JNO", "PatIJ"]]
 , [ "nc"  , [0, "-MN", "PatReplCommon"]]
-, [ "nft" , [0, "+NFD", "PatReplCommon"]]
-, [ "nfts", [0, "+NFD/-S", "PatSwapS"]]
+, [ "nft" , [0, "-+NFD", "PatReplCommon"]]
 , [ "nfts", [2, "+NFs", "PatSwapS"]]
 , [ "nk"  , [0, "-MN", "PatReplCommon"]]
 , [ "nn"  , [0, "-N", "PatDiConsonant"]]
 , [ "n|n" , [4, "-N", "PatDiConsonant", "no-doc"]]
 , [ "nsk" , [0, "-MGS", "PatReplRare"]]
-, [ "nnt" , [0, "+ND", "PatReplCommon"]]
+, [ "nnt" , [0, "-+ND", "PatReplCommon"]]
 , [ "nnt" , [3, "-ND", "PatReplCommon"]]
-, [ "nt"  , [0, "+ND", "PatReplCommon"]]
+, [ "nt"  , [0, "-+ND", "PatReplCommon"]]
 , [ "nt"  , [3, "-ND", "PatReplCommon"]]
-, [ "nts" , [0, "+NSD", "PatSwapS"]]
-, [ "ntsch", [0, "+NʃD", "PatSwapSch"]]
-, [ "ntscht", [0, "+NʃD/+D", "PatSwapSch"]]
-, [ "ntschst", [0, "+NʃD/s", "PatSwapSch"]]
-, [ "ntz" , [0, "-MGFD", "PatReplRare"]]
-, [ "nz"  , [0, "-MGF", "PatReplCommon"]]
+, [ "nts" , [0, "-+NSD", "PatSwapS"]]
+, [ "ntsch", [0, "-+NʃD", "PatSwapSch"]]
+, [ "ntscht", [0, "-+NʃD/-+D", "PatSwapSch"]]
+, [ "ntschst", [0, "-+NʃD/s", "PatSwapSch"]]
+, [ "ntz" , [0, "-MGʃD", "PatReplRare"]]
+, [ "nz"  , [0, "-MGʃ", "PatReplCommon"]]
 , [ "o"   , [0, "O", "PatSimple"]]
 , [ "ó"   , [0, "O", "PatSimple"]]
 , [ "ô"   , [0, "O", "PatSimple"]]
@@ -325,14 +315,15 @@
 , [ "ö|ß" , [0, "ÄO+S", "PatSZ", "no-doc"]]
 , [ "ö|ß" , [1, "ÄOS", "PatSZ", "no-doc"]]
 , [ "ö|ß" , [1, "ÄO/S", "PatSZ"]]
-, [ "p"   , [0, "BD-", "PatReplCommon"]]
+, [ "p"   , [0, "B+-", "PatReplCommon"]]
 , [ "p"   , [0, "+B", "PatReplCommon"]]
 , [ "p"   , [4, "-B", "PatReplCommon"]]
 , [ "pf"  , [0, "BF", "PatReplRare"]]
-, [ "ph"  , [0, "BH", "PatReplRare"]]       // TODO: documentation
-, [ "ph"  , [0, "+F", "PatReplRare"]]
+, [ "pf"  , [0, "FB+", "PatReplRare"]]
+, [ "ph"  , [0, "F+-", "PatReplRare"]]       // TODO: documentation
+, [ "ph"  , [0, "-+F", "PatReplRare"]]
 , [ "ph"  , [3, "F", "PatReplRare"]]
-, [ "pik" , [0, "BD~I+G", "PatSCStretch"]]
+, [ "pik" , [0, "B+~I+G", "PatSCStretch"]]
 , [ "pp"  , [3, "-B", "PatDiConsonant"]]
 , [ "pp"  , [0, "+B", "PatDiConsonant"]]
 , [ "p|p" , [4, "-B", "PatDiConsonant", "no-doc"]]
@@ -343,41 +334,35 @@
 , [ "qa"  , [0, "GDA", "PatReplRare"]]
 , [ "qi"  , [0, "SJI", "PatReplRare"]]
 , [ "qu"  , [0, "GDJ", "PatReplCommon"]]
-, [ "r"   , [0, "R", "PatSimple"]]
+, [ "r"   , [0, "SM-", "PatSimple"]]
 , [ "ren" , [6, "n", "PatShortSyllable"]]
-, [ "rh"  , [3, "R", "PatReplH"]]
-, [ "rh"  , [0, "HR", "PatReplH"]]      // TODO: documentation
-, [ "ria" , [0, "RI/A", "PatSimple", "no-doc"]]
-, [ "ria" , [4, "JRA", "PatIJ"]]     // think "ria"/"ira"
-, [ "rio" , [0, "RI/O", "PatSimple", "no-doc"]]
-, [ "rio" , [4, "JRO", "PatIJ"]]     // think "rio"/"iro"
-, [ "riö" , [0, "RI/ÄO", "PatSimple", "no-doc"]]
-, [ "riö" , [4, "JRÄO", "PatIJ"]]
-, [ "ri|ö" , [4, "JRÄO", "PatIJ", "no-doc"]]
-, [ "rooi" , [0, "REU", "PatDiphtong"]]     // e.g. rooibos
-, [ "rou|te", [0, "R~U+/DJE", "PatSCPlus"]] // ~ to avoid collision with Rute
-, [ "rou|ti", [0, "RU/DJI", "PatDiVowel"]]  // e.g. Routine
+, [ "rh"  , [3, "SNM-", "PatReplH"]]
+, [ "rh"  , [0, "SM-", "PatReplH"]]      // TODO: documentation
+//, [ "ria" , [0, "RI/A", "PatSimple", "no-doc"]]
+//, [ "ria" , [4, "JRA", "PatIJ"]]     // think "ria"/"ira"
+//, [ "rio" , [0, "RI/O", "PatSimple", "no-doc"]]
+//, [ "rio" , [4, "JRO", "PatIJ"]]     // think "rio"/"iro"
+//, [ "riö" , [0, "RI/ÄO", "PatSimple", "no-doc"]]
+//, [ "riö" , [4, "JRÄO", "PatIJ"]]
+//, [ "ri|ö" , [4, "JRÄO", "PatIJ", "no-doc"]]
+, [ "rooi" , [0, "SMEU", "PatDiphtong"]]     // e.g. rooibos
+, [ "rou|te", [0, "SM~U+/D+E", "PatSCPlus"]] // ~ to avoid collision with Rute
+, [ "rou|ti", [0, "SMU/D+I", "PatDiVowel"]]  // e.g. Routine
 // "re" TODO: more efficiency
 // , "ren"  : [0, "e"]  // TODO: too greedy?
-, [ "rwan" , [0, "WRAN", "PatReplRare"]]   // TODO: documentation Rw- as WR
+, [ "rwan" , [0, "FMAN", "PatReplRare"]]   // TODO: documentation Rw- as WR
 , [ "s"   , [0, "S", "PatSimple"]]
 , [ "s"   , [0, "s", "PatSmallS"]]
 //, [ "sc"  , [0, "SDM", "PatAnglOther"]]
-, [ "sc"  , [0, "GDM-", "PatAnglOther"]]     // e.g. scooter
-, [ "sc"  , [0, "-GS", "PatAnglOther"]]      // e.g. disc
-, [ "sch" , [0, "SJ", "PatReplCommon"]]
+, [ "sc"  , [0, "SG+-", "PatAnglOther"]]     // e.g. scooter
+, [ "sc"  , [0, "-+GS", "PatAnglOther"]]      // e.g. disc
 , [ "sch" , [0, "ʃ", "PatSimple"]]       // U+0283
-, [ "schm", [0, "SM-", "PatReplCommon"]]
-, [ "schl", [5, "SL-", "PatReplCommon"]]
-, [ "schn", [5, "SN-", "PatReplCommon"]]
-, [ "schr", [5, "SR", "PatReplCommon"]]
-, [ "scht", [0, "ʃD", "PatReplCommon"]]
-, [ "schw", [0, "SW", "PatReplCommon"]]
+, [ "schr", [5, "ʃM-", "PatReplCommon"]]
+, [ "scht", [0, "-ʃD", "PatReplCommon"]]
+, [ "schw", [0, "ʃG-", "PatReplCommon"]]
 , [ "se"  , [6, "-Ss", "PatShortSyllable"]]
 // implicit "sh" SH 0
-, [ "sh"  , [3, "SJ", "PatAnglOther"]]      // e.g. auscashen
 , [ "sh"  , [0, "ʃ", "PatAnglOther"]]       // e.g. cash
-, [ "sp"  , [0, "BF-", "PatReplCommon"]]      // TODO: documentation
 , [ "sp"  , [0, "-BS", "PatReplRare"]]      // TODO: documentation -sp = PS
 , [ "sph" , [0, "SF-", "PatReplRare"]]
 , [ "sk"  , [0, "GDM-", "PatReplRare"]]     // TODO: documentation x, sk -> GDM
@@ -429,8 +414,8 @@
 , [ "tsch", [3, "SJ", "PatReplRare"]]
 , [ "tsch", [0, "+ʃD", "PatSwapSch"]]
 , [ "tscht",[0, "+ʃD/+D", "PatSwapSch"]]
-, [ "tz"  , [0, "-GFD", "PatSwapZ"]]
-, [ "tzt" , [0, "+GFs", "PatSwapZ"]]
+, [ "tz"  , [0, "-GʃD", "PatSwapZ"]]
+, [ "tzt" , [0, "+Gʃs", "PatSwapZ"]]
 , [ "u"   , [0, "U", "PatSimple"]]
 , [ "ua"  , [0, "U/A", "PatDiphtong"]]
 , [ "ua"  , [3, "AU", "PatDiphtong"]]
@@ -467,30 +452,24 @@
 , [ "ü|ß" , [0, "~Ü+S", "PatSZ", "no-doc"]]
 , [ "ü|ß" , [1, "~ÜS", "PatSZ", "no-doc"]]
 , [ "ü|ß" , [1, "~Ü/S", "PatSZ"]]
-, [ "v"   , [0, "FW", "PatReplCommon"]]
+, [ "v"   , [0, "FBL-", "PatReplCommon"]]
 , [ "v"   , [3, "F-", "PatReplCommon"]]
 , [ "v"   , [0, "-F", "PatReplCommon"]]
-, [ "ver|" , [7, "F-", "PatCommonPrefix"]]
-, [ "w"   , [0, "W", "PatSimple"]]
+, [ "ver" , [7, "v", "PatCommonPrefix"]]
+, [ "w"   , [0, "F+-", "PatSimple"]]
 , [ "w"   , [0, "-F", "PatReplCommon"]]
-, [ "wie|der", [7, "WI+", "PatCommonPrefix"]]
-, [ "x"    , [0, "GDM-", "PatReplCommon"]]      // TODO: documentation
-, [ "x"    , [0, "+GS", "PatReplCommon"]]
-, [ "y"    , [0, "J", "PatReplCommon"]]
+, [ "wie|der", [7, "FI+", "PatCommonPrefix"]]
+, [ "x"    , [0, "DSG-", "PatReplCommon"]]      // TODO: documentation
+, [ "x"    , [0, "-GSD", "PatReplCommon"]]
+, [ "y"    , [0, "DFB-", "PatReplCommon"]]
 , [ "y"    , [0, "ÄI", "PatReplCommon"]]
 , [ "y"    , [3, "I", "PatReplCommon"]]
 , [ "yo"   , [0, "I/O", "PatReplCommon", "no-doc"]]
 , [ "yr"   , [0, "~I", "PatCodaR"]]
-, [ "z"    , [0, "SHM-", "PatReplCommon"]]
-, [ "z"    , [0, "-GF", "PatReplCommon"]]
-, [ "zia"  , [0, "SHMI/A", "PatReplCommon", "no-doc"]]
-, [ "zia"  , [5, "SHMA", "PatReplCommon"]]
-, [ "zi|a" , [5, "SHMA", "PatReplCommon", "no-doc"]]
-, [ "zio"  , [0, "SHMI/O", "PatReplCommon", "no-doc"]]
-, [ "zio"  , [5, "SHMO", "PatReplCommon"]]
-, [ "zi|o" , [5, "SHMO", "PatReplCommon", "no-doc"]]
-, [ "zw"   , [0, "SHW", "PatReplCommon"]]
-, [ "zt"   , [0, "GFs", "PatSwapZ"]]
+, [ "z"    , [0, "ʃG-", "PatReplCommon"]]
+, [ "z"    , [0, "-Gʃ", "PatReplCommon"]]
+, [ "zw"   , [0, "ʃG+-", "PatReplCommon"]]
+, [ "zt"   , [0, "-Gʃs", "PatSwapZ"]]
 // TODO: add to dictionary: , [ "-"    , [0, "HINF"]]
 // english
 , [ "ace"    , [0, "ÄIS", "PatAnglAI"]]

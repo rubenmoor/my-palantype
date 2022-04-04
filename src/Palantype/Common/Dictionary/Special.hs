@@ -4,7 +4,7 @@ special characters: everything on the US keyboard layout that is NOT
 * an alphanumeric character
 * a commando (e.g. backspace)
 
-Use the right hand to select to special-character input mode (cf. `strModeStenoModifiable`,
+Use the right hand to select the special-character input mode (cf. `strModeStenoModifiable`,
 and `strModeStenoUnmodifiable`) and the left hand to type.
 -}
 
