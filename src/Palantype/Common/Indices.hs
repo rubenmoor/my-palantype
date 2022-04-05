@@ -24,10 +24,8 @@ import           Data.Eq                        ( Eq )
 import           Data.Functor                   ( Functor(fmap)
                                                 )
 import           Data.Hashable                  ( Hashable )
-import qualified Data.Text                     as Text
 import           Palantype.Common.Internal      ( Chord (..)
                                                 )
-import Palantype.Common.Class (Palantype (keyCode))
 import Palantype.Common.KeyIndex (KeyIndex, fromIndex, toKeyIndices)
 import Palantype.Common.RawSteno (parseChordMaybe)
 import TextShow (TextShow (showb, showt), fromText)
@@ -40,6 +38,7 @@ import Palantype.Common.TH (failure)
 import Text.Show (Show(show))
 import Palantype.Common.RawSteno.Type (RawSteno)
 import qualified Palantype.Common.RawSteno as Raw
+import Palantype.Common.Class (Palantype)
 
 {-|
 a "key-index chord", an index based steno chord representation

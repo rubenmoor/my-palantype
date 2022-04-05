@@ -60,9 +60,10 @@ import Palantype.Common.RawSteno.Type (RawSteno (RawSteno, unRawSteno))
 import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
 import Palantype.Common.KeyIndex (fromIndex)
 import qualified Data.List.NonEmpty as NonEmpty
-import Palantype.Common.TH (fromJust)
+import Palantype.Common.TH (fromJust, failure)
 import Data.List ( partition, head )
 import Data.List.NonEmpty (nonEmpty)
+import TextShow (showt)
 
 {-|
 render a chord to raw steno code,
@@ -211,8 +212,9 @@ keyLeftHand = do
             guard $ f < RightThumb
             pure k
 
-    foldl' (\p k -> p <|> reach k) (fail "key left hand no reach") $
-        $fromJust $ toKeys c
+    case toKeys c of
+        Just ks -> foldl' (\p k -> p <|> reach k) (fail "key left hand no reach") ks
+        Nothing -> fail $ "character " <> [c] <> " doesn't seem to exist among the keys."
 
 keyOrHyphenKey :: Palantype key => Parsec Text (Maybe Finger, Maybe key) key
 keyOrHyphenKey = do

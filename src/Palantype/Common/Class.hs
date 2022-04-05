@@ -42,10 +42,8 @@ import           Data.List                      ( (++)
                                                 , sort
                                                 )
 import qualified Data.Map                      as Map
-import           Data.Ord                       ( Ord((<=)) )
+import           Data.Ord                       ( Ord)
 import           Data.Proxied                   ( dataTypeOfProxied )
-import           Data.Semigroup                 ( Semigroup((<>)) )
-import qualified Data.Text                     as Text
 import           Data.Text                      ( Text )
 import           GHC.Err                        ( error )
 import           TextShow                       (TextShow)

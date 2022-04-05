@@ -21,14 +21,7 @@ import Data.Aeson (
  )
 import Data.Eq (Eq)
 import Data.Foldable (Foldable)
-import Data.Functor (
-    Functor (fmap),
- )
 import Data.Int (Int)
-import Data.List (
-    intersperse,
- )
-import Data.Monoid (Monoid (mconcat))
 import Data.Ord (Ord)
 import qualified Data.Text as Text
 import GHC.Generics (Generic)
@@ -42,7 +35,6 @@ import TextShow (
     ),
     fromString,
     fromText,
-    singleton,
  )
 import TextShow.Generic (genericShowbPrec)
 
