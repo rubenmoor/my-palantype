@@ -435,7 +435,7 @@
 //, [ "ti|o", [4, "D+O", "PatIJ", "no-doc"]]
 , [ "tt"  , [0, "-+D", "PatDiConsonant"]]      // t|t isn't logically possible
 , [ "tt"  , [3, "-D", "PatDiConsonant"]]
-, [ "tr"  , [3, "DL-", "PatDiConsonant"]]
+, [ "tr"  , [0, "DL-", "PatReplCommon"]]
 //, [ "trio", [0, "DJRI/O", "PatReplCommon", "no-doc"]]
 //, [ "trio", [4, "DJRO", "PatIJ"]]
 , [ "ts"  , [0, "DS+-", "PatReplRare"]]
