@@ -30,7 +30,7 @@ import qualified Palantype.Common.RawSteno as Raw
    The key is -L, but will be combined and the - will be added on demand
 -}
 strModeSteno :: Text
-strModeSteno = "L"
+strModeSteno = "+"
 
 -- | letters from the US keyboard layout can be used as commands
 --   when combined with a primary modifier: ctrl, alt or win
@@ -38,47 +38,48 @@ keysLetterUS :: [(Char, Text)]
 keysLetterUS =
     [ ('a', "A"   )
     , ('b', "B-"  )
-    , ('c', "GDW-")
+    , ('c', "DʃG-")
     , ('d', "D-"  )
     , ('e', "E"   )
     , ('f', "F-"  )
     , ('g', "G-"  )
-    , ('h', "H-"  )
+    , ('h', "N+-" )
     , ('i', "I"   )
-    , ('j', "J"   )
-    , ('k', "GD-" )
+    , ('j', "SN-" )
+    , ('k', "G+-" )
     , ('l', "L-"  )
     , ('m', "M-"  )
     , ('n', "N-"  )
     , ('o', "O"   )
-    , ('p', "BD-" )
-    , ('q', "GDJ-")
-    , ('r', "R"   )
+    , ('p', "B+-" )
+    , ('q', "FG+-")
+    , ('r', "SM-" )
     , ('s', "S-"  )
-    , ('t', "DJ-" )
+    , ('t', "D+-" )
     , ('u', "U"   )
-    , ('v', "FW"  )
-    , ('w', "W"   )
-    , ('x', "GDM-")
+    , ('v', "FBL-")
+    , ('w', "F+"  )
+    , ('x', "DSG-")
+    , ('y', "DFB" )
     , ('y', "ÄI"  )
-    , ('z', "SHM-")
+    , ('z', "ʃG-" )
     ]
 
 -- | letters that are not part of the US keyboard layout cannot be used as
 --   commands. They are only combined with the secondary modifier shift.
 keysLetterOther :: [(Char, Text)]
 keysLetterOther =
-    [ ('á', "BA"  )
-    , ('à', "JA"  )
-    , ('ç', "GDWR")
-    , ('é', "BE"  )
-    , ('ê', "DE"  )
-    , ('è', "JE"  )
-    , ('ô', "DO"  )
+    [ ('á', "DA"  )
+    , ('à', "NA"  )
+    , ('ç', "DʃG+")
+    , ('é', "DE"  )
+    , ('ê', "SE"  )
+    , ('è', "NE"  )
+    , ('ô', "SO"  )
     , ('ä', "Ä"   )
     , ('ö', "ÄO"  )
     , ('ü', "Ü"   )
-    , ('ß', "GFW-")
+    , ('ß', "S+"  )
     ]
 
 dictFingerSpelling :: [(KIChord, Text)]

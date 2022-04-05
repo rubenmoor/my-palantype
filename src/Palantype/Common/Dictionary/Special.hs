@@ -42,18 +42,18 @@ strModeSteno = "N" -- key index 25
 -- | special characters, with and w/o Shift
 keysExtra :: [(Char, Text, Char, Text)]
 keysExtra =
-    [ ('`' , "~"  , 'S', "grave"       )
-    --               H not in use
-    , ('-' , "_"  , 'M', "minus"       )
-    , ('=' , "+"  , 'L', "equal"       )
-    , ('[' , "\\{", 'B', "bracketleft" )
-    , (']' , "}"  , 'D', "bracketright")
-    , ('\\', "|"  , 'J', "backslash"   )
-    , ('\'', "\"" , 'N', "apostrophe"  )
-    , (',' , "<"  , 'G', "comma"       )
+    [ ('`' , "~"  , 'v', "grave"       )
+    --               ʃ not in use
+    , ('-' , "_"  , 'G', "minus"       )
+    , ('=' , "+"  , 'M', "equal"       )
+    , ('[' , "\\{", 'D', "bracketleft" )
+    , (']' , "}"  , 'S', "bracketright")
+    , ('\\', "|"  , 'N', "backslash"   )
+    , ('\'', "\"" , '+', "apostrophe"  )
+    , (',' , "<"  , 'b', "comma"       )
     , ('.' , ">"  , 'F', "period"      )
-    , (';' , ":"  , 'W', "semicolon"   )
-    , ('/' , "?"  , 'R', "slash"       )
+    , (';' , ":"  , 'B', "semicolon"   )
+    , ('/' , "?"  , 'L', "slash"       )
     ]
 
 literals :: [(KIChord, Text)]

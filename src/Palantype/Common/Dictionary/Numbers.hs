@@ -36,10 +36,10 @@ import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
 import qualified Palantype.Common.RawSteno as Raw
 
--- | mode selection for numbers mode: WN-
+-- | mode selection for numbers mode
 --   the string is combined and the - is added on demand
 strModeSteno :: Text
-strModeSteno = "WN" -- key indices 9 and 11
+strModeSteno = "B+" -- key indices 9 and 11
 
 dictNumbers :: [(KIChord, Text)]
 dictNumbers =
@@ -146,9 +146,9 @@ keysThumb =
 
 keysIndex :: [((Text, Maybe Text), Char)]
 keysIndex =
-  [ (("1", Just "!"), 'M')
-  , (("4", Just "$"), 'L')
-  , (("7", Just "&"), '+')
+  [ (("1", Just "!"), 'L')
+  , (("4", Just "$"), '+')
+  , (("7", Just "&"), 'M')
   ]
 
 keysMiddle :: [((Text, Maybe Text), Char)]
@@ -160,9 +160,9 @@ keysMiddle =
 
 keysRing :: [((Text, Maybe Text), Char)]
 keysRing =
-  [ (("3", Just "#"), 'ʃ')
+  [ (("3", Just "#"), 'F')
   , (("6", Just "^"), 'S')
-  , (("9", Just "("), 'F')
+  , (("9", Just "("), 'ʃ')
   ]
 
 keysPinky :: [((Text, Maybe Text), Char)]
@@ -186,9 +186,9 @@ fromIndex = \case
     6  -> Just ("ALT", Just "ALT")
     7  -> Nothing
     8  -> Nothing
-    9  -> Just ("W", Just "W")
+    9  -> Just ("B", Just "B")
     10 -> Nothing
-    11 -> Just ("N", Just "N")
+    11 -> Just ("+", Just "+")
     12 -> Nothing
     13 -> Just $ fst $ keysLeftThumb !! 0
     14 -> Just $ fst $ keysLeftThumb !! 1

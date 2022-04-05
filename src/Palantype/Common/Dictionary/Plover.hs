@@ -32,66 +32,66 @@ lsCommands =
 
     -- common orthography
     [ ("{^,}"         , "A"   ) -- attach comma
-    , ("{^;}"         , "NA"  ) -- attach semicolon
+    , ("{^;}"         , "+A"  ) -- attach semicolon
     , ("{^-^}"        , "~"   ) -- hyphen to attach words
-    , ("{^\t^}"       , "DJ"  ) -- tab like T
-    , ("{*-|}"        , "B-"  ) -- capitalize last word retroactively
-    , ("{-|}"         , "D-"  ) -- capitalize next word
-    , ("{*>}"         , "S-"  ) -- uncapitalize last word retroactively
-    , ("{*?}"         , "G-"  ) -- retroactively add space
-    , ("{^.\n\n^}{-|}", "J"   ) -- paragraph
+    , ("{^\t^}"       , "D+-" ) -- tab like T
+    , ("{*-|}"        , "D-"  ) -- capitalize last word retroactively
+    , ("{-|}"         , "S-"  ) -- capitalize next word
+    , ("{*>}"         , "v"   ) -- uncapitalize last word retroactively
+    , ("{*?}"         , "b"   ) -- retroactively add space
+    , ("{^.\n\n^}{-|}", "N"   ) -- paragraph
     , ("{*!}"         , "F-"  ) -- retroactively delete space
-    , ("{^.}{-|}"     , "N-"  ) -- full stop: attach period and capitalize next word
-    , ("{^:}"         , "L-"  ) -- attach colon
-    , ("{^:}{-|}"     , "JL-" ) -- attach colon and capitalize next word
-    , ("{^?}{-|}"     , "JN-" ) -- attach question mark and capitalize next word
-    , ("{^!}{-|}"     , "JR"  ) -- attach exclamation mark and capitalize next word
-    , ("{\\#^}"       , "H"   ) -- hashtag with next word attached
-    , ("§"            , "BD-" ) -- p like paragraph
-    , ("{^°}"         , "GD-" ) -- attach °
-    , ("{^™}"         , "DM-" ) -- t like trademark
-    , ("{^©}"         , "GDM-") -- c like copyright
+    , ("{^.}{-|}"     , "+-"  ) -- full stop: attach period and capitalize next word
+    , ("{^:}"         , "M-"  ) -- attach colon
+    , ("{^:}{-|}"     , "NM-" ) -- attach colon and capitalize next word
+    , ("{^?}{-|}"     , "N+-" ) -- attach question mark and capitalize next word
+    , ("{^!}{-|}"     , "NL"  ) -- attach exclamation mark and capitalize next word
+    , ("{\\#^}"       , "N+-" ) -- hashtag with next word attached
+    , ("§"            , "B+-" ) -- p like paragraph
+    , ("{^°}"         , "G-"  ) -- attach °
+    , ("{^™}"         , "DM-" ) -- trademark symbol
+    , ("{^©}"         , "DʃG-") -- c like copyright
     , ("€"            , "E"   ) -- e like euro
     , ("—"            , "~Ü"  ) -- em dash/Geviertstrich
     , ("{^s^}"        , "s"   ) -- attach s and attach next word
 
     -- parentheses
-    , ("{«^}"  , "+G" ) -- guillemet: attach to next word
-    , ("{^»}"  , "-Fs") --            attach
-    , ("{„^}"  , "-L" ) -- german quotation marks: attach to next word
+    , ("{«^}"  , "-MG" ) -- guillemet: attach to next word
+    , ("{^»}"  , "-ʃs") --            attach
+    , ("{„^}"  , "-+" ) -- german quotation marks: attach to next word
     , ("{^“}"  , "-N" ) --                         attach
-    , ("{‹^}"  , "-M" ) -- chevron: attach to next word
+    , ("{‹^}"  , "-L" ) -- chevron: attach to next word
     , ("{^›}"  , "-B" ) --          attach
-    , ("{[^}"  , "ʃ"  ) -- square brackets: attach to next word
+    , ("{[^}"  , "-F"  ) -- square brackets: attach to next word
     , ("{^]}"  , "n"  ) --                  attach
     , ("{(^}"  , "-S" ) -- parenthesis: attach to next word
     , ("{^)}"  , "-D" ) --              attach
-    , ("{\\{^}", "+"  ) -- brackets: attach to next word
+    , ("{\\{^}", "-M"  ) -- brackets: attach to next word
     , ("{^\\}}", "-G" ) --           attach
 
     -- ascii smileys
-    , ("¯\\_(ツ)_/¯"   , "SLNSD" )
-    , ("ʕ•ᴥ•ʔ"        , "BLNSD" )
-    , ("(´･_･`)"       , "GLNSD" )
-    , ("(⊃｡•́‿•̀｡)⊃"     , "HLNSD" )
-    , ("(╯°□°）╯︵ ┻━┻", "DLNSD" )
-    , ("(☞ﾟヮﾟ)☞"      , "FLNSD" )
-    , ("(๑•́ ₃ •̀๑)"     , "MLNSD" )
-    , ("┬─┬⃰͡ (ᵔᵕᵔ͜ )" , "JLNSD" )
-    , ("( ˘ ³˘)♥"      , "WLNSD" )
-    , ("( ͡° ͜ʖ ͡°)"    , "LLNSD" )
-    , ("( ಠ ʖ̯ ಠ )"    , "NLNSD" )
-    , ("(ᵔᴥᵔ)"         , "RLNSD" )
+    , ("¯\\_(ツ)_/¯"   , "v-+NSD" )
+    , ("ʕ•ᴥ•ʔ"        , "D-+NSD" )
+    , ("(´･_･`)"       , "b-+NSD" )
+    , ("(⊃｡•́‿•̀｡)⊃"     , "ʃ-+NSD" )
+    , ("(╯°□°）╯︵ ┻━┻", "S-+NSD" )
+    , ("(☞ﾟヮﾟ)☞"      , "F-+NSD" )
+    , ("(๑•́ ₃ •̀๑)"     , "G-+NSD" )
+    , ("┬─┬⃰͡ (ᵔᵕᵔ͜ )" , "N-+NSD" )
+    , ("( ˘ ³˘)♥"      , "B-+NSD" )
+    , ("( ͡° ͜ʖ ͡°)"    , "M-+NSD" )
+    , ("( ಠ ʖ̯ ಠ )"    , "++NSD" )
+    , ("(ᵔᴥᵔ)"         , "L-+NSD" )
 
     -- plover
-    , ("=undo"                   , "ILNSD" ) -- undo last input
-    , ("{PLOVER:TOGGLE}"         , "BDJN+D")
-    , ("{PLOVER:ADD_TRANSLATION}", "BDJNA" )
-    , ("{PLOVER:LOOKUP}"         , "BDJNL" ) -- plover search dialogue
-    , ("{PLOVER:SUGGESTIONS}"    , "BDJNS" ) -- plover suggestions window
-    , ("{PLOVER:FOCUS}"          , "BDJNF" ) -- focus plvoer main window
-    , ("{PLOVER:CONFIGURE}"      , "BDJNG" ) -- plover configuration window
-    , ("{PLOVER:CONFIGURE}"      , "BDJN+G") -- quit plover
+    , ("=undo"                   , "I+NSD" ) -- undo last input
+    , ("{PLOVER:TOGGLE}"         , "DSN++D")
+    , ("{PLOVER:ADD_TRANSLATION}", "DSN+A" )
+    , ("{PLOVER:LOOKUP}"         , "DSN+-L" ) -- plover search dialogue
+    , ("{PLOVER:SUGGESTIONS}"    , "DSN+-S" ) -- plover suggestions window
+    , ("{PLOVER:FOCUS}"          , "DSN+-F" ) -- focus plvoer main window
+    , ("{PLOVER:CONFIGURE}"      , "DSN+-G" ) -- plover configuration window
+    , ("{PLOVER:CONFIGURE}"      , "DSN++G") -- quit plover
     ]
 
 dictPlover :: [(KIChord, Text)]

@@ -56,19 +56,19 @@ import Control.Category (Category((.)))
 import qualified Palantype.Common.RawSteno as Raw
 
 strModeSteno :: Text
-strModeSteno = "JN"
+strModeSteno = "N+"
 
 keysModifiable :: [(Text, Char)]
 keysModifiable =
-  [ ("insert"   , '+')
-  , ("delete"   , 'L')
-  , ("left"     , 'M')
+  [ ("insert"   , 'M')
+  , ("delete"   , '+')
+  , ("left"     , 'L')
   , ("home"     , 'G')
   , ("end"      , 'N')
   , ("up"       , 'B')
-  , ("page_up"  , 'F')
+  , ("page_up"  , 'ʃ')
   , ("page_down", 'S')
-  , ("down"     , 'ʃ')
+  , ("down"     , 'F')
   , ("backspace", 's')
   , ("return"   , 'D')
   , ("right"    , 'n')
@@ -80,7 +80,7 @@ keysModifiable =
 
 keysUnmodifiable :: [(Text, Text)]
 keysUnmodifiable =
-  [ ("{#control(alt(delete))}", "LNSD")
+  [ ("{#control(alt(delete))}", "+NSD")
   ]
 
 dictCommands :: [(KIChord, Text)]
@@ -131,7 +131,7 @@ kiEnter = mkKIChordSimple "return"
 the word "Start" in two versions
 -}
 kiChordsStart :: [KIChord]
-kiChordsStart = $parseChordDE . Raw.fromText <$> ["SDAÜD", "SDAÜ+D"]
+kiChordsStart = $parseChordDE . Raw.fromText <$> ["DSAÜD", "DSAÜ+D"]
 
 {-|
 page up key
