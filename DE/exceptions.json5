@@ -51,7 +51,7 @@
 //, "Fluorit"     : ["FLU/O/RI+D"]   // < Fluorid
 , ["France",        "FMAÜMGʃ", "PatSCStretch"]
 , ["fror",          "FM~O+", "PatSCPlus"]        // < froh
-, ["Geor|gia",      "SN~O/SNA", "PatAnglOther"]
+, ["Georgia",      "SN~O/SNA", "PatAnglOther"]
 , ["Görz",          "G~OGʃ", "PatSCPlus"]        // < Götz
 , ["gram",          "GMAÜM", "PatSCStretch"]        // < Gramm
 , ["Guillaume",     "G~I/SN~OM", "PatFrankOther"]
@@ -96,6 +96,7 @@
 , ["Lar",           "LAÜ+", "PatSCPlus"]         // < Lahr
 //, "lass"        : ["LASs", "PatSCOther"]         // < las
 , ["Lausanne",      "LO/SAN", "PatFrankOther"]
+, ["Lawrence",      "LO/SMEMGʃ", "PatAnglO"]
 , ["Lead",          "L~I+D", "PatSCStretch"]
 , ["Lek",           "S-/LEÜ+G", "PatSCStretch"]
 , ["Lindbergh",     "LIND/BEÜ+G", "PatSCStretch"]    
@@ -106,7 +107,7 @@
 //, ["Logdatei",      "LOG/DA/DJEI", "PatSCOther"]
 //, ["Logfile",       "LOG/FAIL", "PatSCOther"]
 , ["Madame",        "MA/DAM", "PatFrankOther"]
-, ["Made|leine",    "MAD/LEN", "PatFrankOther"]
+, ["Madeleine",    "MAD/LEN", "PatFrankOther"]
 , ["Maia",          "MAI/A", "PatSCOther"]
 , ["Mall",          "S-/M~OL", "PatAnglStretchO"]
 , ["Met",           "S-/MEÜ+D", "PatSCStretch"]

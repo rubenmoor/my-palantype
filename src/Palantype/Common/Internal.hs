@@ -25,6 +25,7 @@ import Data.Int (Int)
 import Data.Ord (Ord)
 import qualified Data.Text as Text
 import GHC.Generics (Generic)
+import Data.Text (Text)
 import Text.Read (Read)
 import Text.Show (Show (show))
 import TextShow (
@@ -68,6 +69,8 @@ data PatternPos
       Coda
     | -- | contain onset and coda, may contain several chords
       Multiple
+    | -- | single letter that can be onset or coda
+      OnsetAndCoda
     deriving stock (Eq, Generic, Ord, Show)
 
 instance FromJSON PatternPos
@@ -75,6 +78,14 @@ instance ToJSON PatternPos
 
 instance TextShow PatternPos where
     showb = fromString <<< show
+
+showPretty :: PatternPos -> Text
+showPretty = \case
+    Onset -> "Onset"
+    Nucleus -> "Nucleus"
+    Coda -> "Coda"
+    Multiple -> "Multiple"
+    OnsetAndCoda -> "Onset/Coda"
 
 data Finger
     = LeftPinky

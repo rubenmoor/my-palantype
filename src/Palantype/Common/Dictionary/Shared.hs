@@ -95,8 +95,8 @@ toStenoStrRightHand strModeSteno modPrim modSec strSteno =
         stenoSec = case modSec of
             ModSecNone  -> ""
             ModSecShift -> "S"
-    in     stenoSec
-        <> stenoPrim
+    in     stenoPrim
+        <> stenoSec
         <> strModeSteno
         <> ( if fstRight > RightL then "-" else "" )
         <> strSteno'

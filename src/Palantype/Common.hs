@@ -28,7 +28,8 @@ import Palantype.Common.Internal
       Finger(..),
       PatternPos(..),
       Greediness,
-      Lang(..) )
+      Lang(..) ,
+      showPretty )
 import Palantype.Common.Internal.Instances ()
 import Palantype.Common.Primitives
     ( PrimMap(..),

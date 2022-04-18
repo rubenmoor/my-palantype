@@ -60,10 +60,9 @@ import Palantype.Common.RawSteno.Type (RawSteno (RawSteno, unRawSteno))
 import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
 import Palantype.Common.KeyIndex (fromIndex)
 import qualified Data.List.NonEmpty as NonEmpty
-import Palantype.Common.TH (fromJust, failure)
+import Palantype.Common.TH (fromJust)
 import Data.List ( partition, head )
 import Data.List.NonEmpty (nonEmpty)
-import TextShow (showt)
 
 {-|
 render a chord to raw steno code,
@@ -123,16 +122,18 @@ unparts rs = RawSteno $ Text.intercalate "/" $ unRawSteno <$> rs
 evalStenoPattern :: forall key. Palantype key => RawSteno -> Either Text PatternPos
 evalStenoPattern (RawSteno str) =
     case runParser ((,) <$> (sentence @key) <*> getState) (Nothing, Nothing) "raw steno code" str of
-        Left  err -> Left $ Text.pack $ show err
-        Right (_, (Just last, _))  ->
+        Left  err                 -> Left $ Text.pack $ show err
+        Right (_, (Nothing  , _)) -> Left $ "inconsisent result from evalParser for " <> str
+        Right (_, (Just last, _)) ->
           let first = getFinger $ Text.head str
           in  Right $ if
-                | "/" `isInfixOf` str -> Multiple
-                | first < LeftThumb && last < RightIndex -> Onset
-                | first >= LeftThumb && last < RightIndex -> Nucleus
+                |    Text.length str == 1
+                  && length ($fromJust $ toKeys @key $ Text.head str) == 2 -> OnsetAndCoda
+                | "/" `isInfixOf` str                      -> Multiple
+                | first < LeftThumb && last < RightIndex   -> Onset
+                | first >= LeftThumb && last < RightIndex  -> Nucleus
                 | first >= LeftThumb && last >= RightIndex -> Coda
                 | otherwise -> Multiple
-        Right (_, (Nothing, _)) -> Left $ "inconsisent result from evalParser for " <> str
   where
     getFinger '-' = RightIndex
     getFinger c = toFinger $ NonEmpty.head $ $fromJust $ toKeys @key c

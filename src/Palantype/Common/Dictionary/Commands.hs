@@ -54,6 +54,7 @@ import Data.Functor ((<&>), (<$>))
 import Data.List (lookup)
 import Control.Category (Category((.)))
 import qualified Palantype.Common.RawSteno as Raw
+import TextShow.Debug.Trace (traceTextShow)
 
 strModeSteno :: Text
 strModeSteno = "N+"

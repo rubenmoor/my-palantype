@@ -120,6 +120,9 @@ instance Palantype Key where
       PatSimple -> "Identical letters"
       PatSimpleMulti -> "Identical letters, multiple chords"
       PatReplCommon -> "Replacements for common letters"
+      PatCodaComboT -> "Fitting a consonant in between +D"
+      PatOnsetR -> "R in the onset"
+      PatOnsetL -> "Exceptions for L in the onset"
       PatSmallS -> "Making use of the (small) s key"
       PatDiConsonant -> "Double consonants"
       PatCodaH -> "Long vowels"
@@ -222,6 +225,9 @@ data Pattern
   | PatSimpleMulti
   -- common replacement rules
   | PatReplCommon
+  | PatCodaComboT
+  | PatOnsetR
+  | PatOnsetL
   | PatSmallS
   | PatDiConsonant
   | PatCodaH
