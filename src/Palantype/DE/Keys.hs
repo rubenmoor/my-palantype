@@ -132,15 +132,8 @@ instance Palantype Key where
       PatDt -> "The dt-rule"
       PatDiphtong -> "Multiple vowels"
       PatReplC -> "Different replacements for c"
-
-      -- TODO: https://github.com/rubenmoor/palantype-tools/issues/36
-      PatCodaGK -> "G and k in the coda"
-
       PatSZ -> "The letter ß"
-
-      -- TODO: there's no J anymore
-      PatIJ -> "Using J for i"
-
+      PatBreakUpI -> "Break up ia and io"
       PatSwapS -> "S-swapping in the coda"
       PatSwapSch -> "Sch-swapping in the coda"
       PatSwapZ -> "Z-swapping in the coda"
@@ -149,6 +142,8 @@ instance Palantype Key where
       -- TODO: extra rule for th, both for coda and onset
       -- TODO: common replacement for h in onset
       PatReplH -> "Replacing a silent h"
+
+      PatCodaGK -> "The stretching of a in ak"
 
       -- TODO: rework
       PatReplRare -> "Replacements for less common letters"
@@ -237,15 +232,14 @@ data Pattern
   | PatDt
   | PatDiphtong
   | PatReplC
-  -- TODO
-  | PatCodaGK
   | PatSZ
-  | PatIJ
+  | PatBreakUpI
   | PatSwapS
   | PatSwapSch
   | PatSwapZ
   | PatDiVowel
   | PatReplH
+  | PatCodaGK
   -- rare replacement rules and special cases
   | PatReplRare
   | PatSCStretch

@@ -82,7 +82,7 @@
 , ["iPhone",        "AI/FON", "PatAnglEI"]
 , ["iPhones",       "AI/FONS", "PatAnglEI"]
 , ["Inn",           "I+N", "PatSCPlus"]
-, ["irrst",         "+I+SD", "PatSCPlus", "+I+s", "PatSCPlus/ < {#control(i)}
+, ["irrst",         "+I+SD", "PatSCPlus", "+I+s", "PatSCPlus"] // < {#control(i)}
 , ["irrt",         "+I+D", "PatSCPlus"] // < {#control(i)}
 //, "isst"        : ["ISs"]          // < ist
 , ["Jacqueline",    "SNA+G/L~IN", "PatFrankOther"]
