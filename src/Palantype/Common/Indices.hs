@@ -16,17 +16,19 @@ module Palantype.Common.Indices
     , fromChord
     , parseChordDE
     , toKeys
+    , allKeys
     ) where
 
 import Language.Haskell.TH (Exp, Q)
-import           Control.Category               ( (<<<) )
 import           Data.Eq                        ( Eq )
 import           Data.Functor                   ( Functor(fmap)
+                                                , (<$>)
                                                 )
 import           Data.Hashable                  ( Hashable )
 import           Palantype.Common.Internal      ( Chord (..)
                                                 )
-import Palantype.Common.KeyIndex (KeyIndex, fromIndex, toKeyIndices)
+import Control.Category ((.), (<<<))
+import Palantype.Common.KeyIndex (KeyIndex (..), fromIndex, toKeyIndices)
 import Palantype.Common.RawSteno (parseChordMaybe)
 import TextShow (TextShow (showb, showt), fromText)
 import qualified Palantype.DE.Keys as DE
@@ -38,7 +40,7 @@ import Palantype.Common.TH (failure)
 import Text.Show (Show(show))
 import Palantype.Common.RawSteno.Type (RawSteno)
 import qualified Palantype.Common.RawSteno as Raw
-import Palantype.Common.Class (Palantype)
+import Palantype.Common.Class (Palantype, allKeyIndices)
 
 {-|
 a "key-index chord", an index based steno chord representation
@@ -67,3 +69,6 @@ parseChordDE =
         Just chord -> fromChord chord
         Nothing    -> $failure $ "Parse error: " <> show raw
   |]
+
+allKeys :: forall key . Palantype key => [key]
+allKeys = fromIndex . KeyIndex <$> allKeyIndices @key

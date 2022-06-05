@@ -21,6 +21,7 @@ import           Data.Aeson                     ( FromJSON
                                                 , ToJSONKey
                                                 )
 import           Data.Char                      ( Char )
+import Data.Int (Int)
 import           Data.Data                      ( Data(toConstr)
                                                 , Proxy(Proxy)
                                                 , constrIndex
@@ -146,6 +147,9 @@ class ( Data key
   -- exceptions that span several chords go here
   mapExceptions
     :: Map Text [(RawSteno, PatternGroup key)]
+
+  allKeyIndices :: [Int]
+  allKeyIndices = [1..32]
 
 mkChord :: forall k. (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys

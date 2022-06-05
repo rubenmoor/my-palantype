@@ -38,7 +38,7 @@ import Palantype.Common.Primitives
       triePrimitives,
       stripComments
     )
-import Palantype.Common.Indices ( toRaw, KIChord )
+import Palantype.Common.Indices ( toRaw, allKeys, KIChord )
 import Palantype.Common.RawSteno
     ( fromChord,
       unparts,

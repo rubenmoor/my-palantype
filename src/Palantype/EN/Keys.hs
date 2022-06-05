@@ -14,6 +14,7 @@ import           Palantype.Common.Class         ( Palantype(..)
 import           TextShow                       ( TextShow(..)
                                                 , singleton, fromString
                                                 )
+import Data.Semigroup ((<>))
 import Data.Int (Int)
 import GHC.Generics (Generic)
 import Text.Show (Show (show))
@@ -156,6 +157,7 @@ instance Palantype Key where
 
     lsPrimitives = []
     mapExceptions = Map.empty
+    allKeyIndices = [1..12] <> [14, 15] <> [18..32]
 
 instance TextShow Key where
     showb = singleton <<< keyCode
