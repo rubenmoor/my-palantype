@@ -67,7 +67,7 @@ data Key =
   | RightH
   | RightS
   | RightPoint
-  deriving stock (Eq, Data)
+  deriving stock (Eq, Data, Generic)
 
 -- | The palan order: SCPTH+MFRNLYOEAUI^NLCMFRPT+SH
 palanRank :: Key -> Int

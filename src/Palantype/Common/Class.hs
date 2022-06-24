@@ -7,24 +7,23 @@
 {-# LANGUAGE TypeFamilyDependencies #-}
 
 module Palantype.Common.Class
-  ( Palantype (..)
-  , mkChord
-  ) where
+    ( Palantype(..)
+    , mkChord
+    ) where
 
-import           Control.Category               ( (.)
-
-                                                )
+import           Control.Category               ( (.) )
+import           Control.DeepSeq                ( NFData )
 import           Control.Exception              ( assert )
 import           Data.Aeson                     ( FromJSON
-
                                                 , ToJSON
                                                 , ToJSONKey
                                                 )
+import           Data.Bool                      ( Bool )
+import           Data.ByteString                ( ByteString )
 import           Data.Char                      ( Char )
-import Data.Int (Int)
-import           Data.Data                      ( Data(toConstr)
+import           Data.Data                      ( Data
                                                 , Proxy(Proxy)
-                                                , constrIndex
+
                                                 , dataTypeOf
                                                 , fromConstr
                                                 , indexConstr
@@ -35,28 +34,30 @@ import           Data.Foldable                  ( Foldable(foldl) )
 import           Data.Function                  ( ($)
                                                 , flip
                                                 )
-import           Data.Functor                   ( (<$>)
-
-                                                )
+import           Data.Functor                   ( (<$>) )
+import           Data.Int                       ( Int )
 import           Data.List                      ( (++)
-
                                                 , sort
                                                 )
+import           Data.List.NonEmpty             ( NonEmpty
+                                                , nonEmpty
+                                                )
 import qualified Data.Map                      as Map
-import           Data.Ord                       ( Ord)
+import           Data.Map                       ( Map )
+import           Data.Maybe                     ( Maybe )
+import           Data.Ord                       ( Ord )
 import           Data.Proxied                   ( dataTypeOfProxied )
 import           Data.Text                      ( Text )
 import           GHC.Err                        ( error )
-import           TextShow                       (TextShow)
-import Data.ByteString (ByteString)
-import Control.DeepSeq (NFData)
-import Palantype.Common.Internal (Finger (..), PatternPos, Greediness, Chord (Chord))
-import Palantype.Common.KeyIndex ( keyIndex )
-import Data.Bool (Bool)
-import Data.Map (Map)
-import Data.List.NonEmpty (NonEmpty, nonEmpty)
-import Data.Maybe (Maybe)
-import Palantype.Common.RawSteno.Type (RawSteno)
+import           GHC.Generics                   ( Generic )
+import           Palantype.Common.Internal      ( Chord(Chord)
+                                                , Finger(..)
+                                                , Greediness
+                                                , PatternPos
+                                                )
+import           Palantype.Common.KeyIndex      ( keyIndex )
+import           Palantype.Common.RawSteno.Type ( RawSteno )
+import           TextShow                       ( TextShow )
 
 -- | defines a steno key layout
 -- |
@@ -73,6 +74,7 @@ class ( Data key
       , TextShow key
       , Data (PatternGroup key)
       , FromJSON (PatternGroup key)
+      , Generic key
       , NFData (PatternGroup key)
       , Ord (PatternGroup key)
       , TextShow (PatternGroup key)
@@ -151,5 +153,5 @@ class ( Data key
   allKeyIndices :: [Int]
   allKeyIndices = [1..32]
 
-mkChord :: forall k. (Palantype k) => [k] -> Chord k
+mkChord :: forall k . (Palantype k) => [k] -> Chord k
 mkChord keys = Chord $ sort keys

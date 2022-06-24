@@ -108,4 +108,4 @@ newtype Series k = Series {unSeries :: [Chord k]}
     deriving stock (Eq, Ord, Foldable)
 
 newtype Chord k = Chord {unChord :: [k]}
-    deriving stock (Eq, Ord, Foldable)
+    deriving stock (Eq, Ord, Foldable, Generic)

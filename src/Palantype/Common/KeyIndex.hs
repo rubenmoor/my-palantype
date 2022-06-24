@@ -34,10 +34,11 @@ import           Data.Proxied                   ( dataTypeOfProxied )
 import           GHC.Num                        ( Num )
 import           GHC.Enum                        ( Enum )
 import           Palantype.Common.Internal      ( Chord(..) )
+import Text.Show (Show)
 
 newtype KeyIndex = KeyIndex { unKeyIndex :: Int }
   deriving stock (Eq, Ord)
-  deriving newtype (Hashable, FromJSON, ToJSON, FromJSONKey, ToJSONKey, Num, Enum)
+  deriving newtype (Hashable, FromJSON, Show, ToJSON, FromJSONKey, ToJSONKey, Num, Enum)
 
 keyIndex :: forall key . Data key => key -> KeyIndex
 keyIndex = KeyIndex <<< constrIndex <<< toConstr

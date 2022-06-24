@@ -73,7 +73,7 @@ data Key
   | RightSSmall
   | RightD
   | RightNSmall
-  deriving stock (Eq, Ord, Data)
+  deriving stock (Eq, Ord, Data, Generic)
 
 instance Palantype Key where
     type PatternGroup Key = Pattern
