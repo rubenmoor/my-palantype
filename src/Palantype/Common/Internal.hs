@@ -38,6 +38,10 @@ import TextShow (
     fromText,
  )
 import TextShow.Generic (genericShowbPrec)
+import Servant.API (ToHttpApiData (toUrlPiece), FromHttpApiData (parseUrlPiece))
+import Data.Either (Either(..))
+import Data.Function (($))
+import Data.Semigroup ((<>))
 
 data Lang = EN | DE
     deriving stock (Eq, Generic, Ord, Read)
@@ -54,6 +58,17 @@ instance TextShow Lang where
 
 instance Show Lang where
     show = Text.unpack <<< showt
+
+instance ToHttpApiData Lang where
+  toUrlPiece = \case
+    EN -> "EN"
+    DE -> "DE"
+
+instance FromHttpApiData Lang where
+  parseUrlPiece = \case
+    "EN" -> Right EN
+    "DE" -> Right DE
+    str  -> Left $ "url piece: " <> str <> ": no parse"
 
 type Greediness = Int
 
