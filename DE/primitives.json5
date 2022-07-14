@@ -215,7 +215,7 @@
 , [ "gt"   , [3, "-GD", "PatCodaComboT"]]
 , [ "gts"  , [0, "-GSD", "PatSwapS"]]
 , [ "gui"  , [0, "GI", "PatDiphtong"]]
-, [ "h"    , [0, "N+-", "PatReplH"]]
+, [ "h"    , [0, "N+-", "PatReplCommon"]]
 , [ "ha|waii", [0, "N+A/FAI", "PatSCOther"]]
 , [ "heia"  , [0, "N+EI/A", "PatSimple", "no-doc"]]
 , [ "hei|ßa", [0, "N+EI/S+A", "PatSCPlus"]] // TODO: check if ß in the onset causes more problems
@@ -411,7 +411,7 @@
 , [ "schr", [0, "DʃM-", "PatOnsetR"]]
 //, [ "schr", [2, "ʃM-", "PatOnsetR"]]
 , [ "scht", [0, "-ʃD", "PatCodaComboT"]]
-, [ "schw", [0, "ʃ+-", "PatReplCommon"]]
+, [ "schw", [0, "ʃB-", "PatReplCommon"]]
 , [ "se"  , [6, "-Ss", "PatShortSyllable"]]
 // implicit "sh" SH 0
 , [ "sh"  , [0, "ʃ", "PatAnglOther"]]       // e.g. cash

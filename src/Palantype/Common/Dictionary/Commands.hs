@@ -38,6 +38,10 @@ module Palantype.Common.Dictionary.Commands
     , kiChordsStart
     , kiPageUp
     , kiPageDown
+    , kiHome
+    , kiEnd
+    , kiInsert
+    , kiDelete
     , strModeSteno
     ) where
 
@@ -109,6 +113,7 @@ mkKIChordSimple str =
     let strSteno = Text.singleton $ $fromJust $ lookup str keysModifiable
     in  $parseChordDE $ Raw.fromText $
             toStenoStrRightHand strModeSteno ModPrimNone ModSecNone strSteno
+
 {-|
 arrow key: up
 -}
@@ -144,3 +149,27 @@ page down key
 -}
 kiPageDown :: KIChord
 kiPageDown = mkKIChordSimple "page_down"
+
+{-|
+home key
+-}
+kiHome :: KIChord
+kiHome = mkKIChordSimple "home"
+
+{-|
+end key
+-}
+kiEnd :: KIChord
+kiEnd = mkKIChordSimple "end"
+
+{-|
+insert key
+-}
+kiInsert :: KIChord
+kiInsert = mkKIChordSimple "insert"
+
+{-|
+delete key
+-}
+kiDelete :: KIChord
+kiDelete = mkKIChordSimple "delete"
