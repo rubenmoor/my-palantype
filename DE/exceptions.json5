@@ -56,22 +56,22 @@
 , ["France",        "FMAÜMGʃ", "PatSCStretch"]
 , ["fror",          "FM~O+", "PatSCPlus"]        // < froh
 , ["Genen",        "GE/NEN", "PatSimpleMulti"] // exclude GNn, < {#alt(minus)}
-, ["Georgia",      "SN~O/SNA", "PatAnglOther"]
+, ["Georgia",      "FN~O/FNA", "PatAnglOther"]
 , ["Görz",          "G~OGʃ", "PatSCPlus"]        // < Götz
 , ["gram",          "GMAÜM", "PatSCStretch"]        // < Gramm
-, ["Guillaume",     "G~I/SN~OM", "PatFrankOther"]
+, ["Guillaume",     "G~I/FN~OM", "PatFrankOther"]
 //, "haben"       : ["HABn", "HA/BEN"]
-, ["Hadsch",        "N+AʃD", "PatSCPlus"]
-, ["Ham",           "N+ÄM", "PatAnglAE"]
+, ["Hadsch",        "SNAʃD", "PatSCPlus"]
+, ["Ham",           "SNÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
-, ["hatte",         "N+A+D", "PatBrief", "N+A+D/D+E", "PatReplCommon"]
+, ["hatte",         "SNA+D", "PatBrief", "SNA+D/D+E", "PatReplCommon"]
 //, ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"] // greediness /= 0!
-, ["Haydn",         "N+AI/D-N", "PatSCOther"]
-, ["hehr",          "N+EÜ+", "PatSCPlus"]         // < her
-, ["Hemd",          "S-/N+EMD", "PatCapitalize"]
+, ["Haydn",         "SNAI/D-N", "PatSCOther"]
+, ["hehr",          "SNEÜ+", "PatSCPlus"]         // < her
+, ["Hemd",          "S-/SNEMD", "PatCapitalize"]
 //, ["Hertz",         "HEÜ+Ss", "PatSCPlus"]       // < Herz
-, ["hey",           "N+ÄI", "PatAnglAI"]
-, ["Hofmann",       "N+~OF/MA+N", "PatSCStretch"]
+, ["hey",           "SNÄI", "PatAnglAI"]
+, ["Hofmann",       "SN~OF/MA+N", "PatSCStretch"]
 , ["ihre",          "~Is", "PatBrief"]
 , ["Ilm",           "S-/I+", "PatCapitalize"] // < {&i} "Fingerspelling"
 , ["immer",         "IMs", "PatBrief", "IM/MEÜ", "PatCodaR"]
@@ -85,15 +85,15 @@
 , ["irrst",         "+I+SD", "PatSCPlus", "+I+s", "PatSCPlus"] // < {#control(i)}
 , ["irrt",         "+I+D", "PatSCPlus"] // < {#control(i)}
 //, "isst"        : ["ISs"]          // < ist
-, ["Jacqueline",    "SNA+G/L~IN", "PatFrankOther"]
-, ["Jahnn",         "SNAÜ+N", "PatSCPlus"]        // < Jahn
-//, ["Jo-Jo",         "SN~O/HIFn/J~O", "PatSCOther"] // < Yo-Yo
-, ["Jean",          "SNO+N", "PatFrankOther"]
+, ["Jacqueline",    "FNA+G/L~IN", "PatFrankOther"]
+, ["Jahnn",         "FNAÜ+N", "PatSCPlus"]        // < Jahn
+//, ["Jo-Jo",         "FN~O/HIFn/J~O", "PatSCOther"] // < Yo-Yo
+, ["Jean",          "FNO+N", "PatFrankOther"]
 //, "Jot"         : ["JO+D"]         // < Jod
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIG/GE"]      // < knicke
-, ["Kampagne",      "G+AM/B+AN/SNE", "PatSCOther", "G+AM/B+AÜG/NE", "PatReplCommon"]
+, ["Kampagne",      "G+AM/B+AN/FNE", "PatSCOther", "G+AM/B+AÜG/NE", "PatReplCommon"]
 , ["kam",           "G+AÜM", "PatSCStretch"]
 , ["Kerle",         "G+EÜ+/LE", "PatSCPlus"]
 , ["Kommiss",       "G+OM/MISs", "PatSCOther"]    // < Kommis
@@ -130,6 +130,7 @@
 , ["Mount",         "MAU+ND", "PatAnglAU", "MAUND", "PatAnglAU"]
 //, ["muh",           "M~U+", "PatSCPlus"]         // < Mur
 , ["Mus",           "M~US", "PatSCStretch"]         // < muss
+, ["Museum",        "MU/SE/UM", "PatSimpleMulti", "MU/SEUM", "PatSimpleMulti"]
 //, "Nietnagel"   : ["N~I+D/NA/GEL"] // < Niednagel
 , ["nagt",          "NAÜ+GD", "PatSCStretch"]
 , ["Narr",          "S-/NA+", "PatCapitalize"] // < {&à}
@@ -145,7 +146,7 @@
 , ["Piek",          "B+~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "B+I+S", "PatSCPlus"]        // < Pilz
 , ["Polizei",       "B+O/LI/ʃGEI", "PatReplCommon", "ʃGEI", "PatBrief"]
-, ["Prozent",       "DBMO/ʃE+ND", "PatReplCommon", "ʃE+ND", "PatBrief"]
+, ["Prozent",       "DBMO/ʃGE+ND", "PatOnsetR", "BO/ʃGE+ND", "PatBrief", "ʃGE+ND", "PatBrief"]
 //, "Rappen"      : ["RA+B/BDn"]      // < Raben    
 //, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
 //, "Robbe"       : ["ROB/B"]        // < Robe
@@ -198,7 +199,7 @@
 , ["Wolff",         "F+O+F", "PatSCPlus"]
 , ["wurde",         "F+~Us", "PatBrief", "F+~U/DE", "PatCodaR"]
 , ["Xi",            "DSGI+", "PatSCPlus"]
-, ["Yuan",          "SNÜ/AN", "PatForeignOther"]
+, ["Yuan",          "FNÜ/AN", "PatForeignOther"]
 , ["zu",            "SU", "PatBrief", "ʃGU", "PatReplCommon"]
 , ["zur",           "S~U", "PatBrief", "ʃG~U", "PatCodaR"]
 //
@@ -209,8 +210,8 @@
 , ["tan",           "NÜM/D+AN", "PatAcronym"]        // < Tann
 //
 // chemical elements shorts
-, ["H",  "ʃ+EM/N+-", "PatChemistry"]
-, ["He",  "ʃ+EM/N+E", "PatChemistry"]
+, ["H",  "ʃ+EM/SN-", "PatChemistry"]
+, ["He",  "ʃ+EM/SNE", "PatChemistry"]
 , ["Li",  "ʃ+EM/LI", "PatChemistry"]
 , ["Be",  "ʃ+EM/BE", "PatChemistry"]
 , ["B" ,  "ʃ+EM/B-", "PatChemistry"]
@@ -275,12 +276,12 @@
 , ["Gd",  "ʃ+EM/G-D", "PatChemistry"]
 , ["Tb",  "ʃ+EM/D+-B", "PatChemistry"]
 , ["Dy",  "ʃ+EM/D/DFB-", "PatChemistry"]
-, ["Ho",  "ʃ+EM/N+O", "PatChemistry"]
+, ["Ho",  "ʃ+EM/SNO", "PatChemistry"]
 , ["Er",  "ʃ+EM/EÜ", "PatChemistry"]
 , ["Tm",  "ʃ+EM/D+-M", "PatChemistry"]
 , ["Yb",  "ʃ+EM/DFBB", "PatChemistry"]
 , ["Lu",  "ʃ+EM/LU", "PatChemistry"]
-, ["Hf",  "ʃ+EM/N+-F", "PatChemistry"]
+, ["Hf",  "ʃ+EM/SN-F", "PatChemistry"]
 , ["Ta",  "ʃ+EM/D+A", "PatChemistry"]
 , ["W" ,  "ʃ+EM/F+", "PatChemistry"]
 , ["Re",  "ʃ+EM/SME", "PatChemistry"]
@@ -288,7 +289,7 @@
 , ["Ir",  "ʃ+EM/~I", "PatChemistry"]
 , ["Pt",  "ʃ+EM/B++D", "PatChemistry"]
 , ["Au",  "ʃ+EM/AU", "PatChemistry"]
-, ["Hg",  "ʃ+EM/N+-G", "PatChemistry"]
+, ["Hg",  "ʃ+EM/SN-G", "PatChemistry"]
 , ["Tl",  "ʃ+EM/D+-L", "PatChemistry"]
 , ["Pb",  "ʃ+EM/B+-B", "PatChemistry"]
 , ["Bi",  "ʃ+EM/BI", "PatChemistry"]
@@ -298,7 +299,7 @@
 , ["Fr",  "ʃ+EM/F-/SM-", "PatChemistry"]
 , ["Ra",  "ʃ+EM/SMA", "PatChemistry"]
 , ["Ac",  "ʃ+EM/A+G", "PatChemistry"]
-, ["Th",  "ʃ+EM/DN+", "PatChemistry"]
+, ["Th",  "ʃ+EM/DSN", "PatChemistry"]
 , ["Pa",  "ʃ+EM/B+A", "PatChemistry"]
 , ["U" ,  "ʃ+EM/U", "PatChemistry"]
 , ["Np",  "ʃ+EM/N-+B", "PatChemistry"]
@@ -315,13 +316,13 @@
 , ["Rf",  "ʃ+EM/SM-/F-", "PatChemistry"]
 , ["Db",  "ʃ+EM/DB-", "PatChemistry"]
 , ["Sg",  "ʃ+EM/SG-", "PatChemistry"]
-, ["Bh",  "ʃ+EM/B-/N+-", "PatChemistry"]
-, ["Hs",  "ʃ+EM/N+-S", "PatChemistry"]
+, ["Bh",  "ʃ+EM/B-/SN-", "PatChemistry"]
+, ["Hs",  "ʃ+EM/SN-S", "PatChemistry"]
 , ["Mt",  "ʃ+EM/M-+D", "PatChemistry"]
 , ["Ds",  "ʃ+EM/DS-", "PatChemistry"]
 , ["Rg",  "ʃ+EM/SM-G", "PatChemistry"]
 , ["Cn",  "ʃ+EM/DʃG-N", "PatChemistry"]
-, ["Nh",  "ʃ+EM/N-/N+-", "PatChemistry"]
+, ["Nh",  "ʃ+EM/N-/SN-", "PatChemistry"]
 , ["Fl",  "ʃ+EM/FL-", "PatChemistry"]
 , ["Mc",  "ʃ+EM/M-+G", "PatChemistry"]
 , ["Lv",  "ʃ+EM/L-F", "PatChemistry"]
