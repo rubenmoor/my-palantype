@@ -167,9 +167,9 @@ keysRing =
 
 keysPinky :: [((Text, Maybe Text), Char)]
 keysPinky =
-  [ ((".", Nothing ), 'n')
+  [ ((".", Nothing ), 's')
   , (("0", Just ")"), 'D')
-  , ((":", Nothing ), 's')
+  , ((":", Nothing ), 'n')
   ]
 
 {-|

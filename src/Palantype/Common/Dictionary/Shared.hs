@@ -68,9 +68,9 @@ toStenoStrLeftHand strModeSteno modPrim modSec strSteno =
             $ toKeys $ snd $ $fromJust $ Text.unsnoc strSteno'
         stenoPrim = case modPrim of
             ModPrimNone  -> ""
-            ModPrimCtrl  -> "s"
+            ModPrimCtrl  -> "n"
             ModPrimWin   -> "D"
-            ModPrimAlt   -> "n"
+            ModPrimAlt   -> "s"
         stenoSec = case modSec of
             ModSecNone  -> ""
             ModSecShift -> "S"

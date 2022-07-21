@@ -34,9 +34,9 @@ import Data.Foldable (Foldable(elem))
 
 -- the palantype.de keyboard
 --
--- v ʃ G M         M G ʃ s
+-- v ʃ G M         M G ʃ n
 -- D S N +         + N S D
--- b F B L         L B F n
+-- b F B L         L B F s
 --     Ä E A ~ U I O Ü
 
 -- a key on a steno keyboard
@@ -70,9 +70,9 @@ data Key
   | RightSch
   | RightS
   | RightF
-  | RightSSmall
-  | RightD
   | RightNSmall
+  | RightD
+  | RightSSmall
   deriving stock (Eq, Ord, Data, Generic)
 
 instance Palantype Key where
@@ -108,9 +108,9 @@ instance Palantype Key where
         RightSch      -> 'ʃ' -- U+0283
         RightS        -> 'S'
         RightF        -> 'F'
-        RightSSmall   -> 's'
-        RightD        -> 'D'
         RightNSmall   -> 'n'
+        RightD        -> 'D'
+        RightSSmall   -> 's'
 
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize

@@ -57,7 +57,7 @@ lsCommands =
 
     -- parentheses
     , ("{«^}"  , "-MG" ) -- guillemet: attach to next word
-    , ("{^»}"  , "-ʃs") --            attach
+    , ("{^»}"  , "-ʃn") --            attach
     , ("{„^}"  , "-+" ) -- german quotation marks: attach to next word
     , ("{^“}"  , "-N" ) --                         attach
     , ("{‹^}"  , "-L" ) -- chevron: attach to next word
