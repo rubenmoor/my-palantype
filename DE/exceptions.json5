@@ -16,8 +16,8 @@
 , ["Beatles",       "B~I/D+ELS", "PatAnglI"]
 , ["Beautyfarm",    "BU/D+I/FAÜM", "PatAnglJU"] // more efficient, but wrong BO
 , ["Beautycase",    "BU/D+I/DʃGÄIS", "PatAnglJU"] // more efficient, but wrong BO
-, ["Benn",          "BEN", "PatReplCommon"] // {&,} > Benn > Ben
-, ["Benns",         "BENS", "PatReplCommon"] // {&,} > Benn > Ben
+, ["Benn",          "BEN", "PatDiConsonant"] // {&,} > Benn > Ben
+, ["Benns",         "BENS", "PatDiConsonant"] // {&,} > Benn > Ben
 , ["Beyer",         "BEI/EÜ", "PatCodaR"]
 //, ["Bismark",       "BIS/MAÜ+G", "PatSCPlus"]    // < Bismarck
 , ["Borschtsch",    "B~OʃD", "PatForeignOther"]
@@ -64,8 +64,7 @@
 , ["Hadsch",        "SNAʃD", "PatSCPlus"]
 , ["Ham",           "SNÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
-, ["hatte",         "SNA+D", "PatBrief", "SNA+D/D+E", "PatReplCommon"]
-//, ["hatte",         "HA+D", "PatBrief", "HAD/DJE", "PatReplCommon", "HA+D/DJE", "PatReplCommon"] // greediness /= 0!
+, ["hatte",         "SNE+D", "PatBrief", "SNA+D/D+E", "PatReplCommon1"]
 , ["Haydn",         "SNAI/D-N", "PatSCOther"]
 , ["hehr",          "SNEÜ+", "PatSCPlus"]         // < her
 , ["Hemd",          "S-/SNEMD", "PatCapitalize"]
@@ -93,11 +92,11 @@
 //, "kJ"          : ["GD/J"]
 //, "knabber"     : ["GDNAB/BR"]     // < knapper
 //, "Knigge"      : ["GDNIG/GE"]      // < knicke
-, ["Kampagne",      "G+AM/B+AN/FNE", "PatSCOther", "G+AM/B+AÜG/NE", "PatReplCommon"]
+, ["Kampagne",      "G+AM/B+AN/FNE", "PatSCOther", "G+AM/B+AÜG/NE", "PatReplCommon1"]
 , ["kam",           "G+AÜM", "PatSCStretch"]
 , ["Kerle",         "G+EÜ+/LE", "PatSCPlus"]
 , ["Kommiss",       "G+OM/MISs", "PatSCOther"]    // < Kommis
-, ["können",        "G+ÄONn", "PatBrief", "G+ÄON/NEN", "PatReplCommon"]
+, ["können",        "G+ÄONn", "PatBrief", "G+ÄON/NEN", "PatDiConsonant"]
 , ["körnte",        "G+ÄO+N/D+E", "PatSCPlus"]   // < könnte
 //, "Krake"       : ["GDRAÜ/GDE"]    // < Kracke
 , ["Krauss",        "DGMAUSs", "PatSCOther"]      // < kraus
@@ -145,14 +144,14 @@
 , ["Pakt",          "S-/B+A+GD", "PatCapitalize"]
 , ["Piek",          "B+~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "B+I+S", "PatSCPlus"]        // < Pilz
-, ["Polizei",       "B+O/LI/ʃGEI", "PatReplCommon", "ʃGEI", "PatBrief"]
-, ["Prozent",       "DBMO/ʃGE+ND", "PatOnsetR", "BO/ʃGE+ND", "PatBrief", "ʃGE+ND", "PatBrief"]
+, ["Polizei",       "B+O/LI/ʃGEI", "PatReplCommon2", "ʃGEI", "PatBrief"]
+, ["Prozent",       "DBMO/ʃGE+ND", "PatReplCommon1", "BO/ʃGE+ND", "PatBrief", "ʃGE+ND", "PatBrief"]
 //, "Rappen"      : ["RA+B/BDn"]      // < Raben    
 //, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
 //, "Robbe"       : ["ROB/B"]        // < Robe
 , ["Range",         "SMÄINʃ", "PatAnglAI"]
 , ["Reagan",        "SMÄ/GÄN", "PatAnglAE"]
-, ["Ren",           "SMEÜN", "PatReplCommon"] // < {^]} < Renn
+, ["Ren",           "SMEÜN", "PatSCStretch"] // < {^]} < Renn
 , ["roh",           "SM~O+", "PatSCPlus"]         // < Rohr
 , ["Rur",           "SM~U+", "PatSCPlus"]         // < Ruhr
 //, ["sang",          "SAÜ+N", "PatSCPlus"]        // < sank
@@ -200,7 +199,7 @@
 , ["wurde",         "F+~Us", "PatBrief", "F+~U/DE", "PatCodaR"]
 , ["Xi",            "DSGI+", "PatSCPlus"]
 , ["Yuan",          "FNÜ/AN", "PatForeignOther"]
-, ["zu",            "SU", "PatBrief", "ʃGU", "PatReplCommon"]
+, ["zu",            "SU", "PatBrief", "ʃGU", "PatReplCommon1"]
 , ["zur",           "S~U", "PatBrief", "ʃG~U", "PatCodaR"]
 //
 // Acronyms

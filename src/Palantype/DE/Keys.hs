@@ -119,7 +119,8 @@ instance Palantype Key where
     toDescription = \case
       PatSimple -> "Identical letters"
       PatSimpleMulti -> "Identical letters, multiple chords"
-      PatReplCommon -> "Replacements for common letters"
+      PatReplCommon1 -> "Replacements for common letters 1/2"
+      PatReplCommon2 -> "Replacements for common letters 2/2"
       PatCodaComboT -> "Fitting a consonant in between +D"
       PatOnsetR -> "R in the onset"
       PatOnsetL -> "Exceptions for L in the onset"
@@ -219,7 +220,8 @@ data Pattern
   = PatSimple
   | PatSimpleMulti
   -- common replacement rules
-  | PatReplCommon
+  | PatReplCommon1
+  | PatReplCommon2
   | PatCodaComboT
   | PatOnsetR
   | PatOnsetL
