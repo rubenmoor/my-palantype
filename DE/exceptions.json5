@@ -46,7 +46,7 @@
 //, "Egge"        : ["EG/GE", "PatSpecialCase"]         // < Ecke
 , ["Edinburgh",     "E/DIN/B~U+G", "PatAnglStretchU"]
 , ["eh",            "EÜ+", "PatSCPlus"]          // < er
-, ["ehrst",         "EÜ+SD", "PatSCPlus"]        // < erst
+//, ["ehrst",         "EÜ+SD", "PatSCPlus"]        // < erst
 , ["eine",          "EIn", "PatBrief", "EI/NE", "PatSimple"]
 , ["einer",         "EINs", "PatBrief", "EI/NEÜ", "PatCodaR"]
 , ["Elm",           "S-/E+", "PatCapitalize"] // < {&e} "Fingerspelling" 
@@ -61,16 +61,18 @@
 , ["gram",          "GMAÜM", "PatSCStretch"]        // < Gramm
 , ["Guillaume",     "G~I/FN~OM", "PatFrankOther"]
 //, "haben"       : ["HABn", "HA/BEN"]
-, ["Hadsch",        "SNAʃD", "PatSCPlus"]
+//, ["Hadsch",        "SNAʃD", "PatSCPlus"]
+, ["hallt",         "SNAL/D-", "PatSCOther"]
 , ["Ham",           "SNÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
 , ["hatte",         "SNE+D", "PatBrief", "SNA+D/D+E", "PatReplCommon1"]
 , ["Haydn",         "SNAI/D-N", "PatSCOther"]
-, ["hehr",          "SNEÜ+", "PatSCPlus"]         // < her
+//, ["hehr",          "SNEÜ+", "PatSCPlus"]         // < her
 , ["Hemd",          "S-/SNEMD", "PatCapitalize"]
 //, ["Hertz",         "HEÜ+Ss", "PatSCPlus"]       // < Herz
 , ["hey",           "SNÄI", "PatAnglAI"]
 , ["Hofmann",       "SN~OF/MA+N", "PatSCStretch"]
+, ["holt",          "SN~OLD", "PatSCStretch"]      // < hold
 , ["ihre",          "~Is", "PatBrief"]
 , ["Ilm",           "S-/I+", "PatCapitalize"] // < {&i} "Fingerspelling"
 , ["immer",         "IMs", "PatBrief", "IM/MEÜ", "PatCodaR"]
@@ -94,6 +96,7 @@
 //, "Knigge"      : ["GDNIG/GE"]      // < knicke
 , ["Kampagne",      "G+AM/B+AN/FNE", "PatSCOther", "G+AM/B+AÜG/NE", "PatReplCommon1"]
 , ["kam",           "G+AÜM", "PatSCStretch"]
+, ["Kaufs",         "S-/G+AUFs", "PatCapitalize"]
 , ["Kerle",         "G+EÜ+/LE", "PatSCPlus"]
 , ["Kommiss",       "G+OM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "G+ÄONn", "PatBrief", "G+ÄON/NEN", "PatDiConsonant"]
@@ -102,7 +105,7 @@
 , ["Krauss",        "DGMAUSs", "PatSCOther"]      // < kraus
 //, "Lake"        : ["LAÜ/GDE"]
 //, "Laos"        : ["LA/OS"]        // < Lars
-, ["Lar",           "LAÜ+", "PatSCPlus"]         // < Lahr
+//, ["Lar",           "LAÜ+", "PatSCPlus"]         // < Lahr
 //, "lass"        : ["LASs", "PatSCOther"]         // < las
 , ["Lausanne",      "LO/SAN", "PatFrankOther"]
 , ["Lawrence",      "LO/SMEMGʃ", "PatAnglO"]
@@ -145,18 +148,19 @@
 , ["Piek",          "B+~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "B+I+S", "PatSCPlus"]        // < Pilz
 , ["Polizei",       "B+O/LI/ʃGEI", "PatReplCommon2", "ʃGEI", "PatBrief"]
-, ["Prozent",       "DBMO/ʃGE+ND", "PatReplCommon1", "BO/ʃGE+ND", "PatBrief", "ʃGE+ND", "PatBrief"]
+, ["Prozent",       "DBMO/ʃGE+ND", "PatOnsetR", "BO/ʃGE+ND", "PatBrief", "ʃGE+ND", "PatBrief"]
 //, "Rappen"      : ["RA+B/BDn"]      // < Raben    
 //, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
 //, "Robbe"       : ["ROB/B"]        // < Robe
 , ["Range",         "SMÄINʃ", "PatAnglAI"]
 , ["Reagan",        "SMÄ/GÄN", "PatAnglAE"]
 , ["Ren",           "SMEÜN", "PatSCStretch"] // < {^]} < Renn
-, ["roh",           "SM~O+", "PatSCPlus"]         // < Rohr
-, ["Rur",           "SM~U+", "PatSCPlus"]         // < Ruhr
+//, ["roh",           "SM~O+", "PatSCPlus"]         // < Rohr // should be good thanks to new rule for hr
+//, ["Rur",           "SM~U+", "PatSCPlus"]         // < Ruhr
 //, ["sang",          "SAÜ+N", "PatSCPlus"]        // < sank
 //, "schwank"     : ["SWAN/GD"]      // < schwang
 //, "Schweiß"     : ["SWEIS"]        // < Schweiz
+, ["schult",        "ʃ~ULD", "PatSCStretch"]        // < Schuld
 , ["seine",         "SEIs", "PatBrief", "SEI/NE", "PatSimple"]
 , ["Sex",           "SÄ+GS", "PatAnglAE", "SÄGS", "PatAnglAE"]
 , ["sol",           "S~OL", "PatSCStretch"]         // < soll
@@ -186,14 +190,14 @@
 , ["Ulms",          "S-/U+S", "PatCapitalize"] // < {&U} "Fingerspelling"
 , ["unter",         "U+ND", "PatBrief", "UN/D+EÜ", "PatCodaR"]
 , ["USt",           "NÜM/U+SD", "PatSCPlus"]
-, ["war",           "F+A", "PatBrief"]           // < wahr
+//, ["war",           "F+A", "PatBrief"]           // < wahr
 //, ["weg",           "WEG", "PatBrief"]
 , ["wen",           "FN+-", "PatBrief", "F+-N", "PatBrief", "F+EÜN", "PatSCStretch"]
 , ["wer",           "F+E", "PatBrief"]
 , ["werden",        "F+EÜND", "PatBrief", "F+EÜ/DEN", "PatCodaR", "F+EÜ/Dn", "PatShortSyllable"]
 //, ["Werk",          "WEÜ+G", "PatSCPlus"]        // < Weg
 //, ["Werks",         "WEÜ+GS", "PatSCPlus"]        // < Weg
-, ["Weh",           "F+E+", "PatSCPlus"]          // < Wehr
+//, ["Weh",           "F+E+", "PatSCPlus"]          // < Wehr
 , ["wert",          "F+E+D", "PatSCOther"]
 , ["Wolff",         "F+O+F", "PatSCPlus"]
 , ["wurde",         "F+~Us", "PatBrief", "F+~U/DE", "PatCodaR"]
@@ -203,10 +207,15 @@
 , ["zur",           "S~U", "PatBrief", "ʃG~U", "PatCodaR"]
 //
 // Acronyms
-, ["dpa",           "NÜM/D/B+A", "PatAcronym"]
-, ["sfr",           "NÜM/S/F/SM", "PatAcronym"]        // Abkz. Schweizer Franken
-, ["sin",           "NÜM/SIN", "PatAcronym"]         // < Sinn, Abk. sinus
-, ["tan",           "NÜM/D+AN", "PatAcronym"]        // < Tann
+, ["dpa" ,           "NÜM/D/B+A", "PatAcronym"]
+, ["sfr" ,           "NÜM/S/F/SM", "PatAcronym"]        // Abkz. Schweizer Franken
+, ["sin" ,           "NÜM/SIN", "PatAcronym"]         // < Sinn, Abk. sinus
+, ["tan" ,           "NÜM/D+AN", "PatAcronym"]        // < Tann
+, ["Lkw" ,           "NÜM/L+GF", "PatAcronym"]
+, ["Lkws",           "NÜM/L+GFs", "PatAcronym"]
+, ["Pkw" ,           "NÜM/B++GF", "PatAcronym"]
+, ["Pkws",           "NÜM/B++GFs", "PatAcronym"]
+, ["vs"  ,           "NÜM/FS", "PatAcronym"]
 //
 // chemical elements shorts
 , ["H",  "ʃ+EM/SN-", "PatChemistry"]
