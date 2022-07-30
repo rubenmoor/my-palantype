@@ -41,6 +41,7 @@
 , [ "aa"  , [3, "AÜ", "PatDiVowel"]]
 , [ "aar" , [0, "A/AÜ", "PatDiVowel"]]
 , [ "aar" , [3, "AÜ", "PatDiVowel"]]
+, [ "a|bend", [6, "BEND", "PatBrief"]]
 , [ "ae"  , [0, "AI", "PatDiphtong"]]         // e.g. aerodynamisch
 , [ "ah"  , [0, "AÜ", "PatCodaH"]]
 , [ "ahr" , [0, "AÜ+", "PatCodaHR"]]
@@ -96,14 +97,15 @@
 , [ "baye", [0, "BAI", "PatReplRare"]] // e.g. bayerisch
 , [ "bb"  , [0, "-B", "PatDiConsonant"]]
 , [ "be"  , [6, "b", "PatShortSyllable"]]
-, [ "bj"  , [0, "SB-", "PatReplRare"]]
+, [ "be|t", [8, "b", "PatShortSyllable"]]
+, [ "bj"  , [0, "SB+-", "PatReplRare"]]
 // , "beau|ty" : [0, "BJU/DJI"] // / is allowed, but this pattern fails for the more efficient (but wrong
 //                              pattern eau, thus: full word exception
 //, [ "bi|o", [4, "BJO", "PatBreakUpI", "no-doc"]]
 //, [ "bio" , [4, "BJO", "PatBreakUpI"]]
 , [ "br"  , [0, "BM-", "PatOnsetR"]]
-, [ "bt"  , [0, "-+BD", "PatCodaComboT"]]
-, [ "bt"  , [3, "-BD", "PatCodaComboT"]]
+//, [ "bt"  , [0, "-+BD", "PatCodaComboT"]]
+, [ "bt"  , [0, "-BD", "PatCodaComboT"]]
 , [ "bts" , [0, "-BSD", "PatSwapS"]]
 , [ "c"   , [0, "DʃG-", "PatReplC"]]
 //, [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
@@ -177,10 +179,10 @@
 , [ "ei|ß", [1, "EI/S-", "PatSZ", "no-doc"]]
 , [ "ej"  , [0, "EI", "PatReplCommon2"]]
 //, [ "en"  , [6, "N-", "PatShortSyllable"]]  // causes conflict with Dictionary.Commands, and some confusing patterns
-, [ "en"  , [6, "n", "PatShortSyllable"]]        // TODO: greedier: "ren" -> n
-// TODO: ent-: ENT should be valid, too, because BDN adds little efficiency
-// maybe BDN for ent^ (works already implicitly)
-//, [ "ent"  , [7, "BDN", "PatCommonPrefix"]]     // TODO: documentation: ent = "tn" -> BDN
+, [ "en"  , [6, "n", "PatShortSyllable"]]
+, [ "ten"  , [8, "n", "PatShortSyllable"]] // TODO: ren? instead of ten?
+, [ "ent"  , [7, "D-", "PatCommonPrefix"]]
+, [ "ent|t", [8, "D-", "PatCommonPrefix"]]
 , [ "er"   , [0, "EÜ", "PatCodaR"]]   
 , [ "er|"  , [5, "M-", "PatShortSyllable"]]
 // "er"  : [0, "R", "EÜ"] // TODO: efficiency for "er" in onset
@@ -209,8 +211,8 @@
 , [ "fft"  , [0, "-+FD", "PatCodaComboT"]]
 , [ "fft"  , [3, "-FD", "PatCodaComboT"]]
 , [ "fr"   , [0, "FM-", "PatOnsetR"]]
-, [ "ft"   , [0, "-+FD", "PatCodaComboT"]]
-, [ "ft"   , [3, "-FD", "PatCodaComboT"]]
+//, [ "ft"   , [0, "-+FD", "PatCodaComboT"]]
+, [ "ft"   , [0, "-FD", "PatCodaComboT"]]
 , [ "fts"  , [2, "-+Fs", "PatSwapS"]]
 , [ "fzt"  , [0, "-F/-Gʃs", "PatSwapZ"]]
 , [ "fzt"  , [5, "-Gʃs", "PatSwapZ"]]
@@ -220,8 +222,8 @@
 , [ "gh"   , [0, "G+-", "PatReplH"]]
 , [ "gn"   , [0, "GM-", "PatReplRare"]] // e.g. Prognose
 , [ "gr"   , [0, "GM-", "PatOnsetR"]]
-, [ "gt"   , [0, "-+GD", "PatCodaComboT"]]
-, [ "gt"   , [3, "-GD", "PatCodaComboT"]]
+//, [ "gt"   , [0, "-+GD", "PatCodaComboT"]]
+, [ "gt"   , [0, "-GD", "PatCodaComboT"]]
 , [ "gts"  , [0, "-GSD", "PatSwapS"]]
 , [ "gui"  , [0, "GI", "PatDiphtong"]]
 , [ "h"    , [0, "SN-", "PatReplCommon1"]]
@@ -307,6 +309,7 @@
 , [ "ñ"   , [0, "N", "PatSimple"]]
 , [ "nch" , [0, "-Nʃ", "PatReplCommon2"]]     // TODO: documentation, ch is Kʃ
 , [ "nck" , [0, "-MN", "PatReplCommon2"]]     // Planck
+, [ "ndt" , [3, "+ND", "PatDt"]]
 , [ "ng"  , [0, "-MG", "PatReplCommon1"]]
 , [ "n|gen",[6, "-MGn", "PatShortSyllable"]]    // TODO: documentation
 //, [ "nia" , [0, "NI/A", "PatSimple", "no-doc"]]
@@ -393,7 +396,7 @@
 , [ "pn"  , [0, "N-", "PatReplRare"]]
 , [ "pr"  , [0, "DBM-", "PatOnsetR"]]
 , [ "pro" , [0, "BO", "PatBrief"]]
-, [ "ps"  , [0, "SB-", "PatReplRare"]]     
+, [ "ps"  , [0, "SB+-", "PatReplRare"]]     
 , [ "pt"  , [0, "DB+-", "PatReplRare"]]     
 , [ "pt"  , [0, "-+BD", "PatCodaComboT"]]     
 , [ "pt"  , [3, "-BD", "PatCodaComboT"]]     
@@ -433,6 +436,7 @@
 // implicit "sh" SH 0
 , [ "sh"  , [0, "ʃ", "PatAnglOther"]]       // e.g. cash
 , [ "sp"  , [0, "-BS", "PatReplRare"]]
+, [ "sp"  , [0, "SB-", "PatReplCommon2"]]
 , [ "spl" , [0, "SBL-", "PatReplCommon2"]]
 , [ "spr" , [0, "SBL-", "PatOnsetR"]]
 , [ "sph" , [0, "FB-", "PatReplRare"]]
@@ -533,6 +537,7 @@
 , [ "v"    , [3, "F-", "PatReplCommon1"]]
 , [ "v"    , [0, "-F", "PatReplCommon1"]]
 , [ "ver"  , [7, "v", "PatCommonPrefix"]]
+, [ "ver|t", [8, "v", "PatCommonPrefix"]]
 , [ "vr"   , [0, "FM-", "PatReplRare"]]
 , [ "w"    , [0, "F+-", "PatReplCommon1"]]
 , [ "w"    , [0, "-F", "PatReplCommon1"]]
