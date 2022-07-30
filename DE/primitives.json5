@@ -104,13 +104,12 @@
 //, [ "bi|o", [4, "BJO", "PatBreakUpI", "no-doc"]]
 //, [ "bio" , [4, "BJO", "PatBreakUpI"]]
 , [ "br"  , [0, "BM-", "PatOnsetR"]]
-//, [ "bt"  , [0, "-+BD", "PatCodaComboT"]]
 , [ "bt"  , [0, "-BD", "PatCodaComboT"]]
 , [ "bts" , [0, "-BSD", "PatSwapS"]]
 , [ "c"   , [0, "DʃG-", "PatReplC"]]
-//, [ "c"   , [3, "GD-", "PatReplC"]]       // TODO: documentation
 , [ "c"   , [0, "-GʃD", "PatReplC"]]
 , [ "c"   , [1, "-+G", "PatReplC"]]
+, [ "c"   , [1, "G+-", "PatReplC"]]
 , [ "ç"   , [0, "DʃGM-", "PatReplC"]]      // U+00E7
 //, [ "cä"  , [0, "SHMÄ", "PatReplC"]]     // phonetic z
 //, [ "ce"  , [0, "SHJE", "PatReplC"]]     // z: SH, sch: SJ, c with s/tsch/z-sound: SHJ
@@ -209,10 +208,8 @@
 , [ "f|f"  , [4, "F-", "PatDiConsonant", "no-doc"]]
 , [ "fluor", [0, "FLU/~O", "PatDiphtong", "no-doc"]]
 , [ "fluo" , [0, "FLU/O", "PatDiphtong", "no-doc"]]
-, [ "fft"  , [0, "-+FD", "PatCodaComboT"]]
-, [ "fft"  , [3, "-FD", "PatCodaComboT"]]
+, [ "fft"  , [0, "-FD", "PatDiConsonant"]]
 , [ "fr"   , [0, "FM-", "PatOnsetR"]]
-//, [ "ft"   , [0, "-+FD", "PatCodaComboT"]]
 , [ "ft"   , [0, "-FD", "PatCodaComboT"]]
 , [ "fts"  , [2, "-+Fs", "PatSwapS"]]
 , [ "fzt"  , [0, "-F/-Gʃs", "PatSwapZ"]]
@@ -312,7 +309,7 @@
 // TODO: "un" N
 , [ "n"   , [0, "N", "PatSimple"]]
 , [ "ñ"   , [0, "N", "PatSimple"]]
-, [ "nch" , [0, "-Nʃ", "PatReplCommon2"]]     // TODO: documentation, ch is Kʃ
+, [ "nch" , [0, "-+Nʃ", "PatReplCommon2"]]     // TODO: documentation, ch is Kʃ
 , [ "nck" , [0, "-MN", "PatReplCommon2"]]     // Planck
 , [ "ndt" , [3, "+ND", "PatDt"]]
 , [ "ng"  , [0, "-MG", "PatReplCommon1"]]
@@ -323,6 +320,7 @@
 //, [ "nio" , [0, "NI/O", "PatSimple", "no-doc"]]
 //, [ "nio" , [4, "JNO", "PatBreakUpI"]]
 , [ "nc"  , [0, "-MN", "PatReplCommon2"]]
+, [ "nds" , [0, "-NSD", "PatSwapS"]]
 , [ "nft" , [0, "-+NFD", "PatCodaComboT"]]
 , [ "nft" , [3, "-NFD", "PatCodaComboT"]]
 , [ "nfts", [2, "+NFs", "PatSwapS"]]
@@ -462,7 +460,7 @@
 , [ "st"  , [0, "s/-+D", "PatSmallS"]]
 , [ "st"  , [2, "s", "PatSwapS"]]
 , [ "str" , [0, "DSM-", "PatOnsetR"]]
-, [ "sts" , [0, "Ss", "PatSwapS"]]
+, [ "sts" , [0, "-Ss", "PatSwapS"]]
 , [ "straf", [0, "DSMAÜF", "PatSCStretch"]]  // < straff
 , [ "sw"  , [0, "FG-", "PatReplRare"]]
 , [ "sz"  , [0, "DʃG-", "PatReplRare"]]
