@@ -283,6 +283,7 @@
 , [ "lch" , [0, "-Lʃ", "PatReplRare"]] // -lch = -lsch
 , [ "lern", [1, "LEÜ+N", "PatSCPlus"]]
 , [ "ler|n",[1, "LEÜ+/N-", "PatSCPlus"]]
+, [ "lft"  ,[0, "-LFD", "PatReplCommon1"]]
 , [ "lh"  , [0, "L", "PatReplH"]]       // e.g. Delhi
 //, [ "lia" , [0, "JLA", "PatBreakUpI"]]     // think "lia"/"ila"
 //, [ "lio" , [0, "JLO", "PatBreakUpI"]]     // think "lio"/"ilo"
@@ -291,6 +292,7 @@
 , [ "l|l" , [4, "-L", "PatDiConsonant", "no-doc"]]
 , [ "llt" , [0, "-LD", "PatDiConsonant"]]
 , [ "lm"  , [0, "-+", "PatReplCommon2"]]
+, [ "lp"  , [0, "-LB", "PatReplRare"]]
 , [ "lph" , [0, "-LBF", "PatReplRare"]]     // e.g. Ralph
 , [ "lt"  , [0, "-LD", "PatCodaComboT"]]
 , [ "lts" , [0, "-LSD", "PatSwapS"]]
@@ -386,9 +388,10 @@
 , [ "p"   , [0, "B+-", "PatReplCommon1"]]
 , [ "p"   , [0, "-+B", "PatReplCommon1"]]
 , [ "p"   , [4, "-B", "PatReplCommon1"]]
-, [ "pf"  , [0, "-BF", "PatReplRare"]]
+, [ "pf"  , [0, "-BF", "PatReplCommon2"]]
 , [ "pf"  , [0, "FB+-", "PatReplRare"]]
 , [ "pfl" , [0, "FBL-", "PatReplRare"]]
+, [ "pft" , [0, "FBL-", "PatReplCommon2"]]
 , [ "ph"  , [0, "F+-", "PatReplRare"]]       // TODO: documentation
 , [ "ph"  , [0, "-+F", "PatReplRare"]]
 , [ "ph"  , [3, "F", "PatReplRare"]]
@@ -544,6 +547,7 @@
 , [ "ver"  , [7, "v", "PatCommonPrefix"]]
 , [ "ver|t", [8, "v", "PatCommonPrefix"]]
 , [ "vr"   , [0, "FM-", "PatReplRare"]]
+, [ "vt"   , [0, "-+FD", "PatReplCommon1"]]
 , [ "w"    , [0, "F+-", "PatReplCommon1"]]
 , [ "w"    , [0, "-F", "PatReplCommon1"]]
 , [ "wie|der", [7, "FI+", "PatCommonPrefix"]]
