@@ -131,6 +131,7 @@
 //, [ "cia" , [0, "SHJA", "PatReplC"]]
 , [ "ck"  , [0, "G+-", "PatReplCommon1"]]
 , [ "ck"  , [0, "-+G", "PatReplCommon1"]]
+, [ "ckt" , [0, "-+GD", "PatReplCommon1"]]
 , [ "cr"  , [0, "DʃGM-", "PatReplRare"]]
 , [ "d"   , [0, "D", "PatSimple"]]
 , [ "daq" , [0, "DAG", "PatReplRare"]]     // e.g. Nasdaq
@@ -288,6 +289,7 @@
 , [ "lk"  , [0, "-LG", "PatReplCommon2"]]
 , [ "ll"  , [0, "-L", "PatDiConsonant"]]
 , [ "l|l" , [4, "-L", "PatDiConsonant", "no-doc"]]
+, [ "llt" , [0, "-LD", "PatDiConsonant"]]
 , [ "lm"  , [0, "-+", "PatReplCommon2"]]
 , [ "lph" , [0, "-LBF", "PatReplRare"]]     // e.g. Ralph
 , [ "lt"  , [0, "-LD", "PatCodaComboT"]]
@@ -297,6 +299,7 @@
 , [ "ml"  , [0, "-+", "PatReplRare"]]
 , [ "mm"  , [0, "-M", "PatDiConsonant"]]
 , [ "m|m" , [4, "-M", "PatDiConsonant", "no-doc"]]
+, [ "mmt"  , [0, "-MD", "PatDiConsonant"]]
 , [ "me|"  , [5, "M-", "PatShortSyllable"]]
 , [ "mi|"  , [5, "M-", "PatShortSyllable"]]
 , [ "mp"   , [0, "-MB", "PatReplCommon2"]]
@@ -311,6 +314,7 @@
 , [ "nck" , [0, "-MN", "PatReplCommon2"]]     // Planck
 , [ "ndt" , [3, "+ND", "PatDt"]]
 , [ "ng"  , [0, "-MG", "PatReplCommon1"]]
+, [ "ngt" , [0, "-MGD", "PatReplCommon1"]]
 , [ "n|gen",[6, "-MGn", "PatShortSyllable"]]    // TODO: documentation
 //, [ "nia" , [0, "NI/A", "PatSimple", "no-doc"]]
 //, [ "nia" , [4, "JNA", "PatBreakUpI"]]    // think "nia"/"ina"
@@ -327,6 +331,7 @@
 , [ "nsk" , [0, "-MGS", "PatReplRare"]]
 , [ "nnt" , [0, "-+ND", "PatCodaComboT"]]
 , [ "nnt" , [3, "-ND", "PatCodaComboT"]]
+, [ "nst" , [0, "-NSD", "PatReplCommon1"]]
 , [ "nt"  , [0, "-+ND", "PatCodaComboT"]]
 , [ "nt"  , [3, "-ND", "PatCodaComboT"]]
 , [ "nts" , [0, "-+NSD", "PatSwapS"]]
