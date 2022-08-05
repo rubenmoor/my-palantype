@@ -395,7 +395,7 @@
 , [ "pf"  , [0, "-BF", "PatReplCommon2"]]
 , [ "pf"  , [0, "FB+-", "PatReplRare"]]
 , [ "pfl" , [0, "FBL-", "PatReplRare"]]
-, [ "pft" , [0, "FBL-", "PatReplCommon2"]]
+, [ "pft" , [0, "-BFD", "PatReplCommon2"]]
 , [ "ph"  , [0, "F+-", "PatReplRare"]]       // TODO: documentation
 , [ "ph"  , [0, "-+F", "PatReplRare"]]
 , [ "ph"  , [3, "F", "PatReplRare"]]
@@ -443,7 +443,7 @@
 //, [ "schr", [2, "ʃM-", "PatOnsetR"]]
 , [ "scht", [0, "-ʃD", "PatCodaComboT"]]
 , [ "schw", [0, "ʃB-", "PatReplCommon2"]]
-, [ "scr" , [0, "DSGL-", "PatReplCommon2"]]
+, [ "scr" , [0, "DSGM-", "PatOnsetR"]]
 , [ "se"  , [6, "-Ss", "PatShortSyllable"]]
 // implicit "sh" SH 0
 , [ "sh"  , [0, "ʃ", "PatAnglOther"]]       // e.g. cash
@@ -454,7 +454,7 @@
 , [ "sph" , [0, "FB-", "PatReplRare"]]
 , [ "sk"  , [0, "SG-", "PatReplRare"]]
 , [ "sk"  , [0, "-+GS", "PatReplRare"]]      // sk in coda, TODO: documentation think "sk"/"ks"
-, [ "skr" , [0, "SGL-", "PatReplCommon2"]]
+, [ "skr" , [0, "SGM-", "PatOnsetR"]]
 , [ "ss"  , [0, "-Ss", "PatDiConsonant"]]
 , [ "ss"  , [3, "S", "PatDiConsonant"]]
 , [ "sst" , [0, "s/+D", "PatSmallS"]]
@@ -666,7 +666,7 @@
 , [ "game"   , [0, "GÄIM", "PatAnglAI"]]
 , [ "george" , [0, "FN~Oʃ", "PatAnglSch"]]
 , [ "goal"   , [0, "GOL", "PatAnglO"]]
-, [ "goa|lie", [0, "GO|L~I", "PatAnglO"]]
+, [ "goa|lie", [0, "GO/L~I", "PatAnglO"]]
 , [ "goo"    , [0, "GU", "PatAnglU"]]
 , [ "glamour", [0, "GLÄ/MA", "PatAnglAE"]]
 , [ "grace"  , [0, "GMÄIS", "PatAnglAI"]]
@@ -779,7 +779,7 @@
 , [ "scope"  , [0, "SG+O+B", "PatAnglO"]]
 , [ "scout"  , [3, "SG+AUD", "PatAnglAU"]]
 , [ "scout"  , [0, "SG+AU+D", "PatAnglAU"]]
-, [ "screen", [0, "SGLIN", "PatAnglI"]]
+, [ "screen", [0, "DSGMIN", "PatAnglI"]]
 , [ "ser|vice", [0, "SEÜ/FIS", "PatAnglOther"]]
 , [ "share"  , [0, "ʃÄÜ", "PatAnglAE"]]
 , [ "shave"  , [0, "ʃÄIF", "PatAnglAI"]]
