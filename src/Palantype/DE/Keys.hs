@@ -133,7 +133,6 @@ instance Palantype Key where
       PatDt -> "The dt-rule"
       PatDiphtong -> "Multiple vowels"
       PatReplC -> "Different replacements for c"
-      PatSZ -> "The letter ß"
       PatBreakUpI -> "Break up ia and io"
       PatSwapS -> "S-swapping in the coda"
       PatSwapSch -> "Sch-swapping in the coda"
@@ -234,7 +233,6 @@ data Pattern
   | PatDt
   | PatDiphtong
   | PatReplC
-  | PatSZ
   | PatBreakUpI
   | PatSwapS
   | PatSwapSch

@@ -35,7 +35,6 @@
 , ["dass",          "DAs", "PatBrief"]          // < das
 , ["Dealer",        "D~I/LEÜ", "PatAnglI"]          // < das
 , ["Dean",          "D~I+N", "PatAnglOther"]
-, ["Deutschland",   "ʃLAND", "PatBrief", "DEU+ʃD/LAND", "PatSwapSch"]
 , ["Dike",          "D~I/G+E", "PatSCStretch"]      // < Dicke
 , ["Diken",         "D~I/G+EN", "PatSCStretch", "D~I/G+-n", "PatSCStretch"] // < Dicke
 , ["East",          "~I+SD", "PatAnglI"]
