@@ -13,6 +13,7 @@
 , ["Aortenklappen", "A/~O/D+EN/DGLA+B/B+EN", "PatCodaR", "A/~O/D+-n/DGLA+B/B+-n", "PatShortSyllable"]
 , ["Audio",         "AU/DI/O", "PatSimple"]      // < Auto
 , ["bah",           "BAÜ+", "PatSCPlus"]         // < bar
+, ["Bazooka",       "BA/ʃGU/G+A", "PatAnglU"]
 , ["Beatles",       "B~I/D+ELS", "PatAnglI"]
 , ["Beautyfarm",    "BU/D+I/FAÜM", "PatAnglJU"] // more efficient, but wrong BO
 , ["Beautycase",    "BU/D+I/DʃGÄIS", "PatAnglJU"] // more efficient, but wrong BO
@@ -23,8 +24,11 @@
 , ["Borschtsch",    "B~OʃD", "PatForeignOther"]
 , ["Bouquet",       "BU/G+E", "PatFrankOther"]
 , ["Bouquets",      "BU/G+ES", "PatFrankOther"]
+, ["Brooklyn",      "BMU+G/LIN", "PatAnglU"]
+, ["Brooks",        "BMU+GS", "PatAnglU"]
 , ["Bucks",         "BA+GS", "PatAnglA"]
 , ["Chelsea",       "ʃEL/SI", "PatAnglI"]
+, ["Clooney",       "DGLU/NÄI", "PatAnglU"]
 , ["Cousin",        "DʃGU/SÄ", "PatFrankOther", "DʃGU/SEMG", "PatFrankOther"]
 , ["Cousine",       "DʃGU/SI/NE", "PatFrankOther", "DʃGU/S~IN", "PatFrankOther"]
 , ["Court",         "G+~O+D", "PatAnglStretchO"]

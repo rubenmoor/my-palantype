@@ -298,6 +298,7 @@
 , [ "ohrt", [0, "~O+D", "PatCodaHR"]]
 , [ "oi"  , [0, "EU", "PatDiphtong"]]
 , [ "oo"  , [0, "O/O", "PatDiVowel"]]
+, [ "oo"  , [3, "~O", "PatDiVowel"]]
 , [ "oor" , [0, "O/~O", "PatDiVowel"]]
 , [ "or"  , [0, "~O", "PatCodaR"]]
 , [ "ør"  , [0, "ÄO", "PatCodaR"]]
@@ -407,7 +408,7 @@
 , [ "th"  , [3, "D+-", "PatReplH"]]
 , [ "th"  , [0, "-+D", "PatReplH"]]
 , [ "th"  , [3, "-D", "PatReplH"]]
-, [ "thr"  , [0, "DNL-", "PatReplRare"]]
+, [ "thr"  , [0, "DSNM-", "PatReplRare"]]
 , [ "ti|"  , [5, "D+-", "PatShortSyllable"]]
 //, [ "tia" , [0, "DJI/A", "PatReplCommon", "no-doc"]]
 //, [ "tia" , [4, "DJA", "PatBreakUpI"]]
@@ -515,6 +516,10 @@
 , [ "blue"   , [0, "BLU", "PatAnglU"]]        // e.g. blues
 , [ "boe|ing", [0, "BO/IMG", "PatAnglO"]]
 , [ "book"   , [0, "BU+G", "PatAnglU"]]
+, [ "boom"   , [0, "BUM", "PatAnglU"]]
+, [ "boo|m"  , [0, "BU/M", "PatAnglU"]]
+, [ "boomt"  , [0, "BUMD", "PatAnglU"]]
+, [ "boos"   , [0, "B~US", "PatAnglStretchU"]]
 , [ "boiled" , [0, "BEULD", "PatAnglOther"]]
 , [ "bourne" , [0, "B~ON", "PatAnglStretchO"]]
 , [ "break"  , [0, "BMÄI+G", "PatAnglAI"]]
@@ -561,6 +566,8 @@
 , [ "deep"   , [0, "DI+B", "PatAnglI"]]
 , [ "de|vice", [0, "DI/F+AIS", "PatAnglAI"]]
 , [ "doug"   , [0, "DAG", "PatAnglA"]]
+, [ "door"   , [0, "D~O", "PatAnglO"]]
+, [ "doo|dle", [0, "DU/DLE", "PatAnglU"]]
 , [ "down"   , [0, "DAUN", "PatAnglAU"]]
 , [ "dressed", [0, "DMESD", "PatAnglOther"]]
 , [ "drew"   , [0, "DM~U", "PatAnglStretchU"]]
@@ -577,6 +584,8 @@
 , [ "fire"   , [0, "FAI/EÜ", "PatAnglEI"]]
 , [ "five"   , [0, "FAIF", "PatAnglEI"]]
 , [ "float"  , [0, "FLO+D", "PatAnglO"]]     // < flott
+, [ "food"   , [0, "FUD", "PatAnglU"]]
+, [ "foot"   , [0, "FU+D", "PatAnglU"]]
 , [ "font"   , [0, "FO+ND", "PatAnglOther"]]     // < fond
 , [ "foun"   , [0, "FAUN", "PatAnglAU"]]
 , [ "foul"   , [0, "FAU/EL", "PatAnglAU"]]    // < faul
@@ -605,6 +614,7 @@
 , [ "hi"     , [0, "SNAI", "PatAnglEI"]]
 , [ "high"   , [3, "SNAI+", "PatAnglEI"]]
 , [ "home"   , [0, "SNOM", "PatAnglO"]]
+, [ "hoo"    , [0, "SNU", "PatAnglU"]]
 , [ "house"  , [3, "SNAUS", "PatAnglAU"]]
 , [ "house"  , [0, "SNAU+S", "PatAnglAU"]]
 , [ "hype"   , [0, "SNAI+B", "PatAnglEI"]]
@@ -645,8 +655,10 @@
 , [ "linked" , [0, "LIMND", "PatAnglOther"]]
 , [ "live"   , [0, "LAIF", "PatAnglEI"]]
 , [ "lone"   , [0, "LON", "PatAnglO"]]
+, [ "loo"    , [0, "LU", "PatAnglU"]]
 , [ "love"   , [0, "LOF", "PatAnglO"]]
 , [ "loa"    , [3, "LO", "PatAnglO"]]       // e.g. boot|loa|der
+, [ "look"   , [0, "LU+G", "PatAnglU"]]
 , [ "loop"   , [0, "LUB", "PatAnglU"]]
 , [ "lounge" , [0, "LAUNʃ", "PatAnglAU"]]
 , [ "made"   , [0, "MÄID", "PatAnglAI"]]
@@ -654,6 +666,7 @@
 , [ "mine"   , [0, "MAIN", "PatAnglEI"]]
 , [ "mixed"  , [0, "MI+GSD", "PatAnglOther"]]
 , [ "mole"   , [0, "MOL", "PatAnglO"]]
+, [ "moo|dle", [0, "MU/DLE", "PatAnglU"]]
 , [ "more"   , [0, "M~O", "PatAnglStretchO"]]
 , [ "moun"   , [0, "MAUN", "PatAnglAU"]]
 , [ "mouse"  , [0, "MAUS", "PatAnglAU"]]
@@ -682,6 +695,7 @@
 , [ "patch"  , [0, "B+ÄʃD", "PatAnglSch"]]
 , [ "pea"    , [0, "B+~I", "PatAnglI"]]
 , [ "peace"  , [0, "B+~IS", "PatAnglI"]]
+, [ "peer"   , [0, "B+~I", "PatAnglI"]]
 , [ "phone"  , [0, "FON", "PatAnglO"]]
 , [ "pipe"   , [0, "B+AI+B", "PatAnglEI"]]
 , [ "pool"   , [0, "B+~UL", "PatAnglStretchU"]]
@@ -694,6 +708,7 @@
 , [ "ride"   , [0, "SMAID", "PatAnglEI"]]
 , [ "roa"    , [0, "SM~O", "PatAnglStretchO"]]        // e.g. off-road, roaming
 , [ "rook"   , [0, "SMU+G", "PatAnglU"]]
+, [ "roo|k"  , [0, "SMU|+G", "PatAnglU"]]
 , [ "royce"  , [0, "SMEUS", "PatAnglOther"]]
 , [ "save"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "safe"   , [0, "SÄIF", "PatAnglAI"]]
@@ -714,6 +729,8 @@
 , [ "sites"  , [3, "SAIs", "PatAnglEI"]]
 , [ "sive"   , [0, "SIF", "PatAnglOther"]]     // e.g. inclusive
 , [ "soap"   , [0, "SO+B", "PatAnglO"]]
+, [ "smooth" , [0, "SM~US", "PatAnglStretchU"]]
+, [ "smoo|th", [0, "SM~U/S", "PatAnglStretchU"]]
 , [ "square" , [0, "SG+ÄÜ", "PatAnglAE"]]
 , [ "squat"  , [0, "SG+OD", "PatAnglO"]]
 , [ "squash" , [0, "SG+Oʃ", "PatAnglO"]]
@@ -738,14 +755,17 @@
 , [ "tab"    , [0, "D+Ä+B", "PatAnglAE"]]
 , [ "tain"   , [0, "D+ÄN", "PatAnglAE"]]     // e.g. Mountainbike
 , [ "talk"   , [0, "D+O+G", "PatAnglO"]]
+, [ "tattoo" , [0, "D+A+D/D+U", "PatAnglU"]]
 , [ "tch"    , [0, "-+ʃD", "PatSwapSch"]]       // e.g. batch, tch like tsch, like scht
 , [ "teak"   , [0, "D+~I+G", "PatAnglI"]]    // e.g. Teak-Holz
 , [ "thew"   , [0, "DFB~U", "PatAnglStretchU"]] // Mat|thew
 , [ "tion"   , [0, "ʃEN", "PatAnglSch"]]       // think "schen" like in action; "ti|o" is dealt with regularly
 , [ "tease"  , [0, "D+~IS", "PatAnglI"]]
 , [ "teen"   , [0, "D+~IN", "PatAnglI"]]
+, [ "tee|n"  , [0, "D+~I/N", "PatAnglI"]]
 , [ "tive"   , [0, "D+IF", "PatAnglOther"]]     // e.g. incentive
 , [ "tool"   , [0, "D+UL", "PatAnglU"]]
+, [ "toon"   , [0, "D+~UN", "PatAnglU"]]
 , [ "tou|r"  , [0, "D+U/SM", "PatAnglU"]]     // e.g. touren, Tourismus
 , [ "tour"   , [0, "D+~U", "PatAnglStretchU"]]    // e.g. tour
 , [ "town"   , [0, "D+AUN", "PatAnglAU"]]       
@@ -759,6 +779,7 @@
 , [ "uce"    , [0, "~US", "PatAnglStretchU"]]
 , [ "verse"  , [0, "F+EÜS", "PatAnglOther"]]     // reverse
 , [ "view"   , [0, "F+~U", "PatAnglStretchU"]]
+, [ "voo|doo", [0, "FBLU/DU", "PatAnglU"]]
 , [ "ware"   , [0, "F+ÄÜ", "PatAnglAE"]]     
 , [ "warp"   , [0, "F+AÜ+B", "PatAnglOther"]]
 , [ "watch"  , [0, "F+O+ʃD", "PatAnglO"]]
@@ -768,8 +789,7 @@
 , [ "wide"   , [0, "F+AID", "PatAnglEI"]]
 , [ "whistle", [0, "F+IS/SEL", "PatAnglOther"]]
 , [ "white"  , [0, "F+AI+D", "PatAnglEI"]]
-, [ "wood"   , [0, "F+UD", "PatAnglU"]]
-, [ "woo|d"  , [0, "F+U/D", "PatAnglU"]]
+, [ "woo"    , [0, "F+U", "PatAnglU"]]
 , [ "worces" , [0, "F+ÄOS", "PatAnglOther"]]
 // french
 , [ "aide" , [0, "ÄD", "PatFrankOther"]]
