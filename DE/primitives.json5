@@ -708,7 +708,7 @@
 , [ "ride"   , [0, "SMAID", "PatAnglEI"]]
 , [ "roa"    , [0, "SM~O", "PatAnglStretchO"]]        // e.g. off-road, roaming
 , [ "rook"   , [0, "SMU+G", "PatAnglU"]]
-, [ "roo|k"  , [0, "SMU|+G", "PatAnglU"]]
+, [ "roo|k"  , [0, "SMU/G+-", "PatAnglU"]]
 , [ "royce"  , [0, "SMEUS", "PatAnglOther"]]
 , [ "save"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "safe"   , [0, "SÄIF", "PatAnglAI"]]
