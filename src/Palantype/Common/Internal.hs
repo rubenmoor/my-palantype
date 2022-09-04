@@ -10,38 +10,36 @@
 
 module Palantype.Common.Internal where
 
-import Control.Category (
-    (<<<),
- )
-import Data.Aeson (
-    FromJSON,
-    FromJSONKey,
-    ToJSON,
-    ToJSONKey,
- )
-import Data.Eq (Eq)
-import Data.Foldable (Foldable)
-import Data.Int (Int)
-import Data.Ord (Ord)
-import qualified Data.Text as Text
-import GHC.Generics (Generic)
-import Data.Text (Text)
-import Text.Read (Read)
-import Text.Show (Show (show))
-import TextShow (
-    TextShow (
-        showb,
-        showbPrec,
-        showt
-    ),
-    fromString,
-    fromText,
- )
-import TextShow.Generic (genericShowbPrec)
-import Servant.API (ToHttpApiData (toUrlPiece), FromHttpApiData (parseUrlPiece))
-import Data.Either (Either(..))
-import Data.Function (($))
-import Data.Semigroup ((<>))
+import           Control.Category               ( (<<<) )
+import           Data.Aeson                     ( FromJSON
+                                                , FromJSONKey
+                                                , ToJSON
+                                                , ToJSONKey
+                                                )
+import           Data.Either                    ( Either(..) )
+import           Data.Eq                        ( Eq )
+import           Data.Foldable                  ( Foldable )
+import           Data.Function                  ( ($) )
+import           Data.Int                       ( Int )
+import           Data.Ord                       ( Ord )
+import           Data.Semigroup                 ( (<>) )
+import qualified Data.Text                     as Text
+import           Data.Text                      ( Text )
+import           GHC.Generics                   ( Generic )
+import           Servant.API                    ( FromHttpApiData(parseUrlPiece)
+                                                , ToHttpApiData(toUrlPiece)
+                                                )
+import           Text.Read                      ( Read )
+import           Text.Show                      ( Show(show) )
+import           TextShow                       ( TextShow
+                                                    ( showb
+                                                    , showbPrec
+                                                    , showt
+                                                    )
+                                                , fromString
+                                                , fromText
+                                                )
+import           TextShow.Generic               ( genericShowbPrec )
 
 data Lang = EN | DE
     deriving stock (Eq, Generic, Ord, Read)
@@ -60,15 +58,15 @@ instance Show Lang where
     show = Text.unpack <<< showt
 
 instance ToHttpApiData Lang where
-  toUrlPiece = \case
-    EN -> "EN"
-    DE -> "DE"
+    toUrlPiece = \case
+        EN -> "EN"
+        DE -> "DE"
 
 instance FromHttpApiData Lang where
-  parseUrlPiece = \case
-    "EN" -> Right EN
-    "DE" -> Right DE
-    str  -> Left $ "url piece: " <> str <> ": no parse"
+    parseUrlPiece = \case
+        "EN" -> Right EN
+        "DE" -> Right DE
+        str  -> Left $ "url piece: " <> str <> ": no parse"
 
 type Greediness = Int
 
@@ -86,6 +84,8 @@ data PatternPos
       Multiple
     | -- | single letter that can be onset or coda
       OnsetAndCoda
+    | -- | a whole world exception from `exceptions.json`
+      PPException
     deriving stock (Eq, Generic, Ord, Show)
 
 instance FromJSON PatternPos
@@ -96,11 +96,12 @@ instance TextShow PatternPos where
 
 showPretty :: PatternPos -> Text
 showPretty = \case
-    Onset -> "Onset"
-    Nucleus -> "Nucleus"
-    Coda -> "Coda"
-    Multiple -> "Multiple"
+    Onset        -> "Onset"
+    Nucleus      -> "Nucleus"
+    Coda         -> "Coda"
+    Multiple     -> "Multiple"
     OnsetAndCoda -> "Onset/Coda"
+    PPException  -> "Exceptions"
 
 data Finger
     = LeftPinky
