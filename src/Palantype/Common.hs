@@ -12,7 +12,6 @@ module Palantype.Common
   , module Palantype.Common.RawSteno
   , module Palantype.Common.RenderPlover
   , module Palantype.Common.RawSteno.Type
-  , MapStenoWordTake100
   ) where
 
 import Palantype.Common.AutoDoc ( PatternDoc, patternDoc )
@@ -68,10 +67,4 @@ import Palantype.Common.Dictionary.Plover
     ( dictPlover, kiBackUp, kiCapNext, kiAcronym )
 import Palantype.Common.Dictionary.Special (dictSpecial)
 import Palantype.Common.Dictionary.Numbers (dictNumbers)
-import Data.Map.Strict (Map)
-import Data.Int (Int)
-import Data.Text (Text)
 import Palantype.Common.RenderPlover (renderPlover)
-
-type MapStenoWordTake100 key =
-  Map (PatternGroup key) (Map Greediness (Int, [(Text, RawSteno)]))

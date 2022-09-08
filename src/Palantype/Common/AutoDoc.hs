@@ -1,24 +1,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE TypeApplications #-}
+{-# OPTIONS_GHC -Wno-unused-imports #-}
 
 module Palantype.Common.AutoDoc
     ( patternDoc
     , PatternDoc
     ) where
 
-import           Control.Category               ( (<<<) )
 import           Data.Bifunctor                 ( Bifunctor(first, second) )
-import           Data.Bool                      ( Bool(True) )
+import           Data.Bool                      ( Bool(False) )
 import           Data.Foldable                  ( Foldable(foldl') )
 import           Data.Function                  ( ($)
-                                                , (.)
                                                 )
 import           Data.Functor                   ( (<$>)
                                                 , Functor(fmap)
                                                 )
-import           Data.List                      ( (++)
-                                                , sort
+import           Data.List                      ( sort
                                                 )
 import qualified Data.Map.Strict               as Map
 import           Data.Map.Strict                ( Map )
@@ -52,17 +50,15 @@ The `PatternGroup` for capitalization, `PatCapitalize`, is added manually, becau
 not feature in the primitives.
 -}
 type PatternDoc key
-    = [(PatternGroup key, [(Greediness, [(PatternPos, [(Text, RawSteno)])])])]
+    = Map (PatternGroup key) (Map Greediness (Map PatternPos [(Text, RawSteno)]))
 
 patternDoc :: forall key . Palantype key => PatternDoc key
 patternDoc =
-    Map.toList
-        $   Map.insert patCapitalize
-                       [(0, [(Onset, [("", KI.toRaw @key kiCapNext)])])]
-        $   Map.toList
-        .   fmap (Map.toList <<< fmap sort)
-        <$> mapPatternDoc
+    fmap (fmap sort) <$> Map.insert patCapitalize pgCapitalize mapPatternDoc
   where
+    pgCapitalize = Map.singleton 0 $
+      Map.singleton Onset [("", KI.toRaw @key kiCapNext)]
+
     mapPatternDoc
         :: Map (PatternGroup key) (Map Greediness (Map PatternPos [(Text, RawSteno)]))
     mapPatternDoc =
@@ -84,10 +80,10 @@ patternDoc =
     accByPattern str m (g, r, p, bNoDoc, pPos) = if bNoDoc
         then m
         else Map.insertWith
-            (Map.unionWith (Map.unionWith (++)))
+            (Map.unionWith (Map.unionWith (<>)))
             p
             (Map.singleton g $ Map.singleton pPos [(str, r)])
             m
 
-    lsExceptions = second (fmap $ \(r, p) -> (0, r, p, True, PPException))
+    lsExceptions = second (fmap $ \(g, r, p, bNoDoc) -> (g, r, p, bNoDoc, PPException))
         <$> Map.toList mapExceptions

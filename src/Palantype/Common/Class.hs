@@ -16,7 +16,7 @@ import           Control.DeepSeq                ( NFData )
 import           Control.Exception              ( assert )
 import           Data.Aeson                     ( FromJSON
                                                 , ToJSON
-                                                , ToJSONKey
+                                                , ToJSONKey, FromJSONKey
                                                 )
 import           Data.Bool                      ( Bool )
 import           Data.ByteString                ( ByteString )
@@ -58,6 +58,7 @@ import           Palantype.Common.Internal      ( Chord(Chord)
 import           Palantype.Common.KeyIndex      ( keyIndex )
 import           Palantype.Common.RawSteno.Type ( RawSteno )
 import           TextShow                       ( TextShow )
+import Text.Show (Show)
 
 -- | defines a steno key layout
 -- |
@@ -74,9 +75,11 @@ class ( Data key
       , TextShow key
       , Data (PatternGroup key)
       , FromJSON (PatternGroup key)
+      , FromJSONKey (PatternGroup key)
       , Generic key
       , NFData (PatternGroup key)
       , Ord (PatternGroup key)
+      , Show (PatternGroup key)
       , TextShow (PatternGroup key)
       , ToJSON (PatternGroup key)
       , ToJSONKey (PatternGroup key)
@@ -148,7 +151,7 @@ class ( Data key
   -- | full word exceptions
   -- exceptions that span several chords go here
   mapExceptions
-    :: Map Text [(RawSteno, PatternGroup key)]
+    :: Map Text [(Greediness, RawSteno, PatternGroup key, Bool)]
 
   allKeyIndices :: [Int]
   allKeyIndices = [1..32]

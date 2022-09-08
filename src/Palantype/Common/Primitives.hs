@@ -84,7 +84,7 @@ stripComments content =
     stripComment str = head $ Text.splitOn "//" str
 
 newtype ExceptionsMap key = ExceptionsMap
-  { unExceptionsMap :: Map Text [(RawSteno, PatternGroup key)]
+  { unExceptionsMap :: Map Text [(Greediness, RawSteno, PatternGroup key, Bool)]
   }
 
 instance (Palantype key) => FromJSON (ExceptionsMap key) where
@@ -94,23 +94,28 @@ instance (Palantype key) => FromJSON (ExceptionsMap key) where
     where
       acc m jv@(Array vec) = do
         (k, rem) <- case toList vec of
-          k:rem | length rem >= 2 -> pure (k, rem)
+          k:rem | length rem >= 3 -> pure (k, rem)
           _ -> fail $ "malformed entry: " <> show jv
 
         key <- parseJSON k
-        pairs <- parseEntries key rem
-        pure $ Map.insert key pairs m
+        tuples <- parseEntries key rem
+        pure $ Map.insert key tuples m
+
       acc _ other = fail $ "malformed: " <> show other
 
       parseEntries _ [] = pure []
-      parseEntries key (vSteno:vPat:r) = do
+      parseEntries key (vG:vSteno:vPat:r) = do
+        g <- parseJSON vG
         steno <- parseJSON vSteno
         when (isLeft $ Raw.parseSteno @key steno) $
           fail $ "malformed raw steno: "
               <> show key <> ": "
               <> show steno
         pat <- parseJSON vPat
-        ((steno, pat) :) <$> parseEntries key r
+        let (bNoDoc, rem) = case r of
+              "no-doc" : vas -> (True, vas)
+              vas            -> (False, vas)
+        ((g, steno, pat, bNoDoc) :) <$> parseEntries key rem
       parseEntries key _ = fail $ "Uneven number of entries for " <> show key
 
   parseJSON _ = mzero
