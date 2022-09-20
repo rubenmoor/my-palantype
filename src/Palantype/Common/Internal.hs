@@ -41,6 +41,10 @@ import           TextShow                       ( TextShow
                                                 )
 import           TextShow.Generic               ( genericShowbPrec )
 
+data ExceptionInterpretation
+  = ExcRuleAddition
+  | ExcSubstitution
+
 data Lang = EN | DE
     deriving stock (Eq, Generic, Ord, Read)
 

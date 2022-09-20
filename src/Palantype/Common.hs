@@ -24,6 +24,7 @@ import Palantype.Common.Class
 import Palantype.Common.Internal
     ( Chord(..),
       Series(..),
+      ExceptionInterpretation (..),
       Finger(..),
       PatternPos(..),
       Greediness,
@@ -32,7 +33,7 @@ import Palantype.Common.Internal
 import Palantype.Common.Internal.Instances ()
 import Palantype.Common.Primitives
     ( PrimMap(..),
-      ExceptionsMap(..),
+      ExceptionsMap(..) ,
       lsPatterns,
       triePrimitives,
       stripComments

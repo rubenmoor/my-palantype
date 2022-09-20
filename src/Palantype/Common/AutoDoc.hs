@@ -1,6 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 
 module Palantype.Common.AutoDoc
@@ -8,13 +9,13 @@ module Palantype.Common.AutoDoc
     , PatternDoc
     ) where
 
-import           Data.Bifunctor                 ( Bifunctor(first, second) )
+import           Data.Bifunctor                 ( Bifunctor(first) )
 import           Data.Bool                      ( Bool(False) )
 import           Data.Foldable                  ( Foldable(foldl') )
 import           Data.Function                  ( ($)
                                                 )
 import           Data.Functor                   ( (<$>)
-                                                , Functor(fmap)
+                                                , Functor(fmap), (<&>)
                                                 )
 import           Data.List                      ( sort
                                                 )
@@ -36,7 +37,8 @@ import qualified Palantype.Common.Indices      as KI
 import           Palantype.Common.Internal      ( Greediness
                                                 , PatternPos(..)
                                                 )
-import           Palantype.Common.RawSteno.Type ( RawSteno )
+import           Palantype.Common.RawSteno.Type ( RawSteno (RawSteno) )
+import Control.Category ((<<<))
 
 {-|
 Pattern documentation, automatically generated from the primitives
@@ -45,20 +47,25 @@ Each `PatternGroup` has a list  of patterns, grouped again by greediness,
 and then by their position in the word part (onset, nucleus, coda).
 Given a pattern group, `Greediness`, and `PatternPos`, there is a list
 of natural language literals and their corresponding steno code.
-
-The `PatternGroup` for capitalization, `PatCapitalize`, is added manually, because it does
-not feature in the primitives.
 -}
 type PatternDoc key
     = Map (PatternGroup key) (Map Greediness (Map PatternPos [(Text, RawSteno)]))
 
+(<<<$>>>)
+  :: forall m n o a b
+  . ( Functor m
+    , Functor n
+    , Functor o
+    )
+  => (a -> b)
+  -> m (n (o a))
+  -> m (n (o b))
+(<<<$>>>) = fmap <<< fmap <<< fmap
+
 patternDoc :: forall key . Palantype key => PatternDoc key
 patternDoc =
-    fmap (fmap sort) <$> Map.insert patCapitalize pgCapitalize mapPatternDoc
+    sort <<<$>>> mapPatternDoc
   where
-    pgCapitalize = Map.singleton 0 $
-      Map.singleton Onset [("", KI.toRaw @key kiCapNext)]
-
     mapPatternDoc
         :: Map (PatternGroup key) (Map Greediness (Map PatternPos [(Text, RawSteno)]))
     mapPatternDoc =
@@ -85,5 +92,6 @@ patternDoc =
             (Map.singleton g $ Map.singleton pPos [(str, r)])
             m
 
-    lsExceptions = second (fmap $ \(g, r, p, bNoDoc) -> (g, r, p, bNoDoc, PPException))
-        <$> Map.toList mapExceptions
+    lsExceptions :: [(Text, [(Greediness, RawSteno, PatternGroup key, Bool, PatternPos)])]
+    lsExceptions = Map.toList $ mapExceptions <&> \(_, lsEntries) ->
+       lsEntries <&> \(g, r, pg, nodoc) -> (g, r, pg, nodoc, PPException)

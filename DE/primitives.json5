@@ -41,7 +41,7 @@
 , [ "aa"  , [3, "AÜ", "PatDiVowel"]]
 , [ "aar" , [0, "A/AÜ", "PatDiVowel"]]
 , [ "aar" , [3, "AÜ", "PatDiVowel"]]
-, [ "a|bend", [0, "BEND", "PatBrief"]]
+, [ "a|bend", [7, "BEND", "PatCommonPrefix"]]
 , [ "ae"  , [0, "AI", "PatDiphtong"]]         // e.g. aerodynamisch
 , [ "ah"  , [0, "AÜ", "PatCodaH"]]
 , [ "ah"  , [2, "A", "PatCodaH"]]
@@ -70,7 +70,8 @@
 , [ "bar|bier", [0, "BAÜ/B~I+", "PatSCPlus"]]
 , [ "baye", [0, "BAI", "PatReplRare"]] // e.g. bayerisch
 , [ "bb"  , [0, "-B", "PatDiConsonant"]]
-, [ "be"  , [6, "b", "PatShortSyllable"]]
+, [ "be|"  , [6, "b", "PatShortSyllable"]]
+, [ "bei", [8, "b", "PatShortSyllable"]]
 , [ "be|t", [8, "b", "PatShortSyllable"]]
 , [ "bj"  , [0, "SB+-", "PatReplRare"]]
 // , "beau|ty" : [0, "BJU/DJI"] // / is allowed, but this pattern fails for the more efficient (but wrong
@@ -111,7 +112,8 @@
 , [ "dd"  , [0, "-D", "PatDiConsonant"]]
 , [ "d|d" , [4, "D-", "PatDiConsonant", "no-doc"]]
 , [ "de|"  , [5, "D-", "PatShortSyllable"]]
-, [ "deutsch|land", [0, "ʃLAND", "PatBrief"]]
+, [ "deutsch|land", [7, "ʃLAND", "PatCommonPrefix"]]
+, [ "den"  , [8, "n", "PatShortSyllable"]]
 , [ "dh"  , [0, "D", "PatReplH"]]       // Abu-Dhabi, Buddhist
 , [ "di|"  , [5, "D-", "PatShortSyllable"]]
 //, [ "dia" , [0, "DI/A", "PatSimple", "no-doc"]]
@@ -333,7 +335,7 @@
 , [ "p|p" , [4, "-B", "PatDiConsonant", "no-doc"]]
 , [ "pn"  , [0, "N-", "PatReplRare"]]
 , [ "pr"  , [0, "DBM-", "PatOnsetR"]]
-, [ "pro" , [0, "BO", "PatBrief"]]
+, [ "pro" , [7, "BO", "PatCommonPrefix"]]
 , [ "ps"  , [0, "SB+-", "PatReplRare"]]     
 , [ "pst" , [0, "-+BSD", "PatReplRare"]]     
 , [ "pt"  , [0, "DB+-", "PatReplRare"]]     
@@ -476,8 +478,8 @@
 , [ "w"    , [0, "F+-", "PatReplCommon1"]]
 , [ "w"    , [0, "-F", "PatReplCommon1"]]
 , [ "wei|ter", [7, "F+EI", "PatCommonPrefix"]]
-, [ "wi|der" , [7, "F+I", "PatCommonPrefix"]]
-, [ "wie|der", [7, "F+~I", "PatCommonPrefix"]]
+, [ "wi|der" , [7, "F+ID", "PatCommonPrefix"]]
+, [ "wie|der", [7, "F+~ID", "PatCommonPrefix"]]
 , [ "wl"   , [0, "FL-", "PatReplRare"]]
 , [ "wr"   , [0, "FL-", "PatReplRare"]]
 , [ "x"    , [0, "DSG-", "PatReplCommon1"]]      // TODO: documentation

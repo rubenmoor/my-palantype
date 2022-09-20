@@ -53,7 +53,7 @@ import           GHC.Generics                   ( Generic )
 import           Palantype.Common.Internal      ( Chord(Chord)
                                                 , Finger(..)
                                                 , Greediness
-                                                , PatternPos
+                                                , PatternPos, ExceptionInterpretation
                                                 )
 import           Palantype.Common.KeyIndex      ( keyIndex )
 import           Palantype.Common.RawSteno.Type ( RawSteno )
@@ -151,7 +151,7 @@ class ( Data key
   -- | full word exceptions
   -- exceptions that span several chords go here
   mapExceptions
-    :: Map Text [(Greediness, RawSteno, PatternGroup key, Bool)]
+    :: Map Text (ExceptionInterpretation, [(Greediness, RawSteno, PatternGroup key, Bool)])
 
   allKeyIndices :: [Int]
   allKeyIndices = [1..32]
