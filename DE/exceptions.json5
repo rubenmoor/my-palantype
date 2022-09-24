@@ -107,7 +107,7 @@
 , ["Inn",           "substitution", 0, "I+N", "PatSCPlus"]
 , ["irrst",         "substitution", 0, "+I+SD", "PatSCPlus", 0, "+I+s", "PatSCPlus"] // < {#control(i)}
 , ["irrt",          "substitution", 0, "+I+D", "PatSCPlus"] // < {#control(i)}
-, ["isst"           "substitution", 0, "ISs", "PatBrief"]          // < ist 
+, ["isst",          "substitution", 0, "ISs", "PatBrief"]          // < ist 
 , ["Jacqueline",    "substitution", 0, "FNA+G/L~IN", "PatFrankOther"]
 , ["Jahnn",         "substitution", 0, "FNAÜ+N", "PatSCPlus"]        // < Jahn
 //, ["Jo-Jo",         "FN~O/HIFn/J~O", "PatSCOther"] // < Yo-Yo

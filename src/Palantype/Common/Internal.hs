@@ -7,6 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_GHC -Wno-deferred-type-errors #-}
 
 module Palantype.Common.Internal where
 
@@ -44,6 +45,10 @@ import           TextShow.Generic               ( genericShowbPrec )
 data ExceptionInterpretation
   = ExcRuleAddition
   | ExcSubstitution
+  deriving stock (Show)
+
+instance TextShow ExceptionInterpretation where
+  showb = fromString <<< show
 
 data Lang = EN | DE
     deriving stock (Eq, Generic, Ord, Read)
