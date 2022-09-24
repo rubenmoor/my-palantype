@@ -697,7 +697,7 @@
 //, [ "our"    , [6, "AU", "PatAnglAU"]]
 , [ "out"    , [6, "AU+D", "PatAnglAU"]]
 , [ "ou|t"   , [6, "AU/D+-", "PatAnglAU", "no-doc"]]
-, [ "pad"    , [0, "B+ÄD", "PatAnglAE"]]      // e.g. Pad
+//, [ "pad"    , [0, "B+ÄD", "PatAnglAE"]]      // e.g. Pad
 , [ "page"   , [0, "B+ÄIʃ", "PatAnglAI"]]
 , [ "pa|rade", [0, "B+A/SMÄID", "PatAnglAI"]]
 , [ "patch"  , [0, "B+ÄʃD", "PatAnglSch"]]

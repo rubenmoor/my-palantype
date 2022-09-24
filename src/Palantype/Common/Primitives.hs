@@ -86,7 +86,11 @@ stripComments content =
     stripComment str = head $ Text.splitOn "//" str
 
 newtype ExceptionsMap key = ExceptionsMap
-  { unExceptionsMap :: Map Text (ExceptionInterpretation, [(Greediness, RawSteno, PatternGroup key, Bool)])
+  { unExceptionsMap
+      :: Map Text
+           ( ExceptionInterpretation
+           , [(Greediness, RawSteno, PatternGroup key, Bool)]
+           )
   }
 
 instance (Palantype key) => FromJSON (ExceptionsMap key) where
