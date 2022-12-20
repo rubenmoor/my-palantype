@@ -4,7 +4,7 @@
 , ["Abstract",      "substitution", 0, "ÄBS/DLÄ+GD", "PatAnglAE"]
 //, "Ahne"        : ["A/NE"]
 //, "Ahnen"       : ["A/NEN", "A/Nn"]
-, ["alle",          "rule-addition", 0, "LAL",  "PatBrief"]
+, ["alle",          "rule-addition", 0, "LALn",  "PatBrief"]
 , ["allem",         "rule-addition", 0, "LAM",  "PatBrief"]
 , ["allen",         "rule-addition", 0, "LALN", "PatBrief"]
 , ["aller",         "rule-addition", 0, "LALs", "PatBrief"]
@@ -42,13 +42,13 @@
 , ["dabei",         "rule-addition", 0, "DAB", "PatBrief"]
 , ["damit",         "rule-addition", 0, "DAMD", "PatBrief"]
 , ["dass",          "substitution", 0, "DAs", "PatBrief"]          // < das
-, ["dafür",         "rule-addition", 0, "DF~Ü", "PatBrief"]
-, ["dazu",          "rule-addition", 0, "DʃGU", "PatBrief"]
+, ["dafür",         "rule-addition", 0, "DAF", "PatBrief"]
+, ["dazu",          "rule-addition", 0, "DAGʃ", "PatBrief"]
 , ["Dealer",        "substitution", 0, "D~I/LEÜ", "PatAnglI"]          // < das
 , ["Dean",          "substitution", 0, "D~I+N", "PatAnglOther"]
 , ["diese",         "rule-addition", 0, "D~In" , "PatBrief"]
 , ["dieser",        "rule-addition", 0, "D~Is" , "PatBrief"]
-, ["dieses",        "rule-addition", 0, "D~ISs", "PatBrief"]
+, ["dieses",        "rule-addition", 0, "D~ISs", "PatBrief"]           // < dies
 , ["Dike",          "substitution", 0, "D~I/G+E", "PatSCStretch"]      // < Dicke
 , ["Diken",         "substitution", 0, "D~I/G+EN", "PatSCStretch", 0, "D~I/G+-n", "PatSCStretch"] // < Dicke
 , ["East",          "substitution", 0, "~I+SD", "PatAnglI"]
@@ -82,6 +82,7 @@
 , ["habe",          "rule-addition", 0, "SNAn", "PatBrief"]
 , ["Ham",           "substitution", 0, "SNÄM", "PatAnglAE"]
 //, "Hamit"       : ["HA/MI+D"]
+, ["hasst",         "substitution", 0, "SNASs", "PatBrief"] // < hast
 , ["hatte",         "rule-addition", 0, "SNA+n" , "PatBrief" ]
 , ["hatten",        "rule-addition", 0, "SNA+ND", "PatBrief"]
 , ["Haydn",         "substitution", 0, "SNAI/D-N", "PatSCOther"]
@@ -93,9 +94,9 @@
 , ["holt",          "substitution", 0, "SN~OLD", "PatSCStretch"]      // < hold
 , ["ihre",          "rule-addition", 0, "~In" , "PatBrief"]
 , ["ihrem",         "rule-addition", 0, "+~IM", "PatBrief"] // < ihm
-, ["ihren",         "rule-addition", 0, "~I+n", "PatBrief"]
+, ["ihren",         "rule-addition", 0, "~I+N", "PatBrief"]
 , ["ihrer",         "rule-addition", 0, "~Is" , "PatBrief"]
-, ["ihres",         "rule-addition", 0, "~I+s", "PatBrief"]
+, ["ihres",         "rule-addition", 0, "~IS", "PatBrief"]
 , ["Ilm",           "substitution", 0, "S-/I+", "PatCapitalize"] // < {&i} "Fingerspelling"
 , ["immer",         "rule-addition", 0, "IMs", "PatBrief"]
 , ["Inc",           "substitution", 0, "NÜM/IMN", "PatAcronym"]
@@ -124,7 +125,7 @@
 , ["keine",         "rule-addition", 0, "G+EIn" , "PatBrief"]
 , ["keinem",        "rule-addition", 0, "G+EIM" , "PatBrief"]
 , ["keiner",        "rule-addition", 0, "G+EIs" , "PatBrief"]
-, ["keines",        "rule-addition", 0, "G+EINs", "PatBrief"]
+, ["keines",        "rule-addition", 0, "G+EIS", "PatBrief"]
 , ["Kommiss",       "substitution", 0, "G+OM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "rule-addition", 0, "G+ÄONn", "PatBrief"]
 , ["körnte",        "substitution", 0, "G+ÄO+N/D+E", "PatSCPlus"]   // < könnte
@@ -165,9 +166,9 @@
 , ["nagt",          "substitution", 0, "NAÜ+GD", "PatSCStretch"]
 , ["Narr",          "substitution", 0, "S-/NA+", "PatCapitalize"] // < {&à}
 , ["neue",          "rule-addition", 0, "NEn" , "PatBrief"] // < neuen
-, ["neuem",         "rule-addition", 0, "NEUM", "PatBrief"]
-, ["neuer",         "rule-addition", 0, "NEUs", "PatBrief"]
-, ["neues",         "rule-addition", 0, "NEs" , "PatBrief"]
+, ["neuem",         "rule-addition", 0, "NEM", "PatBrief"]
+, ["neuer",         "rule-addition", 0, "NEs", "PatBrief"]
+, ["neues",         "rule-addition", 0, "NES" , "PatBrief"]
 , ["oder",          "rule-addition", 0, "OD"  , "PatBrief"]
 , ["ohne",          "rule-addition", 0, "~ON" , "PatBrief"]
 , ["Öhr",           "substitution", 0, "S-/ÄO+", "PatCapitalize"] // < {&ö} (Fingerspelling}
@@ -198,7 +199,7 @@
 , ["seine",         "rule-addition",  0, "SEIn" , "PatBrief"]
 , ["seinem",        "rule-addition",  0, "SEIM" , "PatBrief"]
 , ["seiner",        "rule-addition",  0, "SEIs" , "PatBrief"]
-, ["seines",        "rule-addition",  0, "SEINs", "PatBrief"]
+, ["seines",        "rule-addition",  0, "SEIS", "PatBrief"]
 , ["sol",           "substitution", 0, "S~OL", "PatSCStretch"]         // < soll
 , ["sinnt",         "substitution", 0, "SI+ND", "PatSCPlus"]        // < sind
 , ["Sir",           "substitution", 0, "SI+", "PatAnglI"]          // < Sie
@@ -226,13 +227,13 @@
 , ["Ulms",          "substitution", 0, "S-/U+S", "PatCapitalize"] // < {&U} "Fingerspelling"
 , ["unter",         "rule-addition", 0, "U+ND", "PatBrief"]
 , ["USt",           "substitution", 0, "NÜM/U+SD", "PatSCPlus"]
-, ["viele",         "rule-addition", 0, "FBLI" , "PatBrief"]
+, ["viele",         "rule-addition", 0, "FBLIn" , "PatBrief"]
 , ["vielem",        "rule-addition", 0, "FBLIM", "PatBrief"]
 , ["vieler",        "rule-addition", 0, "FBLIs", "PatBrief"]
 , ["vieles",        "rule-addition", 0, "FBLIS", "PatBrief"]
 //, ["war",           "F+A", "PatBrief"]           // < wahr
 //, ["weg",           "WEG", "PatBrief"]
-, ["wen",           "substitution", 0,"FN+-", "PatBrief", 0, "F+-N", "PatBrief", 0, "F+EÜN", "PatSCStretch"]
+, ["wen",           "substitution", 0, "F+-N", "PatBrief", 0, "F+EÜN", "PatSCStretch"]
 , ["wer",           "substitution", 0,"F+E", "PatBrief"]
 , ["werde",         "rule-addition", 0,"F+ED", "PatBrief"]
 //, ["werden",        0,"F+EÜND", "PatBrief", 0, "F+EÜ/DEN", "PatCodaR", "no-doc", 6, "F+EÜ/Dn", "PatShortSyllable", "no-doc"]
@@ -241,7 +242,7 @@
 //, ["Weh",           "F+E+", "PatSCPlus"]          // < Wehr
 , ["wert",          "substitution", 0, "F+E+D", "PatSCOther"]
 , ["Wolff",         "substitution", 0, "F+O+F", "PatSCPlus"]
-, ["worden",        "rule-addition", 0, "F+~On", "PatBrief"]
+//, ["worden",        "rule-addition", 0, "F+~On", "PatBrief"]
 , ["wurde",         "rule-addition", 0, "F+~UD", "PatBrief"]
 //, ["wurden",        0, "F+~Un", "PatBrief", 0, "F+~U/DEN", "PatCodaR", "no-doc"]
 , ["würde",         "rule-addition", 0,"F+~ÜD", "PatBrief"]
