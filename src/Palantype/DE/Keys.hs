@@ -124,7 +124,6 @@ instance Palantype Key where
       PatCodaComboT -> "Fitting a consonant in between +D"
       PatOnsetR -> "R in the onset"
       PatOnsetL -> "Exceptions for L in the onset"
-      PatSmallS -> "Making use of the (small) s key"
       PatDiConsonant -> "Double consonants"
       PatCodaH -> "Long vowels"
       PatCodaR -> "Vowels followed by r"
@@ -147,6 +146,7 @@ instance Palantype Key where
 
       -- TODO: rework
       PatReplRare -> "Replacements for less common letters"
+      PatSmallS -> "Making use of the (small) s key"
       PatSCStretch -> "Irregular stretch key"
       PatSCPlus -> "Irregular plus key"
       PatSCOther -> "Unspecific irregularities"
@@ -225,7 +225,6 @@ data Pattern
   | PatCodaComboT
   | PatOnsetR
   | PatOnsetL
-  | PatSmallS
   | PatDiConsonant
   | PatCodaH
   | PatCodaR
@@ -243,6 +242,7 @@ data Pattern
   | PatCodaGK
   -- rare replacement rules and special cases
   | PatReplRare
+  | PatSmallS
   | PatSCStretch
   | PatSCPlus
   | PatSCOther
