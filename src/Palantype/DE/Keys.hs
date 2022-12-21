@@ -153,8 +153,6 @@ instance Palantype Key where
       PatCapitalize -> "Explicit capitalization"
       PatShortSyllable -> "Efficiency for short syllables"
       PatBrief -> "Brief for a common word"
-      PatAcronym -> "Acronym spellings"
-      PatChemistry -> "Symbols of chemical elements"
       PatCommonPrefix -> "Efficiency for common prefixes"
       PatAnglAI -> "Anglicisms with ÄI"
       PatAnglAE -> "Anglicisms with Ä"
@@ -171,6 +169,9 @@ instance Palantype Key where
       PatAnglOther -> "Other anglicisms"
       PatFrankOther -> "Gallicisms"
       PatForeignOther -> "Other foreign words"
+
+      PatAcronym -> "Acronym spellings"
+      PatChemistry -> "Symbols of chemical elements"
 
     lsPrimitives =
         let str = stripComments $(embedFile "DE/primitives.json5")
@@ -251,9 +252,6 @@ data Pattern
   | PatShortSyllable
   | PatBrief
   | PatCommonPrefix
-  -- acronyms
-  | PatAcronym
-  | PatChemistry
   -- anglicisms
   | PatAnglAI
   | PatAnglAE
@@ -271,6 +269,9 @@ data Pattern
   -- other foreign words
   | PatFrankOther
   | PatForeignOther
+  -- acronyms
+  | PatAcronym
+  | PatChemistry
 
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
 

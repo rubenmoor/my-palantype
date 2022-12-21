@@ -33,6 +33,7 @@
 , ["Bucks",         "substitution", 0, "BA+GS", "PatAnglA"]
 , ["Chelsea",       "substitution", 0, "ʃEL/SI", "PatAnglI"]
 , ["Clooney",       "substitution", 0, "DGLU/NÄI", "PatAnglU"]
+, ["Clou",          "substitution", 0, "DʃGLU", "PatAnglU"]
 , ["Cousin",        "substitution", 0, "DʃGU/SÄ", "PatFrankOther", 0, "DʃGU/SEMG", "PatFrankOther", "no-doc"]
 , ["Cousine",       "substitution", 0, "DʃGU/SI/NE", "PatFrankOther", 0, "DʃGU/S~IN", "PatFrankOther", "no-doc"]
 , ["Court",         "substitution", 0, "G+~O+D", "PatAnglStretchO"]
