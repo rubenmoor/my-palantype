@@ -190,6 +190,7 @@
 , [ "ie"   , [0, "~I", "PatCodaH"]]
 , [ "ie"   , [1, "I", "PatCodaH"]]
 , [ "ieh"  , [0, "~I", "PatCodaH"]]
+, [ "ieh"  , [1, "I" , "PatCodaH"]]
 , [ "ier"  , [0, "~I", "PatCodaR"]]
 , [ "ih"   , [0, "~I", "PatCodaH"]]
 , [ "ih"   , [1, "I", "PatCodaH"]]
