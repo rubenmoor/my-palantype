@@ -24,7 +24,6 @@ import           Data.Function                  ( ($) )
 import           Data.Int                       ( Int )
 import           Data.Ord                       ( Ord )
 import           Data.Semigroup                 ( (<>) )
-import qualified Data.Text                     as Text
 import           Data.Text                      ( Text )
 import           GHC.Generics                   ( Generic )
 import           Servant.API                    ( FromHttpApiData(parseUrlPiece)
@@ -51,7 +50,7 @@ instance TextShow ExceptionInterpretation where
   showb = fromString <<< show
 
 data Lang = EN | DE
-    deriving stock (Eq, Generic, Ord, Read)
+    deriving stock (Eq, Generic, Ord, Read, Show)
 
 instance FromJSON Lang
 instance ToJSON Lang
@@ -62,9 +61,6 @@ instance TextShow Lang where
     showb = \case
         EN -> fromText "Palantype"
         DE -> fromText "Palantype DE"
-
-instance Show Lang where
-    show = Text.unpack <<< showt
 
 instance ToHttpApiData Lang where
     toUrlPiece = \case

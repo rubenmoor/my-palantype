@@ -59,6 +59,7 @@ import           Palantype.Common.KeyIndex      ( keyIndex )
 import           Palantype.Common.RawSteno.Type ( RawSteno )
 import           TextShow                       ( TextShow )
 import Text.Show (Show)
+import Text.Read (Read)
 
 -- | defines a steno key layout
 -- |
@@ -79,6 +80,7 @@ class ( Data key
       , Generic key
       , NFData (PatternGroup key)
       , Ord (PatternGroup key)
+      , Read (PatternGroup key)
       , Show (PatternGroup key)
       , TextShow (PatternGroup key)
       , ToJSON (PatternGroup key)
