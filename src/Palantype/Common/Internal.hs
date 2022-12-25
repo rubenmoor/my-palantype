@@ -34,7 +34,6 @@ import           Text.Show                      ( Show(show) )
 import           TextShow                       ( TextShow
                                                     ( showb
                                                     , showbPrec
-                                                    , showt
                                                     )
                                                 , fromString
                                                 , fromText
