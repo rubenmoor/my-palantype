@@ -1,6 +1,7 @@
 module Palantype.Common
   ( module Palantype.Common.Class
   , module Palantype.Common.Internal
+  , module Palantype.Common.Lang
   , module Palantype.Common.Primitives
   , module Palantype.Common.AutoDoc
   , module Palantype.Common.Indices
@@ -28,7 +29,6 @@ import Palantype.Common.Internal
       Finger(..),
       PatternPos(..),
       Greediness,
-      Lang(..) ,
       showPretty )
 import Palantype.Common.Internal.Instances ()
 import Palantype.Common.Primitives
@@ -39,6 +39,7 @@ import Palantype.Common.Primitives
       stripComments
     )
 import Palantype.Common.Indices ( toRaw, allKeys, KIChord )
+import Palantype.Common.Lang ( Lang (..) )
 import Palantype.Common.RawSteno
     ( fromChord,
       unparts,
