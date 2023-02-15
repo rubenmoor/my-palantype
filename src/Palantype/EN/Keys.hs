@@ -151,6 +151,7 @@ instance Palantype Key where
       PatCapitalize -> "Explicit capitalization"
       PatAcronym -> "Acronym spellings"
 
+    patZero = PatSimple
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize
     patAcronym = PatAcronym

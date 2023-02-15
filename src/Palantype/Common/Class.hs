@@ -143,6 +143,7 @@ class ( Data key
 
   toDescription :: PatternGroup key -> Text
   patSimpleMulti :: PatternGroup key
+  patZero :: PatternGroup key
   patCapitalize :: PatternGroup key
   patAcronym :: PatternGroup key
 

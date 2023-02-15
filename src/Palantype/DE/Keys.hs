@@ -112,6 +112,7 @@ instance Palantype Key where
         RightD        -> 'D'
         RightSSmall   -> 's'
 
+    patZero = PatSimple
     patSimpleMulti = PatSimpleMulti
     patCapitalize = PatCapitalize
     patAcronym = PatAcronym
@@ -238,8 +239,8 @@ data Pattern
   | PatSwapSch
   | PatSwapZ
   | PatDiVowel
-  | PatReplH
   | PatCodaGK
+  | PatReplH
   -- rare replacement rules and special cases
   | PatReplRare
   | PatSmallS

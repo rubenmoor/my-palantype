@@ -62,10 +62,10 @@ import qualified Palantype.Common.RawSteno     as Raw
 import           Palantype.Common.RawSteno.Type ( RawSteno )
 import           Text.Show                      ( Show(show) )
 
-lsPatterns :: forall key . Palantype key => [((Greediness, PatternGroup key), [ByteString])]
+lsPatterns :: forall key . Palantype key => [((PatternGroup key, Greediness), [ByteString])]
 lsPatterns =
     let accPatternsG m (bstr, entries) = foldl'
-            (\m' (g, _, pg, _, _) -> Map.insertWith (++) (g, pg) [bstr] m')
+            (\m' (g, _, pg, _, _) -> Map.insertWith (++) (pg, g) [bstr] m')
             m
             entries
     in  Map.toList $ foldl' accPatternsG Map.empty (lsPrimitives @key)

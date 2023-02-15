@@ -2,20 +2,16 @@
 //       add pattern documentation 
 [ ["aber",          "rule-addition", 0, "BEÜ", "PatBrief"]
 , ["Abstract",      "substitution", 0, "ÄBS/DLÄ+GD", "PatAnglAE"]
-//, "Ahne"        : ["A/NE"]
-//, "Ahnen"       : ["A/NEN", "A/Nn"]
 , ["alle",          "rule-addition", 0, "LALn",  "PatBrief"]
 , ["allem",         "rule-addition", 0, "LAM",  "PatBrief"]
 , ["allen",         "rule-addition", 0, "LALN", "PatBrief"]
 , ["aller",         "rule-addition", 0, "LALs", "PatBrief"]
 , ["alles",         "rule-addition", 0, "LALS", "PatBrief"]
-//, ["Alls",          "substitution", 0, "S/A+", "PatCapitalize"] // < als
 , ["Alm",           "substitution", 0, "S-/A+", "PatCapitalize"] // < {&a} "Fingerspelling"
 , ["Aorta",         "substitution", 0, "A/~O/D+A", "PatCodaR", "no-doc"]
 , ["Amman",         "substitution", 0, "AM/MAÜN", "PatSCStretch"]      // < Ammann
 , ["Aortenklappe",  "substitution", 0, "A/~O/D+EN/DGLA+B/B+E", "PatCodaR", "no-doc"]
 , ["Aortenklappen", "substitution", 0, "A/~O/D+EN/DGLA+B/B+EN", "PatCodaR", "no-doc", 0, "A/~O/D+-n/DGLA+B/B+-n", "PatShortSyllable", "no-doc"]
-//, ["Audio",         0, "AU/DI/O", "PatSimple"]      // < Auto
 , ["bah",           "substitution", 0, "BAÜ+", "PatSCPlus"]         // < bar
 , ["Bazooka",       "substitution", 0, "BA/ʃGU/G+A", "PatAnglU"]
 , ["Beatles",       "substitution", 0, "B~I/D+ELS", "PatAnglI"]
@@ -23,8 +19,6 @@
 , ["Beautycase",    "substitution",  0, "BU/D+I/DʃGÄIS", "PatAnglJU"] // more efficient, but wrong BO
 , ["Benn",          "substitution",  0, "BEN", "PatDiConsonant", "no-doc"] // {&,} > Benn > Ben
 , ["Benns",         "substitution",  0, "BENS", "PatDiConsonant", "no-doc"] // {&,} > Benn > Ben
-//, ["Beyer",         "substitution",  0, "BEI/EÜ", "PatCodaR"]
-//, ["Bismark",       "BIS/MAÜ+G", "PatSCPlus"]    // < Bismarck
 , ["Borschtsch",    "substitution", 0, "B~OʃD", "PatForeignOther"]
 , ["Bouquet",       "substitution", 0, "BU/G+E", "PatFrankOther"]
 , ["Bouquets",      "substitution", 0, "BU/G+ES", "PatFrankOther"]
@@ -39,7 +33,6 @@
 , ["Court",         "substitution", 0, "G+~O+D", "PatAnglStretchO"]
 , ["Crêpe",         "substitution", 0, "DGME+B", "PatFrankOther"]
 , ["Crêpes",        "substitution", 0, "DGME+BS", "PatFrankOther"]
-// , "CO2"      : ["GDMO+S"]
 , ["dabei",         "rule-addition", 0, "DAB", "PatBrief"]
 , ["damit",         "rule-addition", 0, "DAMD", "PatBrief"]
 , ["dass",          "substitution", 0, "DAs", "PatBrief"]          // < das
@@ -53,14 +46,8 @@
 , ["Dike",          "substitution", 0, "D~I/G+E", "PatSCStretch"]      // < Dicke
 , ["Diken",         "substitution", 0, "D~I/G+EN", "PatSCStretch", 0, "D~I/G+-n", "PatSCStretch"] // < Dicke
 , ["East",          "substitution", 0, "~I+SD", "PatAnglI"]
-//, "dm"          : ["D/M"]          // < dem
-//, "Düne"        : ["DÜ/NE"]        // < Dünne
-//, "Dünen"       : ["DÜ/NEN", "DÜ/Nn"] // < Dünne
-//, "Dr"          : ["D/R"]          // < der 
-//, "Egge"        : ["EG/GE", "PatSpecialCase"]         // < Ecke
 , ["Edinburgh",     "substitution", 0, "E/DIN/B~U+G", "PatAnglStretchU"]
 , ["eh",            "substitution", 0, "EÜ+", "PatSCPlus"]          // < er
-//, ["ehrst",         "EÜ+SD", "PatSCPlus"]        // < erst
 , ["eine",          "rule-addition", 0, "EIn" , "PatBrief"]
 , ["einem",         "rule-addition", 0, "EIM" , "PatBrief"]
 , ["einer",         "rule-addition", 0, "EIs" , "PatBrief"]
@@ -70,7 +57,6 @@
 , ["etwas",         "rule-addition", 0, "DF+AS", "PatBrief"]
 , ["Finance",       "substitution", 0, "FAI/NÄNS", "PatAnglEI"]
 , ["Flor",          "substitution", 0, "FL~O+", "PatSCPlus"]        // < floh, Floh
-//, "Fluorit"     : ["FLU/O/RI+D"]   // < Fluorid
 , ["France",        "substitution", 0, "FMAÜMGʃ", "PatSCStretch"]
 , ["fror",          "substitution", 0, "FM~O+", "PatSCPlus"]        // < froh
 , ["Genen",         "substitution", 0, "GE/NEN", "PatSimpleMulti", "no-doc"] // exclude GNn, < {#alt(minus)}
@@ -78,18 +64,14 @@
 , ["Görz",          "substitution", 0, "G~OGʃ", "PatSCPlus"]        // < Götz
 , ["gram",          "substitution", 0, "GMAÜM", "PatSCStretch"]        // < Gramm
 , ["Guillaume",     "substitution", 0, "G~I/FN~OM", "PatFrankOther"]
-//, ["Hadsch",        "SNAʃD", "PatSCPlus"]
 , ["hallt",         "substitution", 0, "SNAL/D-", "PatSCOther"]
 , ["habe",          "rule-addition", 0, "SNAn", "PatBrief"]
 , ["Ham",           "substitution", 0, "SNÄM", "PatAnglAE"]
-//, "Hamit"       : ["HA/MI+D"]
 , ["hasst",         "substitution", 0, "SNASs", "PatBrief"] // < hast
 , ["hatte",         "rule-addition", 0, "SNA+n" , "PatBrief" ]
 , ["hatten",        "rule-addition", 0, "SNA+ND", "PatBrief"]
 , ["Haydn",         "substitution", 0, "SNAI/D-N", "PatSCOther"]
-//, ["hehr",          "SNEÜ+", "PatSCPlus"]         // < her
-, ["Hemd",          "substitution", 0, "S-/SNEMD", "PatCapitalize"]
-//, ["Hertz",         "HEÜ+Ss", "PatSCPlus"]       // < Herz
+//, ["Hemd",          "substitution", 0, "S-/SNEMD", "PatCapitalize"]
 , ["hey",           "substitution", 0, "SNÄI", "PatAnglAI"]
 , ["Hofmann",       "substitution", 0, "SN~OF/MA+N", "PatSCStretch"]
 , ["holt",          "substitution", 0, "SN~OLD", "PatSCStretch"]      // < hold
@@ -112,16 +94,11 @@
 , ["isst",          "substitution", 0, "ISs", "PatBrief"]          // < ist 
 , ["Jacqueline",    "substitution", 0, "FNA+G/L~IN", "PatFrankOther"]
 , ["Jahnn",         "substitution", 0, "FNAÜ+N", "PatSCPlus"]        // < Jahn
-//, ["Jo-Jo",         "FN~O/HIFn/J~O", "PatSCOther"] // < Yo-Yo
 , ["Jean",          "substitution", 0, "FNO+N", "PatFrankOther"]
 , ["jedoch",        "rule-addition", 0, "FNEO+ʃ", "PatBrief"]
-//, "Jot"         : ["JO+D"]         // < Jod
-//, "kJ"          : ["GD/J"]
-//, "knabber"     : ["GDNAB/BR"]     // < knapper
-//, "Knigge"      : ["GDNIG/GE"]      // < knicke
 , ["Kampagne",      "rule-addition", 0, "G+AM/B+AN/FNE", "PatSCOther"]
 , ["kam",           "substitution", 0, "G+AÜM", "PatSCStretch"]
-, ["Kaufs",         "substitution", 0, "S-/G+AUFs", "PatCapitalize"]
+//, ["Kaufs",         "substitution", 0, "S-/G+AUFs", "PatCapitalize"]
 , ["Kerle",         "substitution", 0, "G+EÜ+/LE", "PatSCPlus"]
 , ["keine",         "rule-addition", 0, "G+EIn" , "PatBrief"]
 , ["keinem",        "rule-addition", 0, "G+EIM" , "PatBrief"]
@@ -130,40 +107,27 @@
 , ["Kommiss",       "substitution", 0, "G+OM/MISs", "PatSCOther"]    // < Kommis
 , ["können",        "rule-addition", 0, "G+ÄONn", "PatBrief"]
 , ["körnte",        "substitution", 0, "G+ÄO+N/D+E", "PatSCPlus"]   // < könnte
-//, "Krake"       : ["GDRAÜ/GDE"]    // < Kracke
 , ["Krauss",        "substitution", 0, "DGMAUSs", "PatSCOther"]      // < kraus
-//, "Lake"        : ["LAÜ/GDE"]
-//, "Laos"        : ["LA/OS"]        // < Lars
-//, ["Lar",           "LAÜ+", "PatSCPlus"]         // < Lahr
-//, "lass"        : ["LASs", "PatSCOther"]         // < las
 , ["Lausanne",      "substitution", 0, "LO/SAN", "PatFrankOther"]
 , ["Lawrence",      "substitution", 0, "LO/SMEMGʃ", "PatAnglO"]
 , ["Lead",          "substitution", 0, "L~I+D", "PatSCStretch"]
 , ["Lek",           "substitution", 0, "S-/LEÜ+G", "PatSCStretch"]
 , ["Lindbergh",     "substitution", 0, "LIND/BEÜ+G", "PatSCStretch"]    
-// , "litt"        : ["LI+D"]         // < Lid
-// , "Lit"         : ["L~I+D"]        // < Lied
 , ["Log",           "substitution", 0, "S-/LOG", "PatSCPlus"]         // < Lok
-//, ["Logbuch",       "LOG/BUGʃ", "PatSCOther"]
-//, ["Logdatei",      "LOG/DA/DJEI", "PatSCOther"]
-//, ["Logfile",       "LOG/FAIL", "PatSCOther"]
 , ["Madame",        "substitution", 0, "MA/DAM", "PatFrankOther"]
 , ["Madeleine",     "substitution", 0, "MAD/LEN", "PatFrankOther"]
 , ["Maia",          "substitution", 0, "MAI/A", "PatSCOther"]
 , ["Mall",          "substitution", 0, "S-/M~OL", "PatAnglStretchO"]
 , ["Met",           "substitution", 0, "S-/MEÜ+D", "PatSCStretch"]
 , ["Mayer",         "substitution", 0, "MAI+/EÜ", "PatSCPlus"]
-//, ["Millionen",     0, "MIL/LI/O/NEN", "PatSimple", 4, "MIL/LO/NEN", "PatBreakUpI", 6, "MIL/LONn", "PatShortSyllable"]
 , ["Minen",         "substitution", 0, "MI/NEN", "PatSimpleMulti", "no-doc"] // exclude M-Nn for {#alt(equal)}
 , ["ml",            "substitution", 0, "NÜM/M-/L-", "PatAcronym"]
 , ["Modell",        "substitution", 0, "M~O/DEL", "PatSCPlus"] // < Model
 , ["Modells",       "substitution", 0, "M~O/DELS", "PatSCPlus"]
 , ["Moore",         "substitution", 0, "M~U+", "PatSCPlus"]
 , ["Mount",         "substitution", 0, "MAU+ND", "PatAnglAU", 0, "MAUND", "PatAnglAU"]
-//, ["muh",           "M~U+", "PatSCPlus"]         // < Mur
 , ["Mus",           "substitution", 0, "M~US", "PatSCStretch"]         // < muss
 , ["Museum",        "rule-addition", 0, "MU/SE/UM", "PatSimpleMulti", "no-doc"]
-//, "Nietnagel"   : ["N~I+D/NA/GEL"] // < Niednagel
 , ["nagt",          "substitution", 0, "NAÜ+GD", "PatSCStretch"]
 , ["Narr",          "substitution", 0, "S-/NA+", "PatCapitalize"] // < {&à}
 , ["neue",          "rule-addition", 0, "NEn" , "PatBrief"] // < neuen
@@ -175,27 +139,18 @@
 , ["Öhr",           "substitution", 0, "S-/ÄO+", "PatCapitalize"] // < {&ö} (Fingerspelling}
 , ["Olm",           "substitution", 0, "S-/O+", "PatCapitalize"] // < {&o} "Fingerspelling"
 , ["Olms",          "substitution", 0, "S-/O+S", "PatCapitalize"] // < {&O} "Fingerspelling"
-//, ["Oker",          "~O/G+EÜ", "PatSCStretch"]      // < ocker
 , ["Oud",           "substitution", 0, "O/UD", "PatSCOther"]
 , ["pah",           "substitution", 0, "B+AÜ+", "PatSCPlus"]        // < par
-, ["Pakt",          "substitution", 0, "S-/B+A+GD", "PatCapitalize"]
+//, ["Pakt",          "substitution", 0, "S-/B+A+GD", "PatCapitalize"]
 , ["Piek",          "substitution", 0, "B+~I+G", "PatSCPlus"]       // < Pik
 , ["Pils",          "substitution", 0, "B+I+S", "PatSCPlus"]        // < Pilz
 , ["Polizei",       "rule-addition", 0, "B+OLGʃ", "PatBrief"]
 , ["Prozent",       "rule-addition", 0, "BOGʃ", "PatBrief"]
-//, "Rappen"      : ["RA+B/BDn"]      // < Raben    
-//, ["ring",          "RIN/G", "PatSCOther"]        // < Rink, Ring
-//, "Robbe"       : ["ROB/B"]        // < Robe
 , ["Range",         "substitution", 0, "SMÄINʃ", "PatAnglAI"]
 , ["Reagan",        "substitution", 0, "SMÄ/GÄN", "PatAnglAE"]
 , ["Ren",           "substitution", 0, "SMEÜN", "PatSCStretch"] // < {^]} < Renn
 , ["Euro",          "rule-addition", 0, "SMEU", "PatBrief"]
-//, ["roh",           "SM~O+", "PatSCPlus"]         // < Rohr // should be good thanks to new rule for hr
-//, ["Rur",           "SM~U+", "PatSCPlus"]         // < Ruhr
 , ["sagte",         "rule-addition", 0, "SAGs", "PatBrief"]
-//, ["sang",          "SAÜ+N", "PatSCPlus"]        // < sank
-//, "schwank"     : ["SWAN/GD"]      // < schwang
-//, "Schweiß"     : ["SWEIS"]        // < Schweiz
 , ["schult",        "substitution", 0, "ʃ~ULD", "PatSCStretch"]        // < Schuld
 , ["seine",         "rule-addition",  0, "SEIn" , "PatBrief"]
 , ["seinem",        "rule-addition",  0, "SEIM" , "PatBrief"]
@@ -206,14 +161,11 @@
 , ["Sir",           "substitution", 0, "SI+", "PatAnglI"]          // < Sie
 , ["Span",          "substitution", 0, "S-/SB+AÜN", "PatSCStretch"]
 , ["spuken",        "substitution", 0, "SB+~U/G+EN", "PatSCStretch", 0, "SB+~U+Gn", "PatSCStretch"]      // < spucken
-//, ["spundig",       "SBU+N/DIG", "PatSCPlus"]    // < pfundig
-//, "Speiseopfer" : ["BFEI/SE/OP/FEÜ", "PatSpecialCase"]
 , ["stad",          "substitution", 0, "DSAÜD", "PatSCStretch"]        // austria "still"
-, ["Stil",          "substitution", 0, "S-/DSIL", "PatCapitalize"]     // < still
+//, ["Stil",          "substitution", 0, "S-/DSIL", "PatCapitalize"]     // < still
 , ["stob",          "substitution", 0, "DS~OB", "PatSCStretch"]        // < stopp, stop
 , ["Suisse",        "substitution", 0, "FBIS", "PatFrankOther"]
 , ["Task",          "substitution", 0, "D+A+GS", "PatAnglOther"]
-//, ["Tête-à-Tête",   "S-/D+E+D", "PatBrief", 0, "S-/D+E+D/HINF/A/HINF/D+E+D", "PatFrankOther"]
 , ["Teaser",        "substitution", 0, "D+~I/SEÜ", "PatAnglI"]
 , ["Timm",          "substitution", 0, "D+IM/M-", "PatSCOther"]
 , ["tja",           "substitution", 0, "D+A", "PatSCOther"]   
@@ -232,22 +184,13 @@
 , ["vielem",        "rule-addition", 0, "FBLIM", "PatBrief"]
 , ["vieler",        "rule-addition", 0, "FBLIs", "PatBrief"]
 , ["vieles",        "rule-addition", 0, "FBLIS", "PatBrief"]
-//, ["war",           "F+A", "PatBrief"]           // < wahr
-//, ["weg",           "WEG", "PatBrief"]
 , ["wen",           "substitution", 0, "F+-N", "PatBrief", 0, "F+EÜN", "PatSCStretch"]
 , ["wer",           "substitution", 0,"F+E", "PatBrief"]
 , ["werde",         "rule-addition", 0,"F+ED", "PatBrief"]
-//, ["werden",        0,"F+EÜND", "PatBrief", 0, "F+EÜ/DEN", "PatCodaR", "no-doc", 6, "F+EÜ/Dn", "PatShortSyllable", "no-doc"]
-//, ["Werk",          "WEÜ+G", "PatSCPlus"]        // < Weg
-//, ["Werks",         "WEÜ+GS", "PatSCPlus"]        // < Weg
-//, ["Weh",           "F+E+", "PatSCPlus"]          // < Wehr
 , ["wert",          "substitution", 0, "F+E+D", "PatSCOther"]
 , ["Wolff",         "substitution", 0, "F+O+F", "PatSCPlus"]
-//, ["worden",        "rule-addition", 0, "F+~On", "PatBrief"]
 , ["wurde",         "rule-addition", 0, "F+~UD", "PatBrief"]
-//, ["wurden",        0, "F+~Un", "PatBrief", 0, "F+~U/DEN", "PatCodaR", "no-doc"]
 , ["würde",         "rule-addition", 0,"F+~ÜD", "PatBrief"]
-//, ["würden",        0,"F+ÜND", "PatBrief", 0, "F+~Ü/DEN", "PatCodaR", "no-doc", 6, "F+~Ü/Dn", "PatShortSyllable", "no-doc"]
 , ["Xi",            "substitution", 0, "DSGI+", "PatSCPlus"]
 , ["Yuan",          "substitution", 0, "FNÜ/AN", "PatForeignOther"]
 //
