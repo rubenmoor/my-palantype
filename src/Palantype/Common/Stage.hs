@@ -57,7 +57,7 @@ import           TextShow                       (showt, TextShow(showb)
                                                 , fromText
                                                 )
 import Palantype.Common.Class
-    ( PatternGroup, Palantype(toDescription) )
+    ( PatternGroup, Palantype(toDescription, patZero, patSimpleMulti, patCapitalize, patAcronym) )
 import Palantype.Common.Internal ( Greediness )
 import Palantype.Common.Lang ( Lang(..) )
 import           Text.Read                      (read
@@ -339,11 +339,24 @@ getGroupIndex (Stage _ h) = case h of
     StageToplevel     -> Nothing
     StageSublevel t _ -> Just t
 
-mapStages :: forall key. Palantype key => Map (StageSpecialGeneric key) (StageIndex, Int, Int)
-mapStages = Map.fromList $ zip [0..] stages <&> \(i, Stage ssg topsub) ->
-  case topsub of
-    StageSublevel t s -> (ssg, (StageIndex i, t, s))
-    StageToplevel     -> (ssg, (StageIndex i, 0, 0))
+mapStages
+  :: forall key
+  .  Palantype key
+  => Map (StageSpecialGeneric key) (StageIndex, Int, Int)
+mapStages =
+    Map.union mapStandardGroups mapFromStages
+  where
+    mapFromStages =
+      Map.fromList $ zip [0..] stages <&> \(i, Stage ssg topsub) ->
+        case topsub of
+            StageSublevel t s -> (ssg, (StageIndex i, t, s))
+            StageToplevel     -> (ssg, (StageIndex i, 0, 0))
+    mapStandardGroups = Map.fromList
+      [ (StageGeneric patZero        0, (StageIndex 0  , 0, 0))
+      , (StageGeneric patSimpleMulti 0, (StageIndex 1  , 0, 0))
+      , (StageGeneric patCapitalize  0, (StageIndex 99 , 0, 0))
+      , (StageGeneric patAcronym     0, (StageIndex 100, 0, 0))
+      ]
 
 findStage
   :: forall key
@@ -351,7 +364,6 @@ findStage
   => StageSpecialGeneric key
   -> Maybe (StageIndex, Int, Int)
 findStage ssg = Map.lookup ssg mapStages
-
 
 findStageIndex :: StageRepr -> Maybe StageIndex
 findStageIndex (StageRepr lang sg h) =
