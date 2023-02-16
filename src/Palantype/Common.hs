@@ -13,6 +13,7 @@ module Palantype.Common
   , module Palantype.Common.RawSteno
   , module Palantype.Common.RenderPlover
   , module Palantype.Common.RawSteno.Type
+  , module Palantype.Common.Stage
   ) where
 
 import Palantype.Common.AutoDoc ( PatternDoc, patternDoc )
@@ -70,3 +71,14 @@ import Palantype.Common.Dictionary.Plover
 import Palantype.Common.Dictionary.Special (dictSpecial)
 import Palantype.Common.Dictionary.Numbers (dictNumbers)
 import Palantype.Common.RenderPlover (renderPlover)
+import Palantype.Common.Stage
+    ( findStage
+    , getLang
+    , Stage(..)
+    , StageRepr
+    , StageSpecialGeneric (..)
+    , StageHierarchy (..)
+    , StageIndex
+    , findStageIndex
+    , toStageRepr
+    )

@@ -40,6 +40,7 @@ library
       Palantype.Common.RawSteno
       Palantype.Common.RawSteno.Type
       Palantype.Common.RenderPlover
+      Palantype.Common.Stage
       Palantype.Common.TH
       Palantype.DE
       Palantype.DE.FingerSpelling
@@ -57,9 +58,12 @@ library
       , bytestring
       , bytestring-trie
       , containers
+      , data-default
       , deepseq
       , file-embed
       , hashable
+      , http-api-data
+      , lens
       , loch-th
       , parsec
       , proxied
