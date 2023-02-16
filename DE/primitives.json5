@@ -574,7 +574,7 @@
 , [ "drive"  , [0, "DMAIF", "PatAnglEI"]]
 , [ "duke"   , [0, "D~U+G", "PatAnglStretchU"]]
 , [ "eam"    , [0, "~IM", "PatAnglI"]]      // e.g. team, cream
-, [ "ear"    , [3, "~I", "PatAnglI"]]
+, [ "ear"    , [0, "~I", "PatAnglI"]]
 , [ "ease"   , [0, "IS", "PatAnglI"]]
 , [ "em|pire", [0, "EM/B+AI/EÜ", "PatAnglEI"]] // TODO: documentation, very irregular
 , [ "enge"   , [0, "ENʃ", "PatAnglSch"]]      // e.g. challenge
@@ -612,10 +612,9 @@
 , [ "hedge"  , [0, "SNEʃD", "PatAnglSch"]]     // like heschd (like hedsch)
 , [ "he|ro"  , [0, "SNI/SMO", "PatAnglI"]]
 , [ "hi"     , [0, "SNAI", "PatAnglEI"]]
-, [ "high"   , [3, "SNAI+", "PatAnglEI"]]
+, [ "high"   , [0, "SNAI+", "PatAnglEI"]]
 , [ "home"   , [0, "SNOM", "PatAnglO"]]
 , [ "hoo"    , [0, "SNU", "PatAnglU"]]
-, [ "house"  , [3, "SNAUS", "PatAnglAU"]]
 , [ "house"  , [0, "SNAU+S", "PatAnglAU"]]
 , [ "hype"   , [0, "SNAI+B", "PatAnglEI"]]
 , [ "idge"   , [0, "IʃD", "PatAnglSch"]]       // e.g. bridge, Dʃ = ʃD
@@ -657,7 +656,7 @@
 , [ "lone"   , [0, "LON", "PatAnglO"]]
 , [ "loo"    , [0, "LU", "PatAnglU"]]
 , [ "love"   , [0, "LOF", "PatAnglO"]]
-, [ "loa"    , [3, "LO", "PatAnglO"]]       // e.g. boot|loa|der
+, [ "loa"    , [0, "LO", "PatAnglO"]]       // e.g. boot|loa|der
 , [ "look"   , [0, "LU+G", "PatAnglU"]]
 , [ "loop"   , [0, "LUB", "PatAnglU"]]
 , [ "lounge" , [0, "LAUNʃ", "PatAnglAU"]]
@@ -714,8 +713,7 @@
 , [ "safe"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "sean"   , [0, "ʃAUN", "PatAnglAU"]]
 , [ "scope"  , [0, "SG+O+B", "PatAnglO"]]
-, [ "scout"  , [3, "SG+AUD", "PatAnglAU"]]
-, [ "scout"  , [0, "SG+AU+D", "PatAnglAU"]]
+, [ "scout"  , [0, "SG+AUD", "PatAnglAU"]]
 , [ "screen", [0, "DSGMIN", "PatAnglI"]]
 , [ "ser|vice", [0, "SEÜ/FIS", "PatAnglOther"]]
 , [ "share"  , [0, "ʃÄÜ", "PatAnglAE"]]
@@ -724,9 +722,7 @@
 , [ "shore"  , [0, "ʃ~O", "PatAnglStretchO"]]
 , [ "sign"   , [0, "SAIN", "PatAnglEI"]]
 , [ "site"   , [0, "SAI+D", "PatAnglEI"]]
-, [ "site"   , [3, "SAID", "PatAnglEI"]]
 , [ "sites"  , [0, "SAI+s", "PatAnglEI"]]
-, [ "sites"  , [3, "SAIs", "PatAnglEI"]]
 , [ "sive"   , [0, "SIF", "PatAnglOther"]]     // e.g. inclusive
 , [ "soap"   , [0, "SO+B", "PatAnglO"]]
 , [ "smooth" , [0, "SM~US", "PatAnglStretchU"]]
