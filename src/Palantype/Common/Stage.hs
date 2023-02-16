@@ -33,7 +33,9 @@ module Palantype.Common.Stage
     , StageIndex
     , mPrev
     , mNext
-    ,isValidIndex,findStageIndex,toStageRepr,showShort)
+    , isValidIndex,findStageIndex,toStageRepr,showShort
+    , mapStages
+    )
 where
 
 import           Control.Category               ((<<<),  Category ((.)))
@@ -78,11 +80,7 @@ import Data.Foldable ( Foldable(foldl'), Foldable(length) )
 import Control.Lens.Wrapped (Wrapped)
 import Type.Reflection (eqTypeRep, (:~~:)(HRefl), typeRep)
 import qualified Palantype.DE.Keys as DE
-    ( Pattern(PatBrief, PatCodaComboT, PatReplCommon1, PatReplCommon2,
-              PatOnsetR, PatOnsetL, PatDiConsonant, PatCodaH, PatCodaR,
-              PatCodaRR, PatCodaHR, PatDt, PatDiphtong, PatReplC, PatBreakUpI,
-              PatSwapS, PatSwapSch, PatSwapZ, PatDiVowel, PatCodaGK, PatReplH,
-              PatReplRare, PatSmallS),
+    ( Pattern(..),
       Key )
 import qualified Palantype.EN.Keys as EN ( Key )
 import Data.Tuple (snd)
@@ -302,6 +300,24 @@ stagesDE =
     , Stage (StageSpecial "Command Keys"      ) (StageSublevel 15 4)
     , Stage (StageSpecial "Special Characters") (StageSublevel 15 5)
     , Stage (StageSpecial "Pattern Overview"  ) StageToplevel
+
+    -- TODO: implement tutorials
+    , Stage (StageGeneric DE.PatShortSyllable 5) (StageSublevel 20 1 )
+    , Stage (StageGeneric DE.PatShortSyllable 6) (StageSublevel 20 2 )
+    , Stage (StageGeneric DE.PatShortSyllable 8) (StageSublevel 20 3 )
+    , Stage (StageGeneric DE.PatAnglAI        0) (StageSublevel 21 1 )
+    , Stage (StageGeneric DE.PatAnglI         0) (StageSublevel 21 2 )
+    , Stage (StageGeneric DE.PatAnglU         0) (StageSublevel 21 3 )
+    , Stage (StageGeneric DE.PatAnglStretchU  0) (StageSublevel 21 4 )
+    , Stage (StageGeneric DE.PatAnglO         0) (StageSublevel 21 5 )
+    , Stage (StageGeneric DE.PatAnglStretchO  0) (StageSublevel 21 6 )
+    , Stage (StageGeneric DE.PatAnglAU        0) (StageSublevel 21 7 )
+    , Stage (StageGeneric DE.PatAnglEI        0) (StageSublevel 21 8 )
+    , Stage (StageGeneric DE.PatAnglAE        0) (StageSublevel 21 9 )
+    , Stage (StageGeneric DE.PatAnglSch       0) (StageSublevel 21 10)
+    , Stage (StageGeneric DE.PatAnglOther     0) (StageSublevel 21 11)
+    , Stage (StageGeneric DE.PatFrankOther    0) (StageSublevel 22 1 )
+    , Stage (StageGeneric DE.PatForeignOther  0) (StageSublevel 22 2 )
     ]
 
 instance Palantype key => Default (Stage key) where
@@ -352,18 +368,19 @@ mapStages =
             StageSublevel t s -> (ssg, (StageIndex i, t, s))
             StageToplevel     -> (ssg, (StageIndex i, 0, 0))
     mapStandardGroups = Map.fromList
-      [ (StageGeneric patZero        0, (StageIndex 0  , 0, 0))
-      , (StageGeneric patSimpleMulti 0, (StageIndex 1  , 0, 0))
-      , (StageGeneric patCapitalize  0, (StageIndex 99 , 0, 0))
-      , (StageGeneric patAcronym     0, (StageIndex 100, 0, 0))
+      [ (StageGeneric patZero        0, (StageIndex 0   , 0, 0))
+      , (StageGeneric patSimpleMulti 0, (StageIndex 1   , 0, 0))
+      , (StageGeneric patCapitalize  0, (StageIndex 1001, 0, 0))
+      , (StageGeneric patAcronym     0, (StageIndex 1002, 0, 0))
       ]
 
 findStage
   :: forall key
   . Palantype key
-  => StageSpecialGeneric key
+  => Map (StageSpecialGeneric key) (StageIndex, Int, Int)
+  -> StageSpecialGeneric key
   -> Maybe (StageIndex, Int, Int)
-findStage ssg = Map.lookup ssg mapStages
+findStage map ssg = Map.lookup ssg map
 
 findStageIndex :: StageRepr -> Maybe StageIndex
 findStageIndex (StageRepr lang sg h) =

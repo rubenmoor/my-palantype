@@ -72,7 +72,7 @@
 , [ "baye", [0, "BAI", "PatReplRare"]] // e.g. bayerisch
 , [ "bb"  , [0, "-B", "PatDiConsonant"]]
 , [ "be|"  , [6, "b", "PatShortSyllable"]]
-, [ "bei", [8, "b", "PatShortSyllable"]]
+, [ "bei|", [8, "b", "PatShortSyllable"]]
 , [ "be|t", [8, "b", "PatShortSyllable"]]
 , [ "bj"  , [0, "SB+-", "PatReplRare"]]
 // , "beau|ty" : [0, "BJU/DJI"] // / is allowed, but this pattern fails for the more efficient (but wrong
