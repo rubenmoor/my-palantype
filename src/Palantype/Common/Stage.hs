@@ -35,6 +35,7 @@ module Palantype.Common.Stage
     , mNext
     , isValidIndex,findStageIndex,toStageRepr,showShort
     , mapStages
+    , mkStageIndex
     )
 where
 
@@ -75,7 +76,7 @@ import Control.Monad (Monad((>>=)))
 import Data.Bool (Bool, otherwise, (||), (&&))
 import Data.Maybe (Maybe(Nothing, Just), maybe)
 import GHC.Num ((+), (-), Num)
-import Data.Ord ((<), (>), Ord)
+import Data.Ord ((<), (>), Ord ((>=)))
 import Data.Foldable ( Foldable(foldl'), Foldable(length) )
 import Control.Lens.Wrapped (Wrapped)
 import Type.Reflection (eqTypeRep, (:~~:)(HRefl), typeRep)
@@ -428,3 +429,7 @@ toStageRepr (Stage sg h) =
   where
     toRepr (StageSpecial str ) = StageReprSpecial str
     toRepr (StageGeneric pg g) = StageReprGeneric (showt pg) g
+
+mkStageIndex :: forall key. Palantype key => Int -> Maybe StageIndex
+mkStageIndex i | i >= 0 && i < Map.size (mapStages @key) = Just $ StageIndex i
+mkStageIndex _ = Nothing

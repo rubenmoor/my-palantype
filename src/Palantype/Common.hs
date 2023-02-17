@@ -82,4 +82,5 @@ import Palantype.Common.Stage
     , findStageIndex
     , mapStages
     , toStageRepr
+    , mkStageIndex
     )
