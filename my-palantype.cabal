@@ -35,7 +35,7 @@ library
       Palantype.Common.Internal
       Palantype.Common.Internal.Instances
       Palantype.Common.KeyIndex
-      Palantype.Common.Lang
+      Palantype.Common.SystemLang
       Palantype.Common.Primitives
       Palantype.Common.RawSteno
       Palantype.Common.RawSteno.Type

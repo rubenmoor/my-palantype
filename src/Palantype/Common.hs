@@ -1,7 +1,7 @@
 module Palantype.Common
   ( module Palantype.Common.Class
   , module Palantype.Common.Internal
-  , module Palantype.Common.Lang
+  , module Palantype.Common.SystemLang
   , module Palantype.Common.Primitives
   , module Palantype.Common.AutoDoc
   , module Palantype.Common.Indices
@@ -40,7 +40,7 @@ import Palantype.Common.Primitives
       stripComments
     )
 import Palantype.Common.Indices ( toRaw, allKeys, KIChord )
-import Palantype.Common.Lang ( Lang (..) )
+import Palantype.Common.SystemLang ( SystemLang (..) )
 import Palantype.Common.RawSteno
     ( fromChord,
       unparts,
@@ -73,7 +73,7 @@ import Palantype.Common.Dictionary.Numbers (dictNumbers)
 import Palantype.Common.RenderPlover (renderPlover)
 import Palantype.Common.Stage
     ( findStage
-    , getLang
+    , getSystemLang
     , Stage(..)
     , StageRepr
     , StageSpecialGeneric (..)

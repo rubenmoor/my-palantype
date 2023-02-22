@@ -3,8 +3,8 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 
-module Palantype.Common.Lang
-    ( Lang (..)
+module Palantype.Common.SystemLang
+    ( SystemLang (..)
     ) where
 
 import           Data.Aeson                     ( FromJSON
@@ -27,28 +27,28 @@ import           TextShow                       ( TextShow ( showb)
                                                 , fromText
                                                 )
 
-data Lang
-  = EN
-  | DE
+data SystemLang
+  = SystemEN
+  | SystemDE
   deriving stock (Eq, Generic, Ord, Read, Show)
 
-instance FromJSON Lang
-instance ToJSON Lang
-instance FromJSONKey Lang
-instance ToJSONKey Lang
+instance FromJSON SystemLang
+instance ToJSON SystemLang
+instance FromJSONKey SystemLang
+instance ToJSONKey SystemLang
 
-instance TextShow Lang where
+instance TextShow SystemLang where
     showb = \case
-        EN -> fromText "Palantype"
-        DE -> fromText "Palantype DE"
+        SystemEN -> fromText "Palantype"
+        SystemDE -> fromText "Palantype DE"
 
-instance ToHttpApiData Lang where
+instance ToHttpApiData SystemLang where
     toUrlPiece = \case
-        EN -> "EN"
-        DE -> "DE"
+        SystemEN -> "SystemEN"
+        SystemDE -> "SystemDE"
 
-instance FromHttpApiData Lang where
+instance FromHttpApiData SystemLang where
     parseUrlPiece = \case
-        "EN" -> Right EN
-        "DE" -> Right DE
+        "SystemEN" -> Right SystemEN
+        "SystemDE" -> Right SystemDE
         str  -> Left $ "url piece: " <> str <> ": no parse"

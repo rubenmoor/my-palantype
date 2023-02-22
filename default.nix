@@ -1,6 +1,6 @@
 let
   #hostNix = import <nixpkgs> {};
-  compiler = "ghc884";
+  compiler = "ghc8107";
 
   config = {
     packageOverrides = pkgs: rec {
@@ -18,17 +18,17 @@ let
   #nixpkgsPin = hostNix.pkgs.lib.importJSON ./nixos-pinned.json;
 
   pkgs = import <nixpkgs> { inherit config; };
-  drv = pkgs.haskell.packages."${compiler}".callCabal2nix "my-palantype" ./. { };
 
   easy-hls = pkgs.callPackage (pkgs.fetchFromGitHub {
     owner = "jkachmar";
     repo = "easy-hls-nix";
-    rev = "db85cac9d0405b4769b75cba0b004aed3beaf2de";
-    sha256 = "10nff6mqflrd6dz1fp2l9vmfwbgk0r7zm81qh2xnjj19a47pd7v3";
+    rev = "ecb85ab6ba0aab0531fff32786dfc51feea19370";                                    
+    sha256 = "14v0jx8ik40vpkcq1af1b3377rhkh95f4v2cl83bbzpna9aq6hn2";
   }) {
-    ghcVersions = [ "8.8.4" ];
+    ghcVersions = [ "8.10.7" ];
   };
 
+  drv = pkgs.haskell.packages."${compiler}".callCabal2nix "my-palantype" ./. { };
   env =
     # don't know why, but the haskell-language doesn't seem to
     # be a build tool, but a native build input

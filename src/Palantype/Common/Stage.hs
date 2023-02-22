@@ -23,7 +23,7 @@
 module Palantype.Common.Stage
     ( fromIndex
     , findStage
-    , getLang
+    , getSystemLang
     , toTOCString
     , getGroupIndex
     , Stage(..)
@@ -62,7 +62,7 @@ import           TextShow                       (showt, TextShow(showb)
 import Palantype.Common.Class
     ( PatternGroup, Palantype(toDescription, patZero, patSimpleMulti, patCapitalize, patAcronym) )
 import Palantype.Common.Internal ( Greediness )
-import Palantype.Common.Lang ( Lang(..) )
+import Palantype.Common.SystemLang ( SystemLang(..) )
 import           Text.Read                      (read
                                                 , Read(readPrec)
                                                 )
@@ -210,7 +210,7 @@ instance FromJSON StageSpecialGenericRepr
 -- | instance of 'PatternGroup key' to convert a 'Stage key' in a one-way
 -- | manner into a legible representation of a stage
 data StageRepr = StageRepr
-    { srLang :: Lang
+    { srLang :: SystemLang
     , srStageSpecialGeneric :: StageSpecialGenericRepr
     , srStageHierarchy :: StageHierarchy
     }
@@ -400,8 +400,8 @@ findStage map ssg = Map.lookup ssg map
 findStageIndex :: StageRepr -> Maybe StageIndex
 findStageIndex (StageRepr lang sg h) =
     case lang of
-      EN -> snd $ foldl' acc (0, Nothing) $ stages @EN.Key
-      DE -> snd $ foldl' acc (0, Nothing) $ stages @DE.Key
+      SystemEN -> snd $ foldl' acc (0, Nothing) $ stages @EN.Key
+      SystemDE -> snd $ foldl' acc (0, Nothing) $ stages @DE.Key
   where
     acc :: forall key. Palantype key => (Int, Maybe StageIndex) -> Stage key -> (Int, Maybe StageIndex)
     acc r@(_, Just _)  _ = r
@@ -417,15 +417,15 @@ findStageIndex (StageRepr lang sg h) =
 isValidIndex :: forall key. Palantype key => StageIndex -> Bool
 isValidIndex (StageIndex i) = i > 0 && i < length (stages @key)
 
-getLang :: forall key. Palantype key => Lang
-getLang = if
-  | Just HRefl <- typeRep @key `eqTypeRep` typeRep @EN.Key -> EN
-  | Just HRefl <- typeRep @key `eqTypeRep` typeRep @DE.Key -> DE
+getSystemLang :: forall key. Palantype key => SystemLang
+getSystemLang = if
+  | Just HRefl <- typeRep @key `eqTypeRep` typeRep @EN.Key -> SystemEN
+  | Just HRefl <- typeRep @key `eqTypeRep` typeRep @DE.Key -> SystemDE
   | otherwise -> $failure "key not implemented"
 
 toStageRepr :: forall key. Palantype key => Stage key -> StageRepr
 toStageRepr (Stage sg h) =
-    StageRepr (getLang @key) (toRepr sg) h
+    StageRepr (getSystemLang @key) (toRepr sg) h
   where
     toRepr (StageSpecial str ) = StageReprSpecial str
     toRepr (StageGeneric pg g) = StageReprGeneric (showt pg) g
