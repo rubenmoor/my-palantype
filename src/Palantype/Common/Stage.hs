@@ -25,6 +25,7 @@ module Palantype.Common.Stage
     , findStage
     , getSystemLang
     , toTOCString
+    , toPageName
     , getGroupIndex
     , Stage(..)
     , StageRepr()
@@ -57,7 +58,7 @@ import           Data.Bool                      ( (&&)
                                                 )
 import           Data.Char                      ( isDigit
                                                 , isLetter
-                                                , toUpper
+                                                , toUpper, isAlphaNum, isAscii
                                                 )
 import           Data.Default                   ( Default(def) )
 import           Data.Eq                        ( Eq((/=), (==)) )
@@ -281,25 +282,25 @@ instance FromJSON StageRepr
 stages :: forall key . (Palantype key) => [Stage key]
 stages =
     [ Stage (StageSpecial "Introduction")               StageToplevel
-        , Stage (StageSpecial "Type the letters")           (StageSublevel 1 1)
-        , Stage (StageSpecial "Memorize the order")         (StageSublevel 1 2)
-        , Stage (StageSpecial "Type the letters blindly")   (StageSublevel 1 3)
-        , Stage (StageSpecial "Memorize the order blindly") (StageSublevel 1 4)
-        , Stage (StageSpecial "Memorize the left hand")     (StageSublevel 1 5)
-        , Stage (StageSpecial "Memorize the right hand")    (StageSublevel 1 6)
-        , Stage (StageSpecial "Memorize home row")          (StageSublevel 1 7)
-        , Stage (StageSpecial "Memorize them all")          (StageSublevel 1 8)
-        , Stage (StageSpecial "Building muscle memory")     (StageSublevel 2 1)
-        , Stage (StageSpecial "Learn your first chords")    (StageSublevel 2 2)
-        ]
-        <> if
-               | Just HRefl <- typeRep @key `eqTypeRep` typeRep @DE.Key
-               -> stagesDE
-               | Just HRefl <- typeRep @key `eqTypeRep` typeRep @EN.Key
-               -> []
-               | -- TODO
-                 otherwise
-               -> []
+    , Stage (StageSpecial "Type the letters")           (StageSublevel 1 1)
+    , Stage (StageSpecial "Memorize the order")         (StageSublevel 1 2)
+    , Stage (StageSpecial "Type the letters blindly")   (StageSublevel 1 3)
+    , Stage (StageSpecial "Memorize the order blindly") (StageSublevel 1 4)
+    , Stage (StageSpecial "Memorize the left hand")     (StageSublevel 1 5)
+    , Stage (StageSpecial "Memorize the right hand")    (StageSublevel 1 6)
+    , Stage (StageSpecial "Memorize home row")          (StageSublevel 1 7)
+    , Stage (StageSpecial "Memorize them all")          (StageSublevel 1 8)
+    , Stage (StageSpecial "Building muscle memory")     (StageSublevel 2 1)
+    , Stage (StageSpecial "Learn your first chords")    (StageSublevel 2 2)
+    ]
+    <> if
+           | Just HRefl <- typeRep @key `eqTypeRep` typeRep @DE.Key
+           -> stagesDE
+           | Just HRefl <- typeRep @key `eqTypeRep` typeRep @EN.Key
+           -> []
+           | -- TODO
+             otherwise
+           -> []
 
 stagesDE :: [Stage DE.Key]
 stagesDE =
@@ -418,6 +419,30 @@ toTOCString (Stage sg h) = case sg of
         StageSublevel _ s ->
             let mg = if g > 0 then Just g else Nothing
             in  ("Ex. " <> showt s <> ": ", mg, toDescription pg)
+
+toPageName
+  :: forall key
+   . Palantype key
+  => Stage key
+  -> Text
+toPageName (Stage sg h) = case sg of
+    StageSpecial str -> case h of
+      StageToplevel -> str
+      StageSublevel t s -> "Stage" <> showt t <> "-" <> showt s <> "_" <> toFileName str
+    StageGeneric pg g -> case h of
+      StageToplevel -> $failure "Error: generic stage on top level"
+      StageSublevel t s -> "Stage" <> showt t <> "-" <> showt s <> "_" <> "G" <> showt g <> "_" <> toFileName (toDescription pg)
+  where
+    toFileName :: Text -> Text
+    toFileName = Text.filter (\c -> isAscii c && (isAlphaNum c || c `elem` ["-", "_", "."])
+             <<< Text.replace " " "-"
+             <<< Text.replace "ä" "ae"
+             <<< Text.replace "ö" "oe"
+             <<< Text.replace "ü" "ue"
+             <<< Text.replace "Ä" "Ae"
+             <<< Text.replace "Ö" "Oe"
+             <<< Text.replace "Ü" "Ue"
+             <<< Text.replace "ß" "ss"
 
 getGroupIndex :: forall key . Stage key -> Maybe Int
 getGroupIndex (Stage _ h) = case h of
