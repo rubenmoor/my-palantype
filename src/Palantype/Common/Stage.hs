@@ -40,6 +40,7 @@ module Palantype.Common.Stage
     , showShort
     , mapStages
     , mkStageIndex
+    , stages
     ) where
 
 import           Control.Applicative            ( Applicative(pure) )
@@ -62,7 +63,7 @@ import           Data.Char                      ( isDigit
                                                 )
 import           Data.Default                   ( Default(def) )
 import           Data.Eq                        ( Eq((/=), (==)) )
-import           Data.Foldable                  ( Foldable(foldl', length) )
+import           Data.Foldable                  ( Foldable(foldl', length), elem )
 import           Data.Function                  ( ($) )
 import           Data.Functor                   ( (<$>)
                                                 , (<&>)
@@ -434,7 +435,7 @@ toPageName (Stage sg h) = case sg of
       StageSublevel t s -> "Stage" <> showt t <> "-" <> showt s <> "_" <> "G" <> showt g <> "_" <> toFileName (toDescription pg)
   where
     toFileName :: Text -> Text
-    toFileName = Text.filter (\c -> isAscii c && (isAlphaNum c || c `elem` ["-", "_", "."])
+    toFileName = Text.filter (\c -> isAscii c && (isAlphaNum c || c `elem` ['-', '_', '.']))
              <<< Text.replace " " "-"
              <<< Text.replace "ä" "ae"
              <<< Text.replace "ö" "oe"

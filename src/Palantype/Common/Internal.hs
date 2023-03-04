@@ -7,7 +7,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# OPTIONS_GHC -Wno-deferred-type-errors #-}
 
 module Palantype.Common.Internal where
 
@@ -15,7 +14,6 @@ import           Control.Category               ( (<<<) )
 import           Data.Aeson                     ( FromJSON
                                                 , ToJSON
                                                 )
-import           Data.Eq                        ( Eq )
 import           Data.Foldable                  ( Foldable )
 import           Data.Int                       ( Int )
 import           Data.Ord                       ( Ord )
@@ -29,6 +27,7 @@ import           TextShow                       ( TextShow
                                                 , fromString
                                                 )
 import           TextShow.Generic               ( genericShowbPrec )
+import           Data.Eq                        ( Eq )
 
 data ExceptionInterpretation
   = ExcRuleAddition
@@ -91,7 +90,7 @@ instance TextShow Finger where
 
 -- a series of chords, to type a word of arbitrary length
 newtype Series k = Series {unSeries :: [Chord k]}
-    deriving stock (Eq, Ord, Foldable)
+    deriving stock (Foldable)
 
 newtype Chord k = Chord {unChord :: [k]}
-    deriving stock (Eq, Ord, Foldable, Generic)
+    deriving stock (Foldable, Generic)

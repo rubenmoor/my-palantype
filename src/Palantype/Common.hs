@@ -60,7 +60,7 @@ import Palantype.Common.RawSteno
       key )
 import Palantype.Common.RawSteno.Type (RawSteno)
 import Palantype.Common.Dictionary.Commands
-    ( kiEnter, kiDown, kiUp, kiPageUp, kiPageDown, dictCommands, kiChordsStart
+    ( kiEnter, kiDown, kiUp, kiPageUp, kiPageDown, dictCommands
     , kiHome
     , kiEnd
     , kiInsert
@@ -82,5 +82,6 @@ import Palantype.Common.Stage
     , findStageIndex
     , mapStages
     , toStageRepr
+    , toPageName
     , mkStageIndex
     )

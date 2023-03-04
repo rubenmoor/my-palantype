@@ -7,7 +7,7 @@
 
 module Palantype.Common.RawSteno where
 
-import           Control.Applicative            ( Applicative((<*), pure, (<*>))
+import           Control.Applicative            ( Applicative((<*), (<*>), pure)
                                                 )
 import           Control.Monad                  ( Monad((>>))
                                                 , MonadPlus(mzero)
@@ -15,23 +15,59 @@ import           Control.Monad                  ( Monad((>>))
                                                 , unless
                                                 , when
                                                 )
+import           Control.Monad.Fail             ( MonadFail(fail) )
+import           Data.Bool                      ( (&&)
+                                                , Bool(False)
+                                                , bool
+                                                , otherwise
+                                                , (||)
+                                                )
 import           Data.Data                      ( Proxy(Proxy)
-
                                                 , typeRep
                                                 )
 import           Data.Either                    ( Either(..) )
 import           Data.Eq                        ( Eq((==)) )
-import           Data.Foldable                  ( Foldable(foldl', length, maximum, minimum) )
+import           Data.Foldable                  ( Foldable
+                                                    ( foldl'
+                                                    , length
+                                                    , maximum
+                                                    , minimum
+                                                    )
+                                                )
 import           Data.Function                  ( ($) )
 import           Data.Functor                   ( ($>)
                                                 , (<$>)
-                                                , void, Functor (fmap)
+                                                , Functor(fmap)
+                                                , void
                                                 )
+import           Data.List                      ( head
+                                                , partition
+                                                )
+import qualified Data.List.NonEmpty            as NonEmpty
+import           Data.List.NonEmpty             ( nonEmpty )
 import           Data.Maybe                     ( Maybe(..) )
-import           Data.Monoid                    ( Monoid(mconcat), (<>) )
-import           Data.Ord                       ( Ord((<), (>), (>=), (<=)) )
-import Data.Text ( Text, isInfixOf )
+import           Data.Monoid                    ( (<>)
+                                                , Monoid(mconcat)
+                                                )
+import           Data.Ord                       ( Ord((<), (<=), (>), (>=)) )
+import           Data.Text                      ( Text
+                                                , isInfixOf
+                                                )
 import qualified Data.Text                     as Text
+import           Palantype.Common.Class         ( Palantype
+                                                    ( keyCode
+                                                    , toFinger
+                                                    , toKeys
+                                                    )
+                                                )
+import           Palantype.Common.Internal      ( Chord(Chord)
+                                                , Finger(..)
+                                                , PatternPos(..)
+                                                )
+import           Palantype.Common.KeyIndex      ( fromIndex )
+import           Palantype.Common.RawSteno.Type ( RawSteno(RawSteno, unRawSteno)
+                                                )
+import           Palantype.Common.TH            ( fromJust )
 import           Palantype.EN                   ( pEN )
 import           Text.Parsec                    ( (<?>)
                                                 , (<|>)
@@ -53,16 +89,6 @@ import           Text.Parsec                    ( (<?>)
                                                 , try
                                                 )
 import           Text.Show                      ( Show(show) )
-import Control.Monad.Fail (MonadFail(fail))
-import Data.Bool ((&&), otherwise, (||), Bool (False), bool)
-import Palantype.Common.Class (Palantype (toKeys, toFinger, keyCode))
-import Palantype.Common.RawSteno.Type (RawSteno (RawSteno, unRawSteno))
-import Palantype.Common.Internal (Chord (Chord), PatternPos (..), Finger (..))
-import Palantype.Common.KeyIndex (fromIndex)
-import qualified Data.List.NonEmpty as NonEmpty
-import Palantype.Common.TH (fromJust)
-import Data.List ( partition, head )
-import Data.List.NonEmpty (nonEmpty)
 
 {-|
 render a chord to raw steno code,
@@ -147,8 +173,6 @@ parseSteno (RawSteno str) =
         Left  err -> Left $ Text.pack $ show err
         Right ls  -> Right $ mconcat ls
 
--- | fails silently in case of parser error and returns
--- | an empty list
 parseStenoMaybe :: Palantype key => RawSteno -> Maybe [Chord key]
 parseStenoMaybe (RawSteno str) =
     case runParser sentence (Nothing, Nothing) "" str of
@@ -159,7 +183,6 @@ parseWord :: Palantype key => RawSteno -> Either ParseError [Chord key]
 parseWord (RawSteno str) = runParser word (Nothing, Nothing) "" str
 
 -- | parse raw steno code, expects a single chords, i.e. no spaces, no '/'
--- | fails silently and returns and returns an empty chord
 parseChordMaybe :: Palantype key => RawSteno -> Maybe (Chord key)
 parseChordMaybe (RawSteno str) =
     case runParser chord (Nothing, Nothing) "" str of

@@ -51,10 +51,10 @@ data Key =
   | LeftO
   | LeftE
   | Unused2
+  | Unused3
   | MiddleI
   | RightU
   | RightA
-  | Unused3
   | RightN
   | RightL
   | RightC

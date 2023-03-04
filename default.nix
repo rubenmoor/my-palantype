@@ -19,15 +19,6 @@ let
 
   pkgs = import <nixpkgs> { inherit config; };
 
-  easy-hls = pkgs.callPackage (pkgs.fetchFromGitHub {
-    owner = "jkachmar";
-    repo = "easy-hls-nix";
-    rev = "ecb85ab6ba0aab0531fff32786dfc51feea19370";                                    
-    sha256 = "14v0jx8ik40vpkcq1af1b3377rhkh95f4v2cl83bbzpna9aq6hn2";
-  }) {
-    ghcVersions = [ "8.10.7" ];
-  };
-
   drv = pkgs.haskell.packages."${compiler}".callCabal2nix "my-palantype" ./. { };
   env =
     # don't know why, but the haskell-language doesn't seem to
@@ -43,7 +34,6 @@ let
       nativeBuildInputs =
         oldAttrs.nativeBuildInputs ++ [
           cabal-install
-          easy-hls
         ];
     });
 in

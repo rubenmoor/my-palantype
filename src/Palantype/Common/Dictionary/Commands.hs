@@ -35,7 +35,6 @@ module Palantype.Common.Dictionary.Commands
     , kiUp
     , kiDown
     , kiEnter
-    , kiChordsStart
     , kiPageUp
     , kiPageDown
     , kiHome
@@ -132,11 +131,11 @@ enter key, not to be confused with paragraph
 kiEnter :: KIChord
 kiEnter = mkKIChordSimple "return"
 
-{-|
-the word "Start" in two versions
--}
-kiChordsStart :: [KIChord]
-kiChordsStart = $parseChordDE . Raw.fromText <$> ["DSAÜD", "DSAÜ+D"]
+-- {-|
+-- the word "Start" in two versions
+-- -}
+-- kiChordsStart :: [KIChord]
+-- kiChordsStart = $parseChordDE . Raw.fromText <$> ["DSAÜD", "DSAÜ+D"]
 
 {-|
 page up key
