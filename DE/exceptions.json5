@@ -25,6 +25,7 @@
 , ["Brooklyn",      "substitution", 0, "BMU+G/LIN", "PatAnglU"]
 , ["Brooks",        "substitution", 0, "BMU+GS", "PatAnglU"]
 , ["Bucks",         "substitution", 0, "BA+GS", "PatAnglA"]
+, ["Chance",        "rule-addition", 0, "ʃA+NS", "PatFrankOther"]
 , ["Chelsea",       "substitution", 0, "ʃEL/SI", "PatAnglI"]
 , ["Clooney",       "substitution", 0, "DGLU/NÄI", "PatAnglU"]
 , ["Clou",          "substitution", 0, "DʃGLU", "PatAnglU"]
@@ -83,7 +84,7 @@
 , ["Ilm",           "substitution", 0, "S-/I+", "PatCapitalize"] // < {&i} "Fingerspelling"
 , ["immer",         "rule-addition", 0, "IMs", "PatBrief"]
 , ["Inc",           "substitution", 0, "NÜM/IMN", "PatAcronym"]
-, ["Iod",           "substitution", 0, "I/OD", "PatBreakUpI"]         // < Jod
+//, ["Iod",           "substitution", 0, "I/OD", "PatBreakUpI"]         // < Jod
 , ["iPad",          "substitution", 0, "AI/B+ÄD", "PatAnglEI"]
 , ["iPads",         "substitution", 0, "AI/B+ÄSD", "PatAnglEI"]
 , ["iPhone",        "substitution", 0, "AI/FON", "PatAnglEI"]

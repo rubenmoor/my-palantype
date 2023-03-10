@@ -136,7 +136,7 @@
 , [ "ea"  , [4, "EÜ", "PatDiphtong"]]
 , [ "e|a" , [5, "EÜ", "PatDiphtong"]]
 , [ "ee"  , [4, "EO", "PatDiVowel"]]
-, [ "ee"  , [1, "EÜ", "PatDiVowel"]]
+//, [ "ee"  , [1, "EÜ", "PatDiVowel"]]
 , [ "ee"  , [0, "E/E", "PatDiVowel"]]
 , [ "eer" , [0, "E/EÜ", "PatDiVowel"]]
 , [ "eer" , [1, "EÜ", "PatDiVowel"]]
@@ -253,7 +253,7 @@
 , [ "ñ"   , [0, "N", "PatSimple"]]
 , [ "nch" , [0, "-+Nʃ", "PatReplCommon2"]]     // TODO: documentation, ch is Kʃ
 , [ "nck" , [0, "-MN", "PatReplCommon2"]]     // Planck
-, [ "ndt" , [2, "+ND", "PatDt"]]
+, [ "ndt" , [2, "-+ND", "PatCodaComboT"]]
 , [ "ng"  , [0, "-MG", "PatReplCommon1"]]
 , [ "ngt" , [0, "-MGD", "PatReplCommon1"]]
 , [ "n|gen",[6, "-MGn", "PatShortSyllable"]]    // TODO: documentation
@@ -317,7 +317,9 @@
 , [ "p"   , [3, "-B", "PatReplCommon1"]]
 , [ "pf"  , [0, "-BF", "PatReplCommon2"]]
 , [ "pf"  , [0, "FB+-", "PatReplRare"]]
+, [ "pf"  , [3, "F-", "PatReplRare"]]
 , [ "pfl" , [0, "FBL-", "PatReplRare"]]
+, [ "pfl" , [3, "FL-", "PatReplRare"]]
 , [ "pft" , [0, "-BFD", "PatReplCommon2"]]
 , [ "ph"  , [0, "F+-", "PatReplRare"]]       // TODO: documentation
 , [ "ph"  , [0, "-+F", "PatReplRare"]]
