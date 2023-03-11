@@ -41,6 +41,10 @@ module Palantype.Common.Stage
     , mapStages
     , mkStageIndex
     , stages
+    , stageIndexPatZero
+    , stageIndexPatSimpleMulti
+    , stageIndexPatCapitalize
+    , stageIndexPatAcronym
     ) where
 
 import           Control.Applicative            ( Applicative(pure) )
@@ -143,6 +147,8 @@ import           Type.Reflection                ( (:~~:)(HRefl)
 import           Web.HttpApiData                ( FromHttpApiData
                                                 , ToHttpApiData
                                                 )
+import qualified Palantype.DE as DE
+import qualified Palantype.DE as DE
 
 data StageSpecialGeneric key
   = StageSpecial Text
@@ -462,10 +468,10 @@ mapStages = Map.union mapStandardGroups mapFromStages
                 StageSublevel t s -> (ssg, (StageIndex i, t, s))
                 StageToplevel     -> (ssg, (StageIndex i, 0, 0))
     mapStandardGroups = Map.fromList
-        [ (StageGeneric patZero 0       , (StageIndex 0, 0, 0))
-        , (StageGeneric patSimpleMulti 0, (StageIndex 1, 0, 0))
-        , (StageGeneric patCapitalize 0 , (StageIndex 1001, 0, 0))
-        , (StageGeneric patAcronym 0    , (StageIndex 1002, 0, 0))
+        [ (StageGeneric patZero 0       , (stageIndexPatZero       , 0, 0))
+        , (StageGeneric patSimpleMulti 0, (stageIndexPatSimpleMulti, 0, 0))
+        , (StageGeneric patCapitalize 0 , (stageIndexPatCapitalize , 0, 0))
+        , (StageGeneric patAcronym 0    , (stageIndexPatAcronym    , 0, 0))
         ]
 
 findStage
@@ -514,3 +520,15 @@ toStageRepr (Stage sg h) = StageRepr (getSystemLang @key) (toRepr sg) h
 mkStageIndex :: forall key . Palantype key => Int -> Maybe StageIndex
 mkStageIndex i | i >= 0 && i < Map.size (mapStages @key) = Just $ StageIndex i
 mkStageIndex _ = Nothing
+
+stageIndexPatZero :: StageIndex
+stageIndexPatZero = StageIndex 0
+
+stageIndexPatSimpleMulti :: StageIndex
+stageIndexPatSimpleMulti = StageIndex 1
+
+stageIndexPatCapitalize :: StageIndex
+stageIndexPatCapitalize = StageIndex 1001
+
+stageIndexPatAcronym :: StageIndex
+stageIndexPatAcronym = StageIndex 1002

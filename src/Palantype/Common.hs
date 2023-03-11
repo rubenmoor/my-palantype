@@ -79,6 +79,10 @@ import Palantype.Common.Stage
     , StageSpecialGeneric (..)
     , StageHierarchy (..)
     , StageIndex
+    , stageIndexPatZero
+    , stageIndexPatSimpleMulti
+    , stageIndexPatCapitalize
+    , stageIndexPatAcronym
     , findStageIndex
     , mapStages
     , toStageRepr

@@ -253,7 +253,7 @@
 , [ "ñ"   , [0, "N", "PatSimple"]]
 , [ "nch" , [0, "-+Nʃ", "PatReplCommon2"]]     // TODO: documentation, ch is Kʃ
 , [ "nck" , [0, "-MN", "PatReplCommon2"]]     // Planck
-, [ "ndt" , [2, "-+ND", "PatCodaComboT"]]
+, [ "ndt" , [0, "-+ND", "PatCodaComboT"]]
 , [ "ng"  , [0, "-MG", "PatReplCommon1"]]
 , [ "ngt" , [0, "-MGD", "PatReplCommon1"]]
 , [ "n|gen",[6, "-MGn", "PatShortSyllable"]]    // TODO: documentation

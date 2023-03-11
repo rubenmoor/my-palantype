@@ -45,7 +45,7 @@ stages =
             assertFailure $ "Stages missing:\n\n" <> unlines (show <$> lsMisses)
   where
     acc     ls pg mapG = Map.foldlWithKey' (accG pg) ls mapG
-    accG pg ls g  _    = case findStage @DE.Key mapStages (StageGeneric pg g) of
+    accG pg ls g  _    = case findStage @DE.Key (StageGeneric pg g) of
       Just _ -> ls
       Nothing -> (pg, g) : ls
 
