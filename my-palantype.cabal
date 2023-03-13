@@ -37,6 +37,7 @@ library
       Palantype.Common.KeyIndex
       Palantype.Common.SystemLang
       Palantype.Common.Primitives
+      Palantype.Common.Primitives.Types
       Palantype.Common.RawSteno
       Palantype.Common.RawSteno.Type
       Palantype.Common.RenderPlover
@@ -52,6 +53,7 @@ library
         LambdaCase
         NoImplicitPrelude
         OverloadedStrings
+        StrictData
     build-depends:
         base
       , aeson
@@ -72,7 +74,6 @@ library
       , template-haskell
       , text
       , text-show
-      , unordered-containers
     hs-source-dirs:   src
     default-language: Haskell2010
 

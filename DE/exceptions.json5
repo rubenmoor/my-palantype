@@ -11,7 +11,7 @@
 , ["Aorta",         "substitution", 0, "A/~O/D+A", "PatCodaR", "no-doc"]
 , ["Amman",         "substitution", 0, "AM/MAÜN", "PatSCStretch"]      // < Ammann
 , ["Aortenklappe",  "substitution", 0, "A/~O/D+EN/DGLA+B/B+E", "PatCodaR", "no-doc"]
-, ["Aortenklappen", "substitution", 0, "A/~O/D+EN/DGLA+B/B+EN", "PatCodaR", "no-doc", 0, "A/~O/D+-n/DGLA+B/B+-n", "PatShortSyllable", "no-doc"]
+, ["Aortenklappen", "substitution", 0, "A/~O/D+EN/DGLA+B/B+EN", "PatCodaR", "no-doc", 6, "A/~O/D+-n/DGLA+B/B+-n", "PatShortSyllable", "no-doc"]
 , ["bah",           "substitution", 0, "BAÜ+", "PatSCPlus"]         // < bar
 , ["Bazooka",       "substitution", 0, "BA/ʃGU/G+A", "PatAnglU"]
 , ["Beatles",       "substitution", 0, "B~I/D+ELS", "PatAnglI"]

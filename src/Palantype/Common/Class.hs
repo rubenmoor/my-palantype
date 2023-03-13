@@ -30,7 +30,7 @@ import           Data.Data                      ( Data
                                                 , maxConstrIndex
                                                 )
 import           Data.Eq                        ( Eq((==)) )
-import           Data.Foldable                  ( Foldable(foldl) )
+import           Data.Foldable                  ( Foldable(foldl') )
 import           Data.Function                  ( ($)
                                                 , flip
                                                 )
@@ -138,7 +138,7 @@ class ( Data key
   toKeys c =
     let t = dataTypeOfProxied (Proxy :: Proxy key)
         ks = fromConstr . indexConstr t <$> [1 .. maxConstrIndex t]
-        m = foldl (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
+        m = foldl' (\m' k -> Map.insertWith (flip (++)) (keyCode k) [k] m') Map.empty ks
     in  nonEmpty $ Map.findWithDefault [] c m
 
   toDescription :: PatternGroup key -> Text

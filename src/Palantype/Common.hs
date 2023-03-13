@@ -74,6 +74,7 @@ import Palantype.Common.RenderPlover (renderPlover)
 import Palantype.Common.Stage
     ( findStage
     , getSystemLang
+    , getStageIndexMaybe
     , Stage(..)
     , StageRepr
     , StageSpecialGeneric (..)

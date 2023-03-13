@@ -21,7 +21,7 @@ import Data.Maybe (maybe)
 import Data.Either (Either(..))
 import qualified Data.Map.Strict as Map
 import qualified Data.Aeson as Aeson
-import Palantype.Common.Primitives (PrimMap (..), stripComments, ExceptionsMap (unExceptionsMap))
+import Palantype.Common.Primitives.Types (PrimMap (..), stripComments, ExceptionsMap (..))
 import Data.FileEmbed (embedFile)
 import Data.Function (($))
 import GHC.Err (error)

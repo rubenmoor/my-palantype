@@ -1,8 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TupleSections #-}
-{-# OPTIONS_GHC -Wno-unused-imports #-}
 
 module Palantype.Common.AutoDoc
     ( patternDoc
@@ -10,7 +7,7 @@ module Palantype.Common.AutoDoc
     ) where
 
 import           Data.Bifunctor                 ( Bifunctor(first) )
-import           Data.Bool                      ( Bool(False) )
+import           Data.Bool                      ( Bool )
 import           Data.Foldable                  ( Foldable(foldl') )
 import           Data.Function                  ( ($)
                                                 )
@@ -29,15 +26,9 @@ import           Palantype.Common.Class         ( Palantype
                                                     , lsPrimitives
                                                     , mapExceptions
                                                     )
-                                                , patCapitalize
                                                 )
-import           Palantype.Common.Dictionary.Plover
-                                                ( kiCapNext )
-import qualified Palantype.Common.Indices      as KI
-import           Palantype.Common.Internal      ( Greediness
-                                                , PatternPos(..)
-                                                )
-import           Palantype.Common.RawSteno.Type ( RawSteno (RawSteno) )
+import           Palantype.Common.RawSteno.Type ( RawSteno )
+import Palantype.Common.Internal (Greediness, PatternPos (..))
 import Control.Category ((<<<))
 
 {-|

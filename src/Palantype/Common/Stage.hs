@@ -27,11 +27,12 @@ module Palantype.Common.Stage
     , toTOCString
     , toPageName
     , getGroupIndex
+    , getStageIndexMaybe
     , Stage(..)
     , StageRepr()
     , StageSpecialGeneric(..)
     , StageHierarchy(..)
-    , StageIndex
+    , mkStageIndex
     , mPrev
     , mNext
     , isValidIndex
@@ -39,18 +40,20 @@ module Palantype.Common.Stage
     , toStageRepr
     , showShort
     , mapStages
-    , mkStageIndex
     , stages
     , stageIndexPatZero
     , stageIndexPatSimpleMulti
     , stageIndexPatCapitalize
     , stageIndexPatAcronym
+    , StageIndex
     ) where
 
 import           Control.Applicative            ( Applicative(pure) )
 import           Control.Category               ( (<<<)
                                                 , Category((.))
                                                 )
+import Control.Lens (view)
+import Control.Lens.Tuple (_1)
 import           Control.Lens.Wrapped           ( Wrapped )
 import           Control.Monad                  ( Monad((>>=)) )
 import           Data.Aeson                     ( FromJSON
@@ -113,10 +116,6 @@ import           Palantype.Common.Class         ( Palantype
 import           Palantype.Common.Internal      ( Greediness )
 import           Palantype.Common.SystemLang    ( SystemLang(..) )
 import           Palantype.Common.TH            ( failure )
-import qualified Palantype.DE.Keys             as DE
-                                                ( Key
-                                                , Pattern(..)
-                                                )
 import qualified Palantype.EN.Keys             as EN
                                                 ( Key )
 import           Safe                           ( atMay
@@ -147,7 +146,6 @@ import           Type.Reflection                ( (:~~:)(HRefl)
 import           Web.HttpApiData                ( FromHttpApiData
                                                 , ToHttpApiData
                                                 )
-import qualified Palantype.DE as DE
 import qualified Palantype.DE as DE
 
 data StageSpecialGeneric key
@@ -238,21 +236,6 @@ instance Palantype key => TextShow (Stage key) where
             StageSublevel t s -> " " <> showb t <> "." <> showb s
         StageGeneric pg g ->
             fromText (capitalize $ showt pg) <> "-G" <> showb g
-
--- stage index
-
--- | allow to identify a stage by some integer number
--- | This number changes when stages are reordered
--- | Thus it can be used routes but shouldn't be stored in the database
--- | For long-term storage, there is 'StageRepr'
-newtype StageIndex = StageIndex { unStageIndex :: Int }
-  deriving stock (Eq, Generic, Ord)
-  deriving newtype (Enum, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData, Num, Read, Show)
-
-instance Wrapped StageIndex
-
-instance TextShow StageIndex where
-    showb = showb <<< unStageIndex
 
 -- stage representation
 
@@ -517,6 +500,20 @@ toStageRepr (Stage sg h) = StageRepr (getSystemLang @key) (toRepr sg) h
     toRepr (StageSpecial str ) = StageReprSpecial str
     toRepr (StageGeneric pg g) = StageReprGeneric (showt pg) g
 
+-- Stage Index
+
+-- | allow to identify a stage by some integer number
+-- | This number changes when stages are reordered
+-- | Thus it can be used routes but shouldn't be stored in the database
+-- | For long-term storage, there is 'StageRepr'
+newtype StageIndex = StageIndex { unStageIndex :: Int }
+  deriving stock (Eq, Generic, Ord)
+  deriving newtype (Enum, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData, Num, Read, Show)
+
+instance Wrapped StageIndex
+
+instance TextShow StageIndex where
+    showb = showb <<< unStageIndex
 mkStageIndex :: forall key . Palantype key => Int -> Maybe StageIndex
 mkStageIndex i | i >= 0 && i < Map.size (mapStages @key) = Just $ StageIndex i
 mkStageIndex _ = Nothing
@@ -532,3 +529,11 @@ stageIndexPatCapitalize = StageIndex 1001
 
 stageIndexPatAcronym :: StageIndex
 stageIndexPatAcronym = StageIndex 1002
+
+getStageIndexMaybe
+  :: forall key
+  . Palantype key
+  => PatternGroup key
+  -> Greediness
+  -> Maybe StageIndex
+getStageIndexMaybe pg g = view _1 <$> findStage (StageGeneric pg g)

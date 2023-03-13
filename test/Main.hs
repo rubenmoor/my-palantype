@@ -1,7 +1,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# OPTIONS_GHC -Wno-deferred-type-errors #-}
+{-# LANGUAGE BlockArguments #-}
 
 module Main where
 
@@ -22,6 +22,9 @@ import Data.Text (Text)
 import Palantype.Common.AutoDoc (patternDoc)
 import Data.Maybe (isJust)
 import Palantype.Common.Stage (StageSpecialGeneric(StageGeneric), findStage, mapStages)
+import Data.Foldable (Foldable(foldl'))
+import Data.Functor ((<&>))
+import qualified Data.Text as Text
 
 primitives :: Test
 primitives = TestLabel "primitives.json5" $ TestCase $
@@ -29,7 +32,20 @@ primitives = TestLabel "primitives.json5" $ TestCase $
 
 exceptions :: Test
 exceptions = TestLabel "exceptions.json5" $ TestCase $
-    mapExceptions @DE.Key `seq` pure ()
+    let
+        accFuncLs str fs (g, raw, pg, _) =
+          case findStage @DE.Key (StageGeneric pg g) of
+            Just _  -> fs
+            Nothing -> (str, raw, pg, g) : fs
+        accFuncMap fs str (_, ls) = foldl' (accFuncLs str) fs ls
+        lsFindings = Map.foldlWithKey' accFuncMap [] mapExceptions
+    in
+        unless (null lsFindings) $
+          assertFailure $ "Exception tables contains entries w/o stage\n\n"
+            <> unlines (lsFindings <&> \(str, raw, pg, g) ->
+                           Text.unpack str <> ": " <> show raw <> " "
+                           <> show pg <> " " <> show g
+                       )
 
 rawSteno :: Text -> Test
 rawSteno str = TestLabel "raw steno code" $ TestCase $
