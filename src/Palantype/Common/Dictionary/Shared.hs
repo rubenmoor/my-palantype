@@ -66,19 +66,11 @@ toStenoStrLeftHand strModeSteno modPrim modSec strSteno =
         lastLeft = minimum
             $ fromMaybe ($failure $ "No parse: " <> Text.unpack strSteno)
             $ toKeys $ snd $ $fromJust $ Text.unsnoc strSteno'
-        stenoPrim = case modPrim of
-            ModPrimNone  -> ""
-            ModPrimCtrl  -> "n"
-            ModPrimWin   -> "D"
-            ModPrimAlt   -> "s"
-        stenoSec = case modSec of
-            ModSecNone  -> ""
-            ModSecShift -> "S"
     in     strSteno'
         <> ( if lastLeft < LeftM then "-" else "" )
         <> strModeSteno
-        <> stenoSec
-        <> stenoPrim
+        <> primaryModifierToSteno modPrim
+        <> secondaryModifierToSteno modSec
 
 toStenoStrRightHand :: Text -> ModifierPrimary -> ModifierSecondary -> Text -> Text
 toStenoStrRightHand strModeSteno modPrim modSec strSteno =
@@ -87,16 +79,9 @@ toStenoStrRightHand strModeSteno modPrim modSec strSteno =
         fstRight = maximum
           $ fromMaybe ($failure $ "No parse: " <> Text.unpack strSteno)
           $ toKeys $ fst $ $fromJust $ Text.uncons strSteno'
-        stenoPrim = case modPrim of
-            ModPrimNone  -> ""
-            ModPrimCtrl  -> "v"
-            ModPrimWin   -> "D"
-            ModPrimAlt   -> "b"
-        stenoSec = case modSec of
-            ModSecNone  -> ""
-            ModSecShift -> "S"
-    in     stenoPrim
-        <> stenoSec
+    in
+           secondaryModifierToSteno modSec
+        <> primaryModifierToSteno modPrim
         <> strModeSteno
         <> ( if fstRight > RightL then "-" else "" )
         <> strSteno'
@@ -118,3 +103,15 @@ Shift
 data ModifierSecondary
   = ModSecNone
   | ModSecShift
+
+primaryModifierToSteno :: ModifierPrimary -> Text
+primaryModifierToSteno = \case
+    ModPrimNone  -> ""
+    ModPrimCtrl  -> "ʃ"
+    ModPrimWin   -> "S"
+    ModPrimAlt   -> "F"
+
+secondaryModifierToSteno :: ModifierSecondary -> Text
+secondaryModifierToSteno = \case
+    ModSecNone  -> ""
+    ModSecShift -> "D"

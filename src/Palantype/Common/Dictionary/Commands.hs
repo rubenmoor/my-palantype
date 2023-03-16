@@ -53,9 +53,8 @@ import Palantype.Common.TH (fromJust)
 import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..), ModifierSecondary (..), toStenoStrRightHand)
-import Data.Functor ((<&>), (<$>))
+import Data.Functor ((<&>))
 import Data.List (lookup)
-import Control.Category (Category((.)))
 import qualified Palantype.Common.RawSteno as Raw
 
 strModeSteno :: Text

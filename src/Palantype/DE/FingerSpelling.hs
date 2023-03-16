@@ -27,7 +27,7 @@ import Data.Semigroup (Semigroup((<>)))
 import qualified Palantype.Common.RawSteno as Raw
 
 {- | DE raw steno for the fingerspelling mode
-   The key is -L, but will be combined and the - will be added on demand
+   The key is -+, but will be combined and the - will be added on demand
 -}
 strModeSteno :: Text
 strModeSteno = "+"
@@ -60,7 +60,6 @@ keysLetterUS =
     , ('v', "FBL-")
     , ('w', "F+"  )
     , ('x', "DSG-")
-    , ('y', "DFB" )
     , ('y', "ÄI"  )
     , ('z', "ʃG-" )
     ]
@@ -71,7 +70,7 @@ keysLetterOther :: [(Char, Text)]
 keysLetterOther =
     [ ('á', "DA"  )
     , ('à', "NA"  )
-    , ('ç', "DʃG+")
+    , ('ç', "DʃG+-")
     , ('é', "DE"  )
     , ('ê', "SE"  )
     , ('è', "NE"  )
