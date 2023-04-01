@@ -61,6 +61,8 @@ import Palantype.Common.RawSteno
 import Palantype.Common.RawSteno.Type (RawSteno)
 import Palantype.Common.Dictionary.Commands
     ( kiEnter, kiDown, kiUp, kiPageUp, kiPageDown, dictCommands
+    , kiLeft
+    , kiRight
     , kiHome
     , kiEnd
     , kiInsert

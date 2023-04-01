@@ -34,6 +34,8 @@ module Palantype.Common.Dictionary.Commands
     ( dictCommands
     , kiUp
     , kiDown
+    , kiLeft
+    , kiRight
     , kiEnter
     , kiPageUp
     , kiPageDown
@@ -123,6 +125,18 @@ arrow key: down
 -}
 kiDown :: KIChord
 kiDown = mkKIChordSimple "down"
+
+{-|
+arrow key: left
+-}
+kiLeft :: KIChord
+kiLeft = mkKIChordSimple "left"
+
+{-|
+arrow key: right
+-}
+kiRight :: KIChord
+kiRight = mkKIChordSimple "right"
 
 {-|
 enter key, not to be confused with paragraph
