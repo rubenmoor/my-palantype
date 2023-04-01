@@ -32,6 +32,7 @@ But only the generic indices are exported.
 
 module Palantype.Common.Dictionary.Commands
     ( dictCommands
+    , fromIndex
     , kiUp
     , kiDown
     , kiLeft
@@ -51,7 +52,9 @@ import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord, parseChordDE )
-import Palantype.Common.TH (fromJust)
+import           Data.Maybe                     ( Maybe(..) )
+import Palantype.Common.KeyIndex (KeyIndex)
+import Palantype.Common.TH (fromJust, failure)
 import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..), ModifierSecondary (..), toStenoStrRightHand)
@@ -185,3 +188,43 @@ delete key
 -}
 kiDelete :: KIChord
 kiDelete = mkKIChordSimple "delete"
+
+{-|
+Map a key index to a command key in command mode.
+For visualization of the number mode on the virtual keyboard.
+-}
+fromIndex :: KeyIndex -> Maybe Text
+fromIndex = \case
+    1  -> Nothing
+    2  -> Just "SHIFT"
+    3  -> Nothing
+    4  -> Just "CTRL"
+    5  -> Just "WIN"
+    6  -> Just "ALT"
+    7  -> Nothing
+    8  -> Just "N"
+    9  -> Nothing
+    10 -> Nothing
+    11 -> Just "+"
+    12 -> Nothing
+    13 -> Nothing
+    14 -> Nothing
+    15 -> Nothing
+    16 -> Nothing
+    17 -> Just "ESC"
+    18 -> Just "⭾"
+    19 -> Just "⊞"
+    20 -> Just "␣"
+    21 -> Just "INS"
+    22 -> Just "DEL"
+    23 -> Just "⯇"
+    24 -> Just "HOME"
+    25 -> Just "END"
+    26 -> Just "⯅"
+    27 -> Just "⇞"
+    28 -> Just "⇟"
+    29 -> Just "⯆"
+    30 -> Just "⌫"
+    31 -> Just "⏎"
+    32 -> Just "⯈"
+    _  -> $failure "Numbers.fromIndex: impossible"

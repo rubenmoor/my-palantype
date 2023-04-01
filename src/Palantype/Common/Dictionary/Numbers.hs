@@ -174,7 +174,7 @@ keysPinky =
 
 {-|
 Map a key index to a character in number mode.
-This servers to visualize the number mode on the virtual keyboard.
+For visualization of the number mode on the virtual keyboard.
 -}
 fromIndex :: KeyIndex -> Maybe (Text, Maybe Text)
 fromIndex = \case

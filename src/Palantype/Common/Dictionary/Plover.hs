@@ -39,7 +39,7 @@ lsCommands =
     , ("{-|}"         , "S-"  ) -- capitalize next word
     , ("{*>}"         , "v"   ) -- uncapitalize last word retroactively
     , ("{*?}"         , "b"   ) -- retroactively add space
-    , ("{^.\n\n^}{-|}", "N"   ) -- paragraph
+    , ("{^.\n\n^}{-|}", "N-"  ) -- paragraph
     , ("{*!}"         , "F-"  ) -- retroactively delete space
     , ("{^.}{-|}"     , "+-"  ) -- full stop: attach period and capitalize next word
     , ("{^:}"         , "M-"  ) -- attach colon
