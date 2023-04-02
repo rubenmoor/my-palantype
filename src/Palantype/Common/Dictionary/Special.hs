@@ -13,13 +13,17 @@ and `strModeStenoUnmodifiable`) and the left hand to type.
 
 module Palantype.Common.Dictionary.Special
     ( dictSpecial
+    , fromIndex
     , strModeSteno
     , keysExtra
     ) where
 
 import Data.Text (Text)
 import Data.Semigroup (Semigroup((<>)))
+import Data.Maybe (Maybe (..))
 import Palantype.Common.Indices (KIChord, parseChordDE)
+import Palantype.Common.KeyIndex (KeyIndex)
+import Palantype.Common.TH (failure)
 import Control.Applicative (Applicative(pure))
 import Data.Function (($))
 import GHC.Base (Char)
@@ -83,3 +87,43 @@ commands = do
                                   (Text.singleton chrSteno)
          , toPloverCommand modPrim modSec strCommand
          )
+
+{-|
+Map a key index to a special character in special character mode.
+For visualization of the special character mode on the virtual keyboard.
+-}
+fromIndex :: KeyIndex -> Maybe (Text, Text)
+fromIndex = \case
+    1  -> Just ("`" , "~" )
+    2  -> Just ("[" , "{" )
+    3  -> Just ("," , "<" )
+    4  -> Nothing
+    5  -> Just ("]" , "}" )
+    6  -> Just ("." , ">" )
+    7  -> Just ("-" , "_" )
+    8  -> Just ("\\", "|" )
+    9  -> Just (";" , ":" )
+    10 -> Just ("=" , "+" )
+    11 -> Just ("'" , "\"")
+    12 -> Just ("/" , "?" )
+    13 -> Nothing
+    14 -> Nothing
+    15 -> Nothing
+    16 -> Nothing
+    17 -> Nothing
+    18 -> Nothing
+    19 -> Nothing
+    20 -> Nothing
+    21 -> Nothing
+    22 -> Nothing
+    23 -> Nothing
+    24 -> Nothing
+    25 -> Nothing
+    26 -> Nothing
+    27 -> Nothing
+    28 -> Nothing
+    29 -> Nothing
+    30 -> Nothing
+    31 -> Nothing
+    32 -> Nothing
+    _  -> $failure "Numbers.fromIndex: impossible"

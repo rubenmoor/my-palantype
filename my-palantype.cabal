@@ -27,6 +27,7 @@ library
       Palantype.Common.AutoDoc
       Palantype.Common.Class
       Palantype.Common.Dictionary.Commands
+      Palantype.Common.Dictionary.CommandsFKeys
       Palantype.Common.Dictionary.Numbers
       Palantype.Common.Dictionary.Plover
       Palantype.Common.Dictionary.Shared

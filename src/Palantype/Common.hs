@@ -7,6 +7,7 @@ module Palantype.Common
   , module Palantype.Common.Indices
   , module Palantype.Common.KeyIndex
   , module Palantype.Common.Dictionary.Commands
+  , module Palantype.Common.Dictionary.CommandsFKeys
   , module Palantype.Common.Dictionary.Numbers
   , module Palantype.Common.Dictionary.Plover
   , module Palantype.Common.Dictionary.Special
@@ -59,6 +60,7 @@ import Palantype.Common.RawSteno
       keyOrHyphenKey,
       key )
 import Palantype.Common.RawSteno.Type (RawSteno)
+import Palantype.Common.Dictionary.CommandsFKeys (dictFKeys)
 import Palantype.Common.Dictionary.Commands
     ( kiEnter, kiDown, kiUp, kiPageUp, kiPageDown, dictCommands
     , kiLeft
