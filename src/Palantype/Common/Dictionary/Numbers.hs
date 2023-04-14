@@ -10,24 +10,32 @@ But only the generic indices are exported.
 
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
 
 module Palantype.Common.Dictionary.Numbers
     ( dictNumbers
     , fromIndex
     , strModeSteno
+    , kiCtrlNumber
+    , kiChordToInt
+    , kiFromSmallNumber
     ) where
 
+import Data.Ord (Ord(..))
+import Data.Bool ((&&))
 import           Data.Function                  ( ($) )
-import           Data.Functor                   ( (<$>), (<&>) )
+import           Data.Functor                   ( (<$>), (<&>), Functor (fmap) )
 import           Data.Maybe                     ( Maybe(..), catMaybes )
 import           Data.Semigroup                 ( (<>) )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as Text
-import           Palantype.Common.Indices       ( KIChord, parseChordDE )
+import           Palantype.Common.Indices       ( KIChord (..), parseChordDE )
+import qualified Palantype.Common.Indices      as KI
+import qualified Palantype.DE.Keys as DE ( Key )
 import Palantype.Common.TH (fromJust, failure)
 import Control.Applicative (Applicative(pure))
 import Data.Tuple (fst, snd)
-import Palantype.Common.KeyIndex (KeyIndex)
+import Palantype.Common.KeyIndex (KeyIndex, keyIndex)
 import GHC.Err (error)
 import Data.List ((!!))
 import Control.Monad (unless)
@@ -35,6 +43,14 @@ import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
 import qualified Palantype.Common.RawSteno as Raw
+import qualified Data.Map.Strict as Map
+import Data.Map.Strict (Map)
+import Data.Int (Int)
+import Data.Foldable (foldl')
+import Text.Read (readMaybe)
+import GHC.Real (div, mod)
+import qualified Data.List.NonEmpty as NonEmpty
+import Palantype.Common.Class (toKeys)
 
 -- | mode selection for numbers mode
 --   the string is combined and the - is added on demand
@@ -128,6 +144,50 @@ numberCommands = do
          , toPloverCommand modPrim modSec literal
          )
 
+kiFromSmallNumber :: Int -> Maybe KIChord
+kiFromSmallNumber i | i >= 0 && i < 10 = Just $
+    -- KI.fromChord $ $fromJust $ Raw.parseChordMaybe @DE.Key $ Raw.fromText
+    --   $ Text.singleton $ $fromJust $ Map.lookup i mapSingleDigitCodes
+    KIChord $ fmap keyIndex $ NonEmpty.tail $ $fromJust $ toKeys @DE.Key $ $fromJust $ Map.lookup i mapSingleDigitCodes
+kiFromSmallNumber i | i >= 10 && i < 30 = Just $
+    let
+        firstDigit = snd $ keysThumb !! (i `div` 10)
+        secondDigit = $fromJust $ Map.lookup (i `mod` 10) mapSingleDigitCodes
+    in  KI.fromChord $ $fromJust $ Raw.parseChordMaybe @DE.Key
+          $ Raw.fromText $ firstDigit `Text.cons` Text.singleton secondDigit
+kiFromSmallNumber _ = Nothing
+
+mapSingleDigitCodes :: Map Int Char
+mapSingleDigitCodes =
+  let
+      accFunc m ((literal, _), steno) =
+        case readMaybe $ Text.unpack literal of
+          Just d  -> Map.insert d steno m
+          Nothing -> m
+  in  foldl' accFunc Map.empty
+        $ keysIndex <> keysMiddle <> keysRing <> keysPinky
+
+kiChordToInt :: KIChord -> Maybe Int
+kiChordToInt kiChord = do
+    str <- Text.stripPrefix "ʃB+" (showt $ KI.toRaw @DE.Key kiChord)
+    numStr <- foldl' accFunc "" $ Text.unpack str
+    readMaybe $ Text.unpack numStr
+  where
+    accFunc Nothing    _ = Nothing
+    accFunc (Just str) c = (str <>) <$> Map.lookup c mapCharDigit
+
+mapCharDigit :: Map Char Text
+mapCharDigit =
+    foldl' accFunc Map.empty
+      $  keysLeftThumb
+      <> keysThumb
+      <> keysIndex
+      <> keysMiddle
+      <> keysRing
+      <> keysPinky
+  where
+    accFunc m ((str, _), c) = Map.insert c str m
+
 keysLeftThumb :: [((Text, Maybe Text), Char)]
 keysLeftThumb =
   [ (("19", Nothing), 'Ä')
@@ -211,3 +271,6 @@ fromIndex = \case
     31 -> Just $ fst $ keysPinky !! 1
     32 -> Just $ fst $ keysPinky !! 0
     _  -> error "Numbers.fromIndex: impossible"
+
+kiCtrlNumber :: KIChord
+kiCtrlNumber = $parseChordDE $ Raw.fromText "ʃB+"

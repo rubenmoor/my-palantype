@@ -11,7 +11,7 @@ Cf. https://github.com/openstenoproject/plover/wiki/Dictionary-Format
 {-# LANGUAGE TemplateHaskell #-}
 
 module Palantype.Common.Indices
-    ( KIChord
+    ( KIChord (KIChord)
     , toRaw
     , fromChord
     , parseChordDE

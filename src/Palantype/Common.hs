@@ -73,7 +73,7 @@ import Palantype.Common.Dictionary.Commands
 import Palantype.Common.Dictionary.Plover
     ( dictPlover, kiBackUp, kiCapNext, kiAcronym )
 import Palantype.Common.Dictionary.Special (dictSpecial)
-import Palantype.Common.Dictionary.Numbers (dictNumbers)
+import Palantype.Common.Dictionary.Numbers (dictNumbers, kiCtrlNumber, kiFromSmallNumber)
 import Palantype.Common.RenderPlover (renderPlover)
 import Palantype.Common.Stage
     ( findStage
