@@ -51,6 +51,7 @@ import Text.Read (readMaybe)
 import GHC.Real (div, mod)
 import qualified Data.List.NonEmpty as NonEmpty
 import Palantype.Common.Class (toKeys)
+import TextShow (TextShow (showt))
 
 -- | mode selection for numbers mode
 --   the string is combined and the - is added on demand
@@ -170,11 +171,12 @@ mapSingleDigitCodes =
 kiChordToInt :: KIChord -> Maybe Int
 kiChordToInt kiChord = do
     str <- Text.stripPrefix "ʃB+" (showt $ KI.toRaw @DE.Key kiChord)
-    numStr <- foldl' accFunc "" $ Text.unpack str
+    numStr <- foldl' accFunc (Just "") $ Text.unpack str
     readMaybe $ Text.unpack numStr
   where
-    accFunc Nothing    _ = Nothing
-    accFunc (Just str) c = (str <>) <$> Map.lookup c mapCharDigit
+    accFunc Nothing    _   = Nothing
+    accFunc (Just str) '-' = Just str
+    accFunc (Just str) c   = (str <>) <$> Map.lookup c mapCharDigit
 
 mapCharDigit :: Map Char Text
 mapCharDigit =
@@ -273,4 +275,4 @@ fromIndex = \case
     _  -> error "Numbers.fromIndex: impossible"
 
 kiCtrlNumber :: KIChord
-kiCtrlNumber = $parseChordDE $ Raw.fromText "ʃB+"
+kiCtrlNumber = $parseChordDE $ Raw.fromText "ʃB+-"

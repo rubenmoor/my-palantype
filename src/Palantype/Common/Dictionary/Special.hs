@@ -118,7 +118,7 @@ fromIndex = \case
     22 -> Nothing
     23 -> Nothing
     24 -> Nothing
-    25 -> Nothing
+    25 -> Just ("N", "N")
     26 -> Nothing
     27 -> Nothing
     28 -> Nothing

@@ -26,8 +26,8 @@ module Palantype.Common.Stage
     , getSystemLang
     , toTOCString
     , toPageName
-    , getGroupIndex
     , getStageIndexMaybe
+    , getGroupIndex
     , Stage(..)
     , StageRepr()
     , StageSpecialGeneric(..)
@@ -40,6 +40,7 @@ module Palantype.Common.Stage
     , toStageRepr
     , showShort
     , mapStages
+    , mapHierarchyStageIndex
     , stages
     , stageIndexPatZero
     , stageIndexPatSimpleMulti
@@ -48,7 +49,7 @@ module Palantype.Common.Stage
     , StageIndex
     ) where
 
-import           Control.Applicative            ( Applicative(pure) )
+import           Control.Applicative            ( Applicative(pure, (<*)) )
 import           Control.Category               ( (<<<)
                                                 , Category((.))
                                                 )
@@ -82,7 +83,7 @@ import           Data.List                      ( head
 import           Data.Map.Strict                ( Map )
 import qualified Data.Map.Strict               as Map
 import           Data.Maybe                     ( Maybe(Just, Nothing)
-                                                , maybe
+                                                , maybe, fromMaybe
                                                 )
 import           Data.Monoid                    ( (<>) )
 import           Data.Ord                       ( (<)
@@ -125,7 +126,7 @@ import           Text.ParserCombinators.ReadP   ( char
                                                 , munch1
                                                 , option
                                                 , pfail
-                                                , sepBy1
+                                                , sepBy1, eof
                                                 )
 import           Text.ParserCombinators.ReadPrec
                                                 ( lift )
@@ -177,25 +178,25 @@ instance Palantype key => FromJSON (StageSpecialGeneric key)
 deriving stock instance Palantype key => Eq (StageSpecialGeneric key)
 
 data StageHierarchy
-  = StageToplevel
-  | StageSublevel Int Int
+  = StageHierarchy Int (Maybe Int)
   deriving stock (Generic, Eq, Ord)
 
 instance Show StageHierarchy where
-    show StageToplevel       = "-"
-    show (StageSublevel t s) = show t <> "-" <> show s
+    show (StageHierarchy t Nothing) = show t
+    show (StageHierarchy t (Just s)) = show t <> "-" <> show s
 
 instance Read StageHierarchy where
     readPrec = lift $ option Nothing top >>= \case
-        Just _  -> pure StageToplevel
+        Just t  -> pure $ StageHierarchy t Nothing
         Nothing -> sub
       where
-        top = Just <$> char '-'
+        top = Just . read <$> munch1 isDigit <* eof
         sub = do
             t <- read <$> munch1 isDigit
             _ <- char '-'
             s <- read <$> munch1 isDigit
-            pure $ StageSublevel t s
+            eof
+            pure $ StageHierarchy t (Just s)
 
 instance ToJSON StageHierarchy
 instance FromJSON StageHierarchy
@@ -224,16 +225,16 @@ capitalize str = case uncons str of
     Just (h, rem) -> cons (toUpper h) rem
 
 showShort :: Stage key -> Text
-showShort (Stage _ (StageSublevel t s)) = "Stage " <> showt t <> "." <> showt s
-showShort (Stage (StageSpecial str) StageToplevel) = str
-showShort (Stage (StageGeneric _ _) StageToplevel) =
+showShort (Stage _ (StageHierarchy t (Just s))) = "Stage " <> showt t <> "." <> showt s
+showShort (Stage (StageSpecial str) (StageHierarchy _ Nothing)) = str
+showShort (Stage (StageGeneric _ _) (StageHierarchy _ Nothing)) =
     $failure "generic stage on top-level"
 
 instance Palantype key => TextShow (Stage key) where
     showb (Stage sg h) = case sg of
-        StageSpecial str -> fromText (capitalize str) <> case h of
-            StageToplevel     -> ""
-            StageSublevel t s -> " " <> showb t <> "." <> showb s
+        StageSpecial str -> fromText (capitalize str) <> " " <> case h of
+            StageHierarchy t Nothing  -> showb t
+            StageHierarchy t (Just s) -> showb t <> "." <> showb s
         StageGeneric pg g ->
             fromText (capitalize $ showt pg) <> "-G" <> showb g
 
@@ -259,9 +260,9 @@ data StageRepr = StageRepr
 
 instance TextShow StageRepr where
     showb (StageRepr lang sg h) = showb lang <> "/" <> case sg of
-        StageReprSpecial str -> fromText (capitalize str) <> case h of
-            StageToplevel     -> ""
-            StageSublevel t s -> " " <> showb t <> "." <> showb s
+        StageReprSpecial str -> fromText (capitalize str) <> " " <> case h of
+            StageHierarchy t Nothing  -> showb t
+            StageHierarchy t (Just s) -> showb t <> "." <> showb s
         StageReprGeneric str g -> fromText str <> "-G" <> showb g
 
 instance ToJSON StageRepr
@@ -271,17 +272,17 @@ instance FromJSON StageRepr
 
 stages :: forall key . (Palantype key) => [Stage key]
 stages =
-    [ Stage (StageSpecial "Introduction")               StageToplevel
-    , Stage (StageSpecial "Type the letters")           (StageSublevel 1 1)
-    , Stage (StageSpecial "Memorize the order")         (StageSublevel 1 2)
-    , Stage (StageSpecial "Type the letters blindly")   (StageSublevel 1 3)
-    , Stage (StageSpecial "Memorize the order blindly") (StageSublevel 1 4)
-    , Stage (StageSpecial "Memorize the left hand")     (StageSublevel 1 5)
-    , Stage (StageSpecial "Memorize the right hand")    (StageSublevel 1 6)
-    , Stage (StageSpecial "Memorize home row")          (StageSublevel 1 7)
-    , Stage (StageSpecial "Memorize them all")          (StageSublevel 1 8)
-    , Stage (StageSpecial "Building muscle memory")     (StageSublevel 2 1)
-    , Stage (StageSpecial "Learn your first chords")    (StageSublevel 2 2)
+    [ Stage (StageSpecial "Introduction")               $ StageHierarchy 0 Nothing
+    , Stage (StageSpecial "Type the letters")           $ StageHierarchy 1 $ Just 1
+    , Stage (StageSpecial "Memorize the order")         $ StageHierarchy 1 $ Just 2
+    , Stage (StageSpecial "Type the letters blindly")   $ StageHierarchy 1 $ Just 3
+    , Stage (StageSpecial "Memorize the order blindly") $ StageHierarchy 1 $ Just 4
+    , Stage (StageSpecial "Memorize the left hand")     $ StageHierarchy 1 $ Just 5
+    , Stage (StageSpecial "Memorize the right hand")    $ StageHierarchy 1 $ Just 6
+    , Stage (StageSpecial "Memorize home row")          $ StageHierarchy 1 $ Just 7
+    , Stage (StageSpecial "Memorize them all")          $ StageHierarchy 1 $ Just 8
+    , Stage (StageSpecial "Building muscle memory")     $ StageHierarchy 2 $ Just 1
+    , Stage (StageSpecial "Learn your first chords")    $ StageHierarchy 2 $ Just 2
     ]
     <> if
            | Just HRefl <- typeRep @key `eqTypeRep` typeRep @DE.Key
@@ -294,87 +295,87 @@ stages =
 
 stagesDE :: [Stage DE.Key]
 stagesDE =
-    [ Stage (StageSpecial "Onset, nucleus, and coda") (StageSublevel 2 3)
-    , Stage (StageSpecial "Syllabes and word parts")  (StageSublevel 2 4)
-    , Stage (StageGeneric DE.PatReplCommon1 0)        (StageSublevel 3 1)
-    , Stage (StageGeneric DE.PatReplCommon2 0)        (StageSublevel 3 2)
-    , Stage (StageGeneric DE.PatCodaComboT 0)         (StageSublevel 3 3)
-    , Stage (StageGeneric DE.PatReplCommon1 2)        (StageSublevel 4 1)
-    , Stage (StageGeneric DE.PatReplCommon1 3)        (StageSublevel 4 2)
-    , Stage (StageGeneric DE.PatReplCommon2 4)        (StageSublevel 4 3)
-    , Stage (StageGeneric DE.PatOnsetR 0)             (StageSublevel 5 1)
-    , Stage (StageGeneric DE.PatOnsetL 0)             (StageSublevel 5 2)
-    , Stage (StageGeneric DE.PatDiConsonant 0)        (StageSublevel 5 3)
-    , Stage (StageGeneric DE.PatDiConsonant 2)        (StageSublevel 5 4)
-    , Stage (StageGeneric DE.PatCodaH 0)              (StageSublevel 6 1)
-    , Stage (StageGeneric DE.PatCodaH 1)              (StageSublevel 6 2)
-    , Stage (StageGeneric DE.PatCodaR 0)              (StageSublevel 6 3)
-    , Stage (StageGeneric DE.PatCodaR 4)              (StageSublevel 6 4)
-    , Stage (StageGeneric DE.PatCodaRR 0)             (StageSublevel 6 5)
-    , Stage (StageGeneric DE.PatCodaHR 0)             (StageSublevel 6 6)
-    , Stage (StageGeneric DE.PatDt 0)                 (StageSublevel 7 1)
-    , Stage (StageGeneric DE.PatDt 2)                 (StageSublevel 7 2)
-    , Stage (StageGeneric DE.PatDiphtong 0)           (StageSublevel 8 1)
-    , Stage (StageGeneric DE.PatDiphtong 4)           (StageSublevel 8 2)
-    , Stage (StageGeneric DE.PatDiphtong 5)           (StageSublevel 8 3)
-    , Stage (StageGeneric DE.PatReplC 0)              (StageSublevel 9 1)
-    , Stage (StageGeneric DE.PatReplC 2)              (StageSublevel 9 2)
-    , Stage (StageGeneric DE.PatBreakUpI 0)           (StageSublevel 9 3)
-    , Stage (StageGeneric DE.PatBreakUpI 4)           (StageSublevel 9 4)
-    , Stage (StageGeneric DE.PatSwapS 0)              (StageSublevel 10 1)
-    , Stage (StageGeneric DE.PatSwapS 2)              (StageSublevel 10 2)
-    , Stage (StageGeneric DE.PatSwapSch 0)            (StageSublevel 10 3)
-    , Stage (StageGeneric DE.PatSwapSch 2)            (StageSublevel 10 4)
-    , Stage (StageGeneric DE.PatSwapZ 0)              (StageSublevel 10 5)
-    , Stage (StageGeneric DE.PatDiVowel 0)            (StageSublevel 11 1)
-    , Stage (StageGeneric DE.PatDiVowel 1)            (StageSublevel 11 2)
-    , Stage (StageGeneric DE.PatDiVowel 4)            (StageSublevel 11 3)
-    , Stage (StageGeneric DE.PatCodaGK 3)             (StageSublevel 11 4)
-    , Stage (StageGeneric DE.PatReplH 0)              (StageSublevel 12 1)
-    , Stage (StageGeneric DE.PatReplH 3)              (StageSublevel 12 2)
-    , Stage (StageGeneric DE.PatReplRare 0)           (StageSublevel 13 1)
-    , Stage (StageGeneric DE.PatReplRare 3)           (StageSublevel 13 2)
-    , Stage (StageGeneric DE.PatSmallS 0)             (StageSublevel 13 3)
-    , Stage (StageGeneric DE.PatSmallS 6)             (StageSublevel 13 4)
-    , Stage (StageGeneric DE.PatBrief 0)              (StageSublevel 14 1)
-    , Stage (StageSpecial "Plover Commands")          (StageSublevel 15 1)
-    , Stage (StageSpecial "Fingerspelling")           (StageSublevel 15 2)
-    , Stage (StageSpecial "Number Mode")              (StageSublevel 15 3)
-    , Stage (StageSpecial "Command Keys")             (StageSublevel 15 4)
-    , Stage (StageSpecial "Special Characters")       (StageSublevel 15 5)
-    , Stage (StageSpecial "Pattern Overview")         StageToplevel
+    [ Stage (StageSpecial "Onset, nucleus, and coda") $ StageHierarchy 2  $ Just 3
+    , Stage (StageSpecial "Syllabes and word parts")  $ StageHierarchy 2  $ Just 4
+    , Stage (StageGeneric DE.PatReplCommon1 0)        $ StageHierarchy 3  $ Just 1
+    , Stage (StageGeneric DE.PatReplCommon2 0)        $ StageHierarchy 3  $ Just 2
+    , Stage (StageGeneric DE.PatCodaComboT 0)         $ StageHierarchy 3  $ Just 3
+    , Stage (StageGeneric DE.PatReplCommon1 2)        $ StageHierarchy 4  $ Just 1
+    , Stage (StageGeneric DE.PatReplCommon1 3)        $ StageHierarchy 4  $ Just 2
+    , Stage (StageGeneric DE.PatReplCommon2 4)        $ StageHierarchy 4  $ Just 3
+    , Stage (StageGeneric DE.PatOnsetR 0)             $ StageHierarchy 5  $ Just 1
+    , Stage (StageGeneric DE.PatOnsetL 0)             $ StageHierarchy 5  $ Just 2
+    , Stage (StageGeneric DE.PatDiConsonant 0)        $ StageHierarchy 5  $ Just 3
+    , Stage (StageGeneric DE.PatDiConsonant 2)        $ StageHierarchy 5  $ Just 4
+    , Stage (StageGeneric DE.PatCodaH 0)              $ StageHierarchy 6  $ Just 1
+    , Stage (StageGeneric DE.PatCodaH 1)              $ StageHierarchy 6  $ Just 2
+    , Stage (StageGeneric DE.PatCodaR 0)              $ StageHierarchy 6  $ Just 3
+    , Stage (StageGeneric DE.PatCodaR 4)              $ StageHierarchy 6  $ Just 4
+    , Stage (StageGeneric DE.PatCodaRR 0)             $ StageHierarchy 6  $ Just 5
+    , Stage (StageGeneric DE.PatCodaHR 0)             $ StageHierarchy 6  $ Just 6
+    , Stage (StageGeneric DE.PatDt 0)                 $ StageHierarchy 7  $ Just 1
+    , Stage (StageGeneric DE.PatDt 2)                 $ StageHierarchy 7  $ Just 2
+    , Stage (StageGeneric DE.PatDiphtong 0)           $ StageHierarchy 8  $ Just 1
+    , Stage (StageGeneric DE.PatDiphtong 4)           $ StageHierarchy 8  $ Just 2
+    , Stage (StageGeneric DE.PatDiphtong 5)           $ StageHierarchy 8  $ Just 3
+    , Stage (StageGeneric DE.PatReplC 0)              $ StageHierarchy 9  $ Just 1
+    , Stage (StageGeneric DE.PatReplC 2)              $ StageHierarchy 9  $ Just 2
+    , Stage (StageGeneric DE.PatBreakUpI 0)           $ StageHierarchy 9  $ Just 3
+    , Stage (StageGeneric DE.PatBreakUpI 4)           $ StageHierarchy 9  $ Just 4
+    , Stage (StageGeneric DE.PatSwapS 0)              $ StageHierarchy 10 $ Just 1
+    , Stage (StageGeneric DE.PatSwapS 2)              $ StageHierarchy 10 $ Just 2
+    , Stage (StageGeneric DE.PatSwapSch 0)            $ StageHierarchy 10 $ Just 3
+    , Stage (StageGeneric DE.PatSwapSch 2)            $ StageHierarchy 10 $ Just 4
+    , Stage (StageGeneric DE.PatSwapZ 0)              $ StageHierarchy 10 $ Just 5
+    , Stage (StageGeneric DE.PatDiVowel 0)            $ StageHierarchy 11 $ Just 1
+    , Stage (StageGeneric DE.PatDiVowel 1)            $ StageHierarchy 11 $ Just 2
+    , Stage (StageGeneric DE.PatDiVowel 4)            $ StageHierarchy 11 $ Just 3
+    , Stage (StageGeneric DE.PatCodaGK 3)             $ StageHierarchy 11 $ Just 4
+    , Stage (StageGeneric DE.PatReplH 0)              $ StageHierarchy 12 $ Just 1
+    , Stage (StageGeneric DE.PatReplH 3)              $ StageHierarchy 12 $ Just 2
+    , Stage (StageGeneric DE.PatReplRare 0)           $ StageHierarchy 13 $ Just 1
+    , Stage (StageGeneric DE.PatReplRare 3)           $ StageHierarchy 13 $ Just 2
+    , Stage (StageGeneric DE.PatSmallS 0)             $ StageHierarchy 13 $ Just 3
+    , Stage (StageGeneric DE.PatSmallS 6)             $ StageHierarchy 13 $ Just 4
+    , Stage (StageGeneric DE.PatBrief 0)              $ StageHierarchy 14 $ Just 1
+    , Stage (StageSpecial "Plover Commands")          $ StageHierarchy 15 $ Just 1
+    , Stage (StageSpecial "Fingerspelling")           $ StageHierarchy 15 $ Just 2
+    , Stage (StageSpecial "Number Mode")              $ StageHierarchy 15 $ Just 3
+    , Stage (StageSpecial "Command Keys")             $ StageHierarchy 15 $ Just 4
+    , Stage (StageSpecial "Special Characters")       $ StageHierarchy 15 $ Just 5
+    , Stage (StageSpecial "Pattern Overview")         $ StageHierarchy 16 Nothing
 
     -- TODO: implement tutorials
-    , Stage (StageGeneric DE.PatCommonPrefix 7)       (StageSublevel 18 1)
-    , Stage (StageGeneric DE.PatCommonPrefix 8)       (StageSublevel 18 2)
-    , Stage (StageGeneric DE.PatShortSyllable 5)      (StageSublevel 19 1)
-    , Stage (StageGeneric DE.PatShortSyllable 6)      (StageSublevel 19 2)
-    , Stage (StageGeneric DE.PatShortSyllable 8)      (StageSublevel 19 3)
-    , Stage (StageGeneric DE.PatSCPlus 0)             (StageSublevel 19 1)
-    , Stage (StageGeneric DE.PatSCStretch 0)          (StageSublevel 20 2)
-    , Stage (StageGeneric DE.PatSCOther 0)            (StageSublevel 20 3)
-    , Stage (StageGeneric DE.PatAnglAI 0)             (StageSublevel 21 1)
-    , Stage (StageGeneric DE.PatAnglA 0)              (StageSublevel 21 2)
-    , Stage (StageGeneric DE.PatAnglI 0)              (StageSublevel 21 3)
-    , Stage (StageGeneric DE.PatAnglU 0)              (StageSublevel 21 4)
-    , Stage (StageGeneric DE.PatAnglStretchU 0)       (StageSublevel 21 5)
-    , Stage (StageGeneric DE.PatAnglO 0)              (StageSublevel 21 6)
-    , Stage (StageGeneric DE.PatAnglStretchO 0)       (StageSublevel 21 7)
-    , Stage (StageGeneric DE.PatAnglAU 0)             (StageSublevel 21 8)
-    , Stage (StageGeneric DE.PatAnglAU 6)             (StageSublevel 21 9)
-    , Stage (StageGeneric DE.PatAnglEI 0)             (StageSublevel 21 10)
-    , Stage (StageGeneric DE.PatAnglAE 0)             (StageSublevel 21 10)
-    , Stage (StageGeneric DE.PatAnglSch 0)            (StageSublevel 21 11)
-    , Stage (StageGeneric DE.PatAnglJU 0)             (StageSublevel 21 12)
-    , Stage (StageGeneric DE.PatAnglOther 0)          (StageSublevel 21 13)
-    , Stage (StageGeneric DE.PatFrankOther 0)         (StageSublevel 22 1)
-    , Stage (StageGeneric DE.PatFrankOther 3)         (StageSublevel 22 2)
-    , Stage (StageGeneric DE.PatFrankOther 6)         (StageSublevel 22 3)
-    , Stage (StageGeneric DE.PatForeignOther 0)       (StageSublevel 22 2)
-    , Stage (StageGeneric DE.PatChemistry 0)          (StageSublevel 23 2)
+    , Stage (StageGeneric DE.PatCommonPrefix 7)       $ StageHierarchy 18 $ Just 1
+    , Stage (StageGeneric DE.PatCommonPrefix 8)       $ StageHierarchy 18 $ Just 2
+    , Stage (StageGeneric DE.PatShortSyllable 5)      $ StageHierarchy 19 $ Just 1
+    , Stage (StageGeneric DE.PatShortSyllable 6)      $ StageHierarchy 19 $ Just 2
+    , Stage (StageGeneric DE.PatShortSyllable 8)      $ StageHierarchy 19 $ Just 3
+    , Stage (StageGeneric DE.PatSCPlus 0)             $ StageHierarchy 19 $ Just 1
+    , Stage (StageGeneric DE.PatSCStretch 0)          $ StageHierarchy 20 $ Just 2
+    , Stage (StageGeneric DE.PatSCOther 0)            $ StageHierarchy 20 $ Just 3
+    , Stage (StageGeneric DE.PatAnglAI 0)             $ StageHierarchy 21 $ Just 1
+    , Stage (StageGeneric DE.PatAnglA 0)              $ StageHierarchy 21 $ Just 2
+    , Stage (StageGeneric DE.PatAnglI 0)              $ StageHierarchy 21 $ Just 3
+    , Stage (StageGeneric DE.PatAnglU 0)              $ StageHierarchy 21 $ Just 4
+    , Stage (StageGeneric DE.PatAnglStretchU 0)       $ StageHierarchy 21 $ Just 5
+    , Stage (StageGeneric DE.PatAnglO 0)              $ StageHierarchy 21 $ Just 6
+    , Stage (StageGeneric DE.PatAnglStretchO 0)       $ StageHierarchy 21 $ Just 7
+    , Stage (StageGeneric DE.PatAnglAU 0)             $ StageHierarchy 21 $ Just 8
+    , Stage (StageGeneric DE.PatAnglAU 6)             $ StageHierarchy 21 $ Just 9
+    , Stage (StageGeneric DE.PatAnglEI 0)             $ StageHierarchy 21 $ Just 10
+    , Stage (StageGeneric DE.PatAnglAE 0)             $ StageHierarchy 21 $ Just 10
+    , Stage (StageGeneric DE.PatAnglSch 0)            $ StageHierarchy 21 $ Just 11
+    , Stage (StageGeneric DE.PatAnglJU 0)             $ StageHierarchy 21 $ Just 12
+    , Stage (StageGeneric DE.PatAnglOther 0)          $ StageHierarchy 21 $ Just 13
+    , Stage (StageGeneric DE.PatFrankOther 0)         $ StageHierarchy 22 $ Just 1
+    , Stage (StageGeneric DE.PatFrankOther 3)         $ StageHierarchy 22 $ Just 2
+    , Stage (StageGeneric DE.PatFrankOther 6)         $ StageHierarchy 22 $ Just 3
+    , Stage (StageGeneric DE.PatForeignOther 0)       $ StageHierarchy 22 $ Just 2
+    , Stage (StageGeneric DE.PatChemistry 0)          $ StageHierarchy 23 $ Just 2
     -- DiConsonant 4 is not meant to be implemented,
     -- delete as soon as no patterns hit anymore
-    , Stage (StageGeneric DE.PatDiConsonant 4)        (StageSublevel 23 2)
+    , Stage (StageGeneric DE.PatDiConsonant 4)        $ StageHierarchy 23 $ Just 2
     ]
 
 instance Palantype key => Default (Stage key) where
@@ -399,16 +400,16 @@ toTOCString
     :: forall key
      . Palantype key
     => Stage key
-    -> (Text, Maybe Greediness, Text)
+    -> (Int, Maybe Greediness, Text)
 toTOCString (Stage sg h) = case sg of
     StageSpecial str -> case h of
-        StageToplevel     -> ("", Nothing, str)
-        StageSublevel _ s -> ("Ex. " <> showt s <> ": ", Nothing, str)
+        StageHierarchy t Nothing     -> (t, Nothing, str)
+        StageHierarchy _ (Just s) -> (s, Nothing, str)
     StageGeneric pg g -> case h of
-        StageToplevel -> $failure "Error: generic stage on top level"
-        StageSublevel _ s ->
+        StageHierarchy _ Nothing -> $failure "Error: generic stage on top level"
+        StageHierarchy _ (Just s) ->
             let mg = if g > 0 then Just g else Nothing
-            in  ("Ex. " <> showt s <> ": ", mg, toDescription pg)
+            in  (s, mg, toDescription pg)
 
 toPageName
   :: forall key
@@ -417,11 +418,13 @@ toPageName
   -> Text
 toPageName (Stage sg h) = case sg of
     StageSpecial str -> case h of
-      StageToplevel -> str
-      StageSublevel t s -> "Stage" <> showt t <> "-" <> showt s <> "_" <> toFileName str
+      StageHierarchy _ Nothing  -> str
+      StageHierarchy t (Just s) -> "Stage" <> showt t <> "-" <> showt s <> "_" <> toFileName str
     StageGeneric pg g -> case h of
-      StageToplevel -> $failure "Error: generic stage on top level"
-      StageSublevel t s -> "Stage" <> showt t <> "-" <> showt s <> "_" <> "G" <> showt g <> "_" <> toFileName (toDescription pg)
+      StageHierarchy _ Nothing  -> $failure "Error: generic stage on top level"
+      StageHierarchy t (Just s) ->
+           "Stage" <> showt t <> "-" <> showt s <> "_" <> "G" <> showt g
+        <> "_" <> toFileName (toDescription pg)
   where
     toFileName :: Text -> Text
     toFileName = Text.filter (\c -> isAscii c && (isAlphaNum c || c `elem` ['-', '_', '.']))
@@ -434,11 +437,6 @@ toPageName (Stage sg h) = case sg of
              <<< Text.replace "Ü" "Ue"
              <<< Text.replace "ß" "ss"
 
-getGroupIndex :: forall key . Stage key -> Maybe Int
-getGroupIndex (Stage _ h) = case h of
-    StageToplevel     -> Nothing
-    StageSublevel t _ -> Just t
-
 mapStages
     :: forall key
      . Palantype key
@@ -446,10 +444,9 @@ mapStages
 mapStages = Map.union mapStandardGroups mapFromStages
   where
     mapFromStages =
-        Map.fromList $ zip [0 ..] stages <&> \(i, Stage ssg topsub) ->
-            case topsub of
-                StageSublevel t s -> (ssg, (StageIndex i, t, s))
-                StageToplevel     -> (ssg, (StageIndex i, 0, 0))
+        Map.fromList $ zip [0 ..] stages
+          <&> \(i, Stage ssg (StageHierarchy t ms)) ->
+                (ssg, (StageIndex i, t, fromMaybe 0 ms))
     mapStandardGroups = Map.fromList
         [ (StageGeneric patZero 0       , (stageIndexPatZero       , 0, 0))
         , (StageGeneric patSimpleMulti 0, (stageIndexPatSimpleMulti, 0, 0))
@@ -463,6 +460,12 @@ findStage
     => StageSpecialGeneric key
     -> Maybe (StageIndex, Int, Int)
 findStage ssg = Map.lookup ssg mapStages
+
+mapHierarchyStageIndex
+  :: forall key. Palantype key => Map (Int, Maybe Int) StageIndex
+mapHierarchyStageIndex =
+  Map.fromList $ zip [0 ..] (stages @key) <&>
+    \(i, Stage _ (StageHierarchy t ms)) -> ((t, ms), i)
 
 findStageIndex :: StageRepr -> Maybe StageIndex
 findStageIndex (StageRepr lang sg h) = case lang of
@@ -537,3 +540,6 @@ getStageIndexMaybe
   -> Greediness
   -> Maybe StageIndex
 getStageIndexMaybe pg g = view _1 <$> findStage (StageGeneric pg g)
+
+getGroupIndex :: Stage key -> Int
+getGroupIndex (Stage _ (StageHierarchy t _)) = t
