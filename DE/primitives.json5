@@ -42,6 +42,7 @@
 , [ "aar" , [0, "A/AÜ", "PatDiVowel"]]
 , [ "aar" , [1, "AÜ", "PatDiVowel"]]
 , [ "a|bend", [7, "BEND", "PatCommonPrefix"]]
+, [ "a|ber", [0, "BEÜ", "PatBrief"]]
 , [ "ae"  , [0, "AI", "PatDiphtong"]]         // e.g. aerodynamisch
 , [ "ah"  , [0, "AÜ", "PatCodaH"]]
 , [ "ah"  , [1, "A", "PatCodaH"]]
@@ -149,16 +150,15 @@
 , [ "eie" , [6, "EIs", "PatSmallS"]]
 , [ "eih" , [0, "EI+", "PatDiphtong"]]
 , [ "ej"  , [0, "EI", "PatReplCommon2"]]
-//, [ "en"  , [6, "N-", "PatShortSyllable"]]  // causes conflict with Dictionary.Commands, and some confusing patterns
 , [ "en"  , [6, "n", "PatShortSyllable"]]
 , [ "ten"  , [8, "n", "PatShortSyllable"]] // TODO: ren? instead of ten?
 , [ "ent"  , [7, "D-", "PatCommonPrefix"]]
 , [ "ent|t", [8, "D-", "PatCommonPrefix"]]
 , [ "er"   , [0, "EÜ", "PatCodaR"]]   
 , [ "er|"  , [5, "M-", "PatShortSyllable"]]
-// "er"  : [0, "R", "EÜ"] // TODO: efficiency for "er" in onset
 , [ "err"  , [0, "E+", "PatCodaRR"]]
 , [ "errt" , [0, "E+D", "PatCodaRR"]]
+, [ "euro" , [0, "SMEU", "PatBrief"]]
 , [ "ey"   , [0, "ÄI", "PatDiphtong"]]
 , [ "f"    , [0, "F", "PatSimple"]]
 , [ "ff"   , [0, "-F", "PatDiConsonant"]]
@@ -196,6 +196,7 @@
 , [ "ih"   , [1, "I", "PatCodaH"]]
 , [ "ihr"  , [0, "~I+", "PatCodaHR"]]
 , [ "ihrt" , [0, "~I+D", "PatCodaHR"]]
+, [ "im|mer", [0, "IMs", "PatBrief"]]
 , [ "io"   , [0, "I/O", "PatBreakUpI"]]
 , [ "io"   , [4, "O", "PatBreakUpI"]]
 , [ "i|o"  , [4, "O", "PatBreakUpI"]]
@@ -204,6 +205,7 @@
 , [ "irr"  , [0, "I+", "PatCodaRR"]]
 , [ "irrt" , [0, "I+D", "PatCodaRR"]]
 , [ "ir|re", [0, "I+/ME", "PatSCPlus"]]       // < ihre
+, [ "is|mus", [0, "IMS", "PatBrief"]]
 , [ "iv"   , [5, "-F", "PatShortSyllable"]]       // TODO: documentation
 , [ "j"    , [0, "FN-", "PatReplCommon1"]]
 , [ "k"    , [0, "G+-", "PatReplCommon1"]] 
@@ -327,6 +329,8 @@
 , [ "phr" , [0, "FNM-", "PatReplCommon2"]]
 , [ "pik" , [0, "B+~I+G", "PatSCStretch"]]
 , [ "pl"  , [0, "DBL-", "PatOnsetL"]]
+, [ "po|li|zei", [0, "B+OLGʃ", "PatBrief"]]
+, [ "pro|zent" , [0, "B+OGʃ" , "PatBrief"]]
 , [ "pp"  , [2, "-B", "PatDiConsonant"]]
 , [ "pp"  , [0, "+B", "PatDiConsonant"]]
 , [ "p|p" , [4, "-B", "PatDiConsonant"]]
@@ -357,7 +361,6 @@
 , [ "rou|te", [0, "SM~U+/D+E", "PatSCPlus"]] // ~ to avoid collision with Rute
 , [ "rou|ti", [0, "SMU/D+I", "PatDiVowel"]]  // e.g. Routine
 // "re" TODO: more efficiency
-// , "ren"  : [0, "e"]  // TODO: too greedy?
 , [ "rwan" , [0, "FMAN", "PatReplRare"]]   // TODO: documentation Rw- as WR
 , [ "s"   , [0, "S", "PatSimple"]]
 , [ "s"   , [0, "s", "PatSmallS"]]
@@ -393,6 +396,8 @@
 , [ "sts" , [0, "-Ss", "PatSwapS"]]
 , [ "straf", [0, "DSMAÜF", "PatSCStretch"]]  // < straff
 , [ "sw"  , [0, "FG-", "PatReplRare"]]
+, [ "sys|tem", [0, "SIS", "PatBrief"]]
+, [ "sys|te", [0, "SIS", "PatBrief"]]
 , [ "sz"  , [0, "DʃG-", "PatReplRare"]]
 , [ "ß"   , [0, "DSB-", "PatReplCommon1"]]
 , [ "ß"   , [0, "S+-", "PatReplCommon1"]]
@@ -461,6 +466,7 @@
 , [ "ür"   , [0, "~Ü", "PatCodaR"]]
 , [ "ühr"  , [0, "~Ü+", "PatCodaHR"]]
 , [ "ührt" , [0, "~Ü+D", "PatCodaHR"]]
+, [ "unter", [0, "U+ND", "PatBrief"]]
 , [ "ürr"  , [0, "Ü+", "PatCodaRR"]]
 , [ "ürrt" , [0, "Ü+D", "PatCodaRR"]]
 , [ "v"    , [0, "FBL-", "PatReplCommon1"]]
@@ -608,6 +614,7 @@
 , [ "greene" , [0, "GM~IN", "PatAnglI"]]
 , [ "group"  , [0, "GMU+B", "PatAnglU"]]
 , [ "guard"  , [0, "GAÜD", "PatAnglOther"]]    // e.g. bodyguard
+, [ "guay"   , [0, "GAI", "PatForeignOther"]]
 , [ "guide"  , [0, "GEID", "PatAnglEI"]]
 , [ "have"   , [0, "SNÄF", "PatAnglAE"]]
 , [ "head"   , [0, "SNÄD", "PatAnglAE"]]
