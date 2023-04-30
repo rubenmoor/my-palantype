@@ -120,10 +120,10 @@ fromIndex = \case
     24 -> Nothing
     25 -> Just ("N", "N")
     26 -> Nothing
-    27 -> Nothing
-    28 -> Nothing
-    29 -> Nothing
+    27 -> Just ("CTRL", "CTRL")
+    28 -> Just ("WIN" , "WIN" )
+    29 -> Just ("ALT" , "ALT" )
     30 -> Nothing
-    31 -> Nothing
+    31 -> Just ("SHIFT", "SHIFT")
     32 -> Nothing
     _  -> $failure "Numbers.fromIndex: impossible"

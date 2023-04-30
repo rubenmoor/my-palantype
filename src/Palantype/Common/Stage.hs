@@ -517,6 +517,7 @@ instance Wrapped StageIndex
 
 instance TextShow StageIndex where
     showb = showb <<< unStageIndex
+
 mkStageIndex :: forall key . Palantype key => Int -> Maybe StageIndex
 mkStageIndex i | i >= 0 && i < Map.size (mapStages @key) = Just $ StageIndex i
 mkStageIndex _ = Nothing

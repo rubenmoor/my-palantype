@@ -27,13 +27,15 @@ import           Palantype.Common.Class         ( Palantype
                                                     ( lsPrimitives
                                                     )
                                                 )
-import Palantype.Common.Stage ( StageIndex, getStageIndexMaybe )
+import           Palantype.Common.Stage         ( StageIndex
+                                                , getStageIndexMaybe
+                                                )
 import           Palantype.Common.RawSteno.Type ( RawSteno )
 import           Text.Show                      ( Show(show) )
-import Data.Maybe (Maybe(..))
-import Palantype.Common.TH (failure)
-
-import Palantype.Common.Primitives.Types
+import           Data.Maybe                     ( Maybe(..))
+import           Palantype.Common.TH            (failure)
+import           Palantype.Common.Internal      (Greediness)
+import           Palantype.Common.Primitives.Types
 
 lsPatterns :: forall key . Palantype key => [(StageIndex, [ByteString])]
 lsPatterns =
@@ -50,10 +52,10 @@ lsPatterns =
 triePrimitives
     :: forall key
      . Palantype key
-    => Trie [(RawSteno, StageIndex)]
+    => Trie [(RawSteno, StageIndex, Greediness)]
 triePrimitives =
   Trie.fromList $ lsPrimitives @key <&> second (fmap (\(g, r, p, _, _) ->
     let si = case getStageIndexMaybe p g of
             Just    si' -> si'
             Nothing     -> $failure $ "No stage for " <> show p <> " " <> show g
-    in  (r, si)))
+    in  (r, si, g)))

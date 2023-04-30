@@ -87,10 +87,10 @@ lsCommands =
     , ("=undo"                   , "I+NSD" ) -- undo last input
     , ("{PLOVER:TOGGLE}"         , "DSN++D")
     , ("{PLOVER:ADD_TRANSLATION}", "DSN+A" )
-    , ("{PLOVER:LOOKUP}"         , "DSN+-L" ) -- plover search dialogue
-    , ("{PLOVER:SUGGESTIONS}"    , "DSN+-S" ) -- plover suggestions window
-    , ("{PLOVER:FOCUS}"          , "DSN+-F" ) -- focus plvoer main window
-    , ("{PLOVER:CONFIGURE}"      , "DSN+-G" ) -- plover configuration window
+    , ("{PLOVER:LOOKUP}"         , "DSN+-L") -- plover search dialogue
+    , ("{PLOVER:SUGGESTIONS}"    , "DSN+-S") -- plover suggestions window
+    , ("{PLOVER:FOCUS}"          , "DSN+-F") -- focus plvoer main window
+    , ("{PLOVER:CONFIGURE}"      , "DSN+-G") -- plover configuration window
     , ("{PLOVER:CONFIGURE}"      , "DSN++G") -- quit plover
     ]
 
