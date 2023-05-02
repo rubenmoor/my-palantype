@@ -93,7 +93,7 @@
 //, [ "ce"  , [3, "SJE", "PatReplC"]]      // onset: phonetic tsch: Cellist; coda: -ice
 , [ "ch"  , [0, "ʃ+-", "PatReplCommon1"]]
 , [ "ch"  , [0, "-+ʃ", "PatReplCommon1"]]
-, [ "chl"  , [0, "DʃL", "PatOnsetL"]]
+, [ "chl"  , [0, "ʃL", "PatReplCommon2"]]
 //, [ "chia", [0, "ʃA", "PatReplRare"]]
 //, [ "chio", [0, "ʃO", "PatReplRare"]]
 , [ "chr"   , [0, "DʃM-", "PatOnsetR"]]
@@ -294,6 +294,7 @@
 , [ "oer" , [4, "ÄO", "PatCodaR"]]
 , [ "oh"  , [0, "~O", "PatCodaH"]]
 , [ "oh"  , [1, "O", "PatCodaH"]]
+, [ "ohne", [0, "~ON" , "PatBrief"]]
 , [ "ohr" , [0, "~O+", "PatCodaHR"]]
 , [ "ohrt", [0, "~O+D", "PatCodaHR"]]
 , [ "oi"  , [0, "EU", "PatDiphtong"]]

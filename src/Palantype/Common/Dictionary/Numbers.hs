@@ -10,10 +10,10 @@ But only the generic indices are exported.
 
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
 
 module Palantype.Common.Dictionary.Numbers
     ( dictNumbers
+    , dictNumberLiterals
     , fromIndex
     , strModeSteno
     , kiCtrlNumber
@@ -21,6 +21,8 @@ module Palantype.Common.Dictionary.Numbers
     , kiFromSmallNumber
     ) where
 
+import Control.Category ((.))
+import Data.Bifunctor (first, second, bimap)
 import Data.Ord (Ord(..))
 import Data.Bool ((&&))
 import           Data.Function                  ( ($) )
@@ -32,13 +34,12 @@ import qualified Data.Text                     as Text
 import           Palantype.Common.Indices       ( KIChord (..), parseChordDE )
 import qualified Palantype.Common.Indices      as KI
 import qualified Palantype.DE.Keys as DE ( Key )
-import Palantype.Common.TH (fromJust, failure)
+import Palantype.Common.TH (fromJust)
 import Control.Applicative (Applicative(pure))
 import Data.Tuple (fst, snd)
 import Palantype.Common.KeyIndex (KeyIndex, keyIndex)
 import GHC.Err (error)
-import Data.List ((!!))
-import Control.Monad (unless)
+import Data.List ((!!), drop)
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared
     ( ModifierPrimary(..), ModifierSecondary(..), toStenoStrRightHand, toPloverLiteralGlued, toPloverCommand )
@@ -71,11 +72,11 @@ unmodifiedNumberStrs :: [(KIChord, Text)]
 unmodifiedNumberStrs = catMaybes $ do
 
     mLT <- Nothing : (Just <$> keysLeftThumb )
-    mRT <- Nothing : (Just <$> keysThumb )
-    mI  <- Nothing : (Just <$> keysIndex )
-    mM  <- Nothing : (Just <$> keysMiddle)
-    mR  <- Nothing : (Just <$> keysRing  )
-    mP  <- Nothing : (Just <$> keysPinky )
+    mRT <- Nothing : (Just . first (first Text.singleton) <$> keysThumb )
+    mI  <- Nothing : (Just . first (first Text.singleton) <$> keysIndex )
+    mM  <- Nothing : (Just . first (first Text.singleton) <$> keysMiddle)
+    mR  <- Nothing : (Just . first (first Text.singleton) <$> keysRing  )
+    mP  <- Nothing : (Just . first (first Text.singleton) <$> keysPinky )
 
     let mEntry =
           Nothing `combine` mLT
@@ -93,7 +94,7 @@ unmodifiedNumberStrs = catMaybes $ do
         , toPloverLiteralGlued strNum
         )
   where
-    combine :: Maybe (Text, Text) -> Maybe ((Text, Maybe Text), Char) -> Maybe (Text, Text)
+    combine :: Maybe (Text, Text) -> Maybe ((Text, Maybe Char), Char) -> Maybe (Text, Text)
     combine Nothing (Just ((strNum, _), chr)) = Just (strNum, Text.singleton chr)
     combine x Nothing = x
     combine (Just (strs, strSteno)) (Just ((strNum, _), chr)) =
@@ -118,7 +119,7 @@ shiftedNumberUSSpecialChars = do
                                   ModPrimNone
                                   ModSecShift
                                   $ Text.singleton steno
-        , toPloverLiteralGlued $ $fromJust mLiteral
+        , toPloverLiteralGlued $ Text.singleton $ $fromJust mLiteral
         )
 
 -- | single digit numbers, can be modified and then will be
@@ -133,17 +134,43 @@ numberCommands = do
                           <> keysRing
                           <> [keysPinky !! 1] -- 0
 
-    let rem = snd $ $fromJust $ Text.uncons literal
-    unless (Text.null rem) $
-        $failure $ "Expected empty string: " <> Text.unpack rem
-
     pure ( $parseChordDE $ Raw.fromText $
                toStenoStrRightHand strModeSteno
                                    modPrim
                                    modSec
                                    $ Text.singleton steno
-         , toPloverCommand modPrim modSec literal
+         , toPloverCommand modPrim modSec $ Text.singleton literal
          )
+
+-- | literals, for use in exercise learn-palantype, no plover syntax
+dictNumberLiterals :: [(KIChord, Char)]
+dictNumberLiterals = leftThumb <> do
+    modSec <- [ModSecNone, ModSecShift]
+    ((literalNumber, mLiteralShifted), steno) <-
+           keysThumb
+        <> keysIndex
+        <> keysMiddle
+        <> keysRing
+        <> keysPinky
+    pure
+        ( $parseChordDE $ Raw.fromText $
+              toStenoStrRightHand strModeSteno
+                                  ModPrimNone
+                                  modSec
+                                  $ Text.singleton steno
+        , case modSec of
+            ModSecNone  -> literalNumber
+            ModSecShift -> $fromJust mLiteralShifted
+        )
+  where
+    leftThumb = do
+      ((literal, _), steno) <- drop 2 keysLeftThumb
+      pure
+        ( $parseChordDE $ Raw.fromText
+            $ toStenoStrRightHand strModeSteno ModPrimNone ModSecNone
+              $ Text.singleton steno
+        , Text.head literal
+        )
 
 kiFromSmallNumber :: Int -> Maybe KIChord
 kiFromSmallNumber i | i >= 0 && i < 10 = Just $
@@ -162,7 +189,7 @@ mapSingleDigitCodes :: Map Int Char
 mapSingleDigitCodes =
   let
       accFunc m ((literal, _), steno) =
-        case readMaybe $ Text.unpack literal of
+        case readMaybe $ pure literal of
           Just d  -> Map.insert d steno m
           Nothing -> m
   in  foldl' accFunc Map.empty
@@ -182,56 +209,58 @@ mapCharDigit :: Map Char Text
 mapCharDigit =
     foldl' accFunc Map.empty
       $  keysLeftThumb
-      <> keysThumb
-      <> keysIndex
-      <> keysMiddle
-      <> keysRing
-      <> keysPinky
+      <> fmap (first $ first Text.singleton)
+          ( keysThumb
+          <> keysIndex
+          <> keysMiddle
+          <> keysRing
+          <> keysPinky
+          )
   where
     accFunc m ((str, _), c) = Map.insert c str m
 
-keysLeftThumb :: [((Text, Maybe Text), Char)]
+keysLeftThumb :: [((Text, Maybe Char), Char)]
 keysLeftThumb =
   [ (("19", Nothing), 'Ä')
   , (("20", Nothing), 'E')
   , (("'" , Nothing), 'A')
-  , (("," , Nothing), '~')
+  , ((":" , Nothing), '~')
   ]
 
-keysThumb :: [((Text, Maybe Text), Char)]
+keysThumb :: [((Char, Maybe Char), Char)]
 keysThumb =
-  [ (("0", Just ")"), 'U')
-  , (("1", Just "!"), 'I')
-  , (("2", Just "@"), 'O')
-  , (("9", Just "("), 'Ü')
+  [ (('0', Just ')'), 'U')
+  , (('1', Just '!'), 'I')
+  , (('2', Just '@'), 'O')
+  , (('9', Just '('), 'Ü')
   ]
 
-keysIndex :: [((Text, Maybe Text), Char)]
+keysIndex :: [((Char, Maybe Char), Char)]
 keysIndex =
-  [ (("1", Just "!"), 'L')
-  , (("4", Just "$"), '+')
-  , (("7", Just "&"), 'M')
+  [ (('1', Just '!'), 'L')
+  , (('4', Just '$'), '+')
+  , (('7', Just '&'), 'M')
   ]
 
-keysMiddle :: [((Text, Maybe Text), Char)]
+keysMiddle :: [((Char, Maybe Char), Char)]
 keysMiddle =
-  [ (("2", Just "@"), 'B')
-  , (("5", Just "%"), 'N')
-  , (("8", Just "*"), 'G')
+  [ (('2', Just '@'), 'B')
+  , (('5', Just '%'), 'N')
+  , (('8', Just '*'), 'G')
   ]
 
-keysRing :: [((Text, Maybe Text), Char)]
+keysRing :: [((Char, Maybe Char), Char)]
 keysRing =
-  [ (("3", Just "#"), 'F')
-  , (("6", Just "^"), 'S')
-  , (("9", Just "("), 'ʃ')
+  [ (('3', Just '#'), 'F')
+  , (('6', Just '^'), 'S')
+  , (('9', Just '('), 'ʃ')
   ]
 
-keysPinky :: [((Text, Maybe Text), Char)]
+keysPinky :: [((Char, Maybe Char), Char)]
 keysPinky =
-  [ ((".", Nothing ), 's')
-  , (("0", Just ")"), 'D')
-  , ((":", Nothing ), 'n')
+  [ (('.', Just '>'), 's')
+  , (('0', Just ')'), 'D')
+  , ((',', Just '<'), 'n')
   ]
 
 {-|
@@ -252,26 +281,26 @@ fromIndex = \case
     10 -> Nothing
     11 -> Just ("+", Just "+")
     12 -> Nothing
-    13 -> Just $ fst $ keysLeftThumb !! 0
-    14 -> Just $ fst $ keysLeftThumb !! 1
-    15 -> Just $ fst $ keysLeftThumb !! 2
-    16 -> Just $ fst $ keysLeftThumb !! 3
-    17 -> Just $ fst $ keysThumb !! 0
-    18 -> Just $ fst $ keysThumb !! 1
-    19 -> Just $ fst $ keysThumb !! 2
-    20 -> Just $ fst $ keysThumb !! 3
-    21 -> Just $ fst $ keysIndex !! 2
-    22 -> Just $ fst $ keysIndex !! 1
-    23 -> Just $ fst $ keysIndex !! 0
-    24 -> Just $ fst $ keysMiddle !! 2
-    25 -> Just $ fst $ keysMiddle !! 1
-    26 -> Just $ fst $ keysMiddle !! 0
-    27 -> Just $ fst $ keysRing !! 2
-    28 -> Just $ fst $ keysRing !! 1
-    29 -> Just $ fst $ keysRing !! 0
-    30 -> Just $ fst $ keysPinky !! 2
-    31 -> Just $ fst $ keysPinky !! 1
-    32 -> Just $ fst $ keysPinky !! 0
+    13 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 0
+    14 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 1
+    15 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 2
+    16 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 3
+    17 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysThumb !! 0)
+    18 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysThumb !! 1)
+    19 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysThumb !! 2)
+    20 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysThumb !! 3)
+    21 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysIndex !! 2)
+    22 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysIndex !! 1)
+    23 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysIndex !! 0)
+    24 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysMiddle !! 2)
+    25 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysMiddle !! 1)
+    26 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysMiddle !! 0)
+    27 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysRing !! 2)
+    28 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysRing !! 1)
+    29 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysRing !! 0)
+    30 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysPinky !! 2)
+    31 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysPinky !! 1)
+    32 -> Just $ bimap Text.singleton (fmap Text.singleton) (fst $ keysPinky !! 0)
     _  -> error "Numbers.fromIndex: impossible"
 
 kiCtrlNumber :: KIChord

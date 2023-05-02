@@ -13,6 +13,7 @@ and `strModeStenoUnmodifiable`) and the left hand to type.
 
 module Palantype.Common.Dictionary.Special
     ( dictSpecial
+    , dictSpecialLiterals
     , fromIndex
     , strModeSteno
     , keysExtra
@@ -32,7 +33,7 @@ import qualified Data.Text as Text
 import qualified Palantype.Common.RawSteno as Raw
 
 dictSpecial :: [(KIChord, Text)]
-dictSpecial = literals <> commands
+dictSpecial = gluedLiterals <> dictCommands
 
 -- | special keys of category 1: all the special keys on US layout
 --   that are not `shift` + some number key.
@@ -44,25 +45,26 @@ strModeSteno :: Text
 strModeSteno = "N" -- key index 25
 
 -- | special characters, with and w/o Shift
-keysExtra :: [(Char, Text, Char, Text)]
+keysExtra :: [(Char, Char, Text, Char, Text)]
 keysExtra =
-    [ ('`' , "~"  , 'v', "grave"       )
-    --               ʃ not in use
-    , ('-' , "_"  , 'G', "minus"       )
-    , ('=' , "+"  , 'M', "equal"       )
-    , ('[' , "\\{", 'D', "bracketleft" )
-    , (']' , "}"  , 'S', "bracketright")
-    , ('\\', "|"  , 'N', "backslash"   )
-    , ('\'', "\"" , '+', "apostrophe"  )
-    , (',' , "<"  , 'b', "comma"       )
-    , ('.' , ">"  , 'F', "period"      )
-    , (';' , ":"  , 'B', "semicolon"   )
-    , ('/' , "?"  , 'L', "slash"       )
+    [ ('`' , '~'  , "~"  , 'v', "grave"       )
+    --                      ʃ not in use
+    , ('-' , '_'  , "_"  , 'G', "minus"       )
+    , ('=' , '+'  , "+"  , 'M', "equal"       )
+    , ('[' , '{'  , "\\{", 'D', "bracketleft" )
+    , (']' , '}'  , "}"  , 'S', "bracketright")
+    , ('\\', '|'  , "|"  , 'N', "backslash"   )
+    , ('\'', '\"' , "\"" , '+', "apostrophe"  )
+    , (',' , '<'  , "<"  , 'b', "comma"       )
+    , ('.' , '>'  , ">"  , 'F', "period"      )
+    , (';' , ':'  , ":"  , 'B', "semicolon"   )
+    , ('/' , '?'  , "?"  , 'L', "slash"       )
     ]
 
-literals :: [(KIChord, Text)]
-literals = do
-    (literal, shifted, steno, _) <- keysExtra
+-- | literals, plover syntax, e.g. {&[}
+gluedLiterals :: [(KIChord, Text)]
+gluedLiterals = do
+    (literal, _, shiftedPlover, steno, _) <- keysExtra
     modSec <- [ModSecNone, ModSecShift]
     pure
         ( $parseChordDE $ Raw.fromText $
@@ -72,14 +74,31 @@ literals = do
                                  $ Text.singleton steno
         , case modSec of
               ModSecNone  -> toPloverLiteralGlued $ Text.singleton literal
-              ModSecShift -> toPloverLiteralGlued shifted
+              ModSecShift -> toPloverLiteralGlued shiftedPlover
         )
 
-commands :: [(KIChord, Text)]
-commands = do
+-- | literals, for use in exercise learn-palantype, no plover syntax
+dictSpecialLiterals :: [(KIChord, Char)]
+dictSpecialLiterals = do
+    (literal, shifted, _, steno, _) <- keysExtra
+    modSec <- [ModSecNone, ModSecShift]
+    pure
+        ( $parseChordDE $ Raw.fromText $
+              toStenoStrLeftHand strModeSteno
+                                 ModPrimNone
+                                 modSec
+                                 $ Text.singleton steno
+        , case modSec of
+              ModSecNone  -> literal
+              ModSecShift -> shifted
+        )
+
+-- | commands, plover syntax, e.g. shift(backslash)
+dictCommands :: [(KIChord, Text)]
+dictCommands = do
     modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec  <- [ModSecNone, ModSecShift]
-    (_, _, chrSteno, strCommand) <- keysExtra
+    (_, _, _, chrSteno, strCommand) <- keysExtra
     pure ( $parseChordDE $ Raw.fromText $
                toStenoStrLeftHand strModeSteno
                                   modPrim

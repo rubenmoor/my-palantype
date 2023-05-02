@@ -10,7 +10,7 @@ and type with the left hand.
 
 module Palantype.DE.FingerSpelling
   ( dictFingerSpelling
-  , dictLiterals
+  , dictFingerspellingLiterals
   , keysLetterUS
   , keysLetterOther
   , strModeSteno
@@ -86,14 +86,14 @@ dictFingerSpelling = gluedLiterals <> letterCommands
 
 -- | reduced dictionary for an exercise of learn-palantype,
 --   only unmodified and shift-modified keys, no plover syntax
-dictLiterals :: [(KIChord, Text)]
-dictLiterals = do
+dictFingerspellingLiterals :: [(KIChord, Char)]
+dictFingerspellingLiterals = do
     (literal, steno) <- keysLetterUS <> keysLetterOther
     modSec <- [ModSecNone, ModSecShift]
     pure
         ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno ModPrimNone modSec steno
-        , Text.singleton $ case modSec of
+        , case modSec of
               ModSecNone  -> literal
               ModSecShift -> toUpper literal
         )

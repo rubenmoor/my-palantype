@@ -26,6 +26,7 @@ library
       Palantype.Common
       Palantype.Common.AutoDoc
       Palantype.Common.Class
+      Palantype.Common.Dictionary
       Palantype.Common.Dictionary.Commands
       Palantype.Common.Dictionary.CommandsFKeys
       Palantype.Common.Dictionary.Numbers

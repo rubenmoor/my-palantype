@@ -8,6 +8,8 @@
 , ["alles",         "rule-addition", 0, "LALS", "PatBrief"]
 , ["Alm",           "substitution", 0, "S-/A+", "PatCapitalize"] // < {&a} "Fingerspelling"
 , ["Aorta",         "substitution", 0, "A/~O/D+A", "PatCodaR", "no-doc"]
+, ["Apple",         "substitution", 0, "ÄLB", "PatBrief"]
+, ["Apples",        "substitution", 0, "ÄLBS", "PatBrief"]
 , ["Amman",         "substitution", 0, "AM/MAÜN", "PatSCStretch"]      // < Ammann
 , ["Aortenklappe",  "substitution", 0, "A/~O/D+EN/DGLA+B/B+E", "PatCodaR", "no-doc"]
 , ["Aortenklappen", "substitution", 0, "A/~O/D+EN/DGLA+B/B+EN", "PatCodaR", "no-doc", 6, "A/~O/D+-n/DGLA+B/B+-n", "PatShortSyllable", "no-doc"]
@@ -139,7 +141,6 @@
 , ["neuer",         "rule-addition", 0, "NEs", "PatBrief"]
 , ["neues",         "rule-addition", 0, "NES" , "PatBrief"]
 , ["oder",          "rule-addition", 0, "OD"  , "PatBrief"]
-, ["ohne",          "rule-addition", 0, "~ON" , "PatBrief"]
 , ["Öhr",           "substitution", 0, "S-/ÄO+", "PatCapitalize"] // < {&ö} (Fingerspelling}
 , ["Olm",           "substitution", 0, "S-/O+", "PatCapitalize"] // < {&o} "Fingerspelling"
 , ["Olms",          "substitution", 0, "S-/O+S", "PatCapitalize"] // < {&O} "Fingerspelling"
