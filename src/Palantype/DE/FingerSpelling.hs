@@ -17,6 +17,7 @@ module Palantype.DE.FingerSpelling
   ) where
 
 import Control.Applicative (Applicative (pure))
+import Control.Monad (guard)
 import Data.Char (Char, toUpper)
 import Data.Function (($))
 import Data.Text (Text)
@@ -24,6 +25,8 @@ import qualified Data.Text as Text
 import Palantype.Common.Dictionary.Shared (ModifierPrimary (..), ModifierSecondary (..), toStenoStrLeftHand, toPloverLiteralGlued, toPloverCommand)
 import Palantype.Common.Indices (KIChord, parseChordDE)
 import Data.Semigroup (Semigroup((<>)))
+import Data.Set as Set
+import Data.Set (notMember)
 import qualified Palantype.Common.RawSteno as Raw
 
 {- | DE raw steno for the fingerspelling mode
@@ -115,6 +118,7 @@ letterCommands = do
     modPrim <- [ModPrimAlt, ModPrimCtrl, ModPrimWin]
     modSec <- [ModSecNone, ModSecShift]
     (literal, steno) <- keysLetterUS
+    guard $ (modPrim, modSec, literal) `notMember` exclusions
     pure
         ( $parseChordDE $ Raw.fromText $
               toStenoStrLeftHand strModeSteno modPrim modSec steno
@@ -122,3 +126,10 @@ letterCommands = do
                           modSec
                           $ Text.singleton literal
         )
+  where
+    exclusions = Set.fromList
+      [ (ModPrimWin , ModSecNone , 'a')
+      , (ModPrimWin , ModSecShift, 'a')
+      , (ModPrimCtrl, ModSecShift, 'a')
+      , (ModPrimCtrl, ModSecShift, 'e')
+      ]

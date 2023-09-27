@@ -57,7 +57,7 @@ import TextShow (TextShow (showt))
 -- | mode selection for numbers mode
 --   the string is combined and the - is added on demand
 strModeSteno :: Text
-strModeSteno = "B+" -- key indices 9 and 11
+strModeSteno = "NM" -- key indices 8 and 10
 
 dictNumbers :: [(KIChord, Text)]
 dictNumbers =
@@ -276,10 +276,10 @@ fromIndex = \case
     5  -> Just ("WIN", Just "WIN")
     6  -> Just ("ALT", Just "ALT")
     7  -> Nothing
-    8  -> Nothing
-    9  -> Just ("B", Just "B")
-    10 -> Nothing
-    11 -> Just ("+", Just "+")
+    8  -> Just ("N", Just "N")
+    9  -> Nothing
+    10 -> Just ("M", Just "M")
+    11 -> Nothing
     12 -> Nothing
     13 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 0
     14 -> Just $ second (fmap Text.singleton) $ fst $ keysLeftThumb !! 1

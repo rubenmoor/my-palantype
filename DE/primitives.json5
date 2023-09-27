@@ -121,7 +121,7 @@
 //, [ "dia" , [4, "DA", "PatBreakUpI"]]
 , [ "dr"  , [0, "DM-", "PatOnsetR"]]
 , [ "ds"  , [0, "-SD", "PatSwapS"]]
-, [ "dt"  , [0, "-D/-D", "PatDt"]]
+, [ "dt"  , [0, "-+FD", "PatDt"]]
 , [ "dt"  , [2, "-D", "PatDt"]]
 , [ "dts" , [0, "-D/-SD", "PatSwapS"]]
 , [ "dts" , [2, "-SD", "PatSwapS"]]
@@ -619,6 +619,7 @@
 , [ "guide"  , [0, "GEID", "PatAnglEI"]]
 , [ "have"   , [0, "SNÄF", "PatAnglAE"]]
 , [ "head"   , [0, "SNÄD", "PatAnglAE"]]
+, [ "heat"   , [0, "SN~I+D", "PatAnglI"]]
 , [ "hedge"  , [0, "SNEʃD", "PatAnglSch"]]     // like heschd (like hedsch)
 , [ "he|ro"  , [0, "SNI/SMO", "PatAnglI"]]
 , [ "hi"     , [0, "SNAI", "PatAnglEI"]]
@@ -718,6 +719,7 @@
 , [ "roa"    , [0, "SM~O", "PatAnglStretchO"]]        // e.g. off-road, roaming
 , [ "rook"   , [0, "SMU+G", "PatAnglU"]]
 , [ "roo|k"  , [0, "SMU/G+-", "PatAnglU"]]
+, [ "rou|ti|ne", [0, "D+IN", "PatBrief"]]
 , [ "royce"  , [0, "SMEUS", "PatAnglOther"]]
 , [ "save"   , [0, "SÄIF", "PatAnglAI"]]
 , [ "safe"   , [0, "SÄIF", "PatAnglAI"]]
@@ -748,6 +750,7 @@
 , [ "spare"  , [0, "SB+ÄÜ", "PatAnglAE"]]
 , [ "speech" , [0, "SB+IʃD", "PatAnglI"]]  // speech, like spitsch (like spischt)
 , [ "spice"  , [0, "SB+AIS", "PatAnglAI"]]
+, [ "staat"  , [0, "S+A+", "PatBrief"]]
 , [ "stage"  , [0, "DSÄIʃD", "PatAnglAI"]]
 , [ "steak"  , [0, "DSÄI+G", "PatAnglAI"]]
 , [ "strea"  , [0, "DSMI", "PatAnglI"]]

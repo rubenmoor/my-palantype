@@ -20,6 +20,7 @@ import Data.Ord (Ord((<), (>)))
 import Palantype.DE.Keys (Key(LeftM, RightL))
 import Data.Foldable (Foldable(maximum, minimum))
 import Data.Maybe (fromMaybe)
+import Data.Eq (Eq)
 
 toPloverLiteralGlued :: Text -> Text
 toPloverLiteralGlued str = "{&" <> str <> "}"
@@ -95,6 +96,7 @@ data ModifierPrimary
   | ModPrimCtrl
   | ModPrimWin
   | ModPrimAlt
+  deriving (Eq, Ord)
 
 {-|
 secondary modifier key
@@ -103,6 +105,7 @@ Shift
 data ModifierSecondary
   = ModSecNone
   | ModSecShift
+  deriving (Eq, Ord)
 
 primaryModifierToSteno :: ModifierPrimary -> Text
 primaryModifierToSteno = \case

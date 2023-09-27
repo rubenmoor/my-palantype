@@ -47,6 +47,9 @@ import Control.Applicative (Applicative(pure))
 import Data.Char (Char)
 import Palantype.Common.Dictionary.Shared (toPloverCommand, ModifierPrimary (..), ModifierSecondary (..), toStenoStrRightHand)
 import qualified Palantype.Common.RawSteno as Raw
+import qualified Data.Set as Set
+import Data.Set (notMember)
+import Control.Monad (guard)
 
 strModeSteno :: Text
 strModeSteno = "G+"
@@ -77,10 +80,18 @@ dictFKeys = do
     modSec  <- [ModSecNone, ModSecShift]
     (strCommand, chrSteno) <- fKeys
 
+    guard $ (modPrim, modSec, strCommand) `notMember` exclusions
+
     pure ( $parseChordDE $ Raw.fromText $
                toStenoStrRightHand strModeSteno modPrim modSec $ Text.singleton chrSteno
          , toPloverCommand modPrim modSec strCommand
          )
+  where
+    exclusions = Set.fromList
+      [ (ModPrimAlt , ModSecNone, "F12")
+      , (ModPrimWin , ModSecNone, "F11")
+      , (ModPrimCtrl, ModSecNone, "F12")
+      ]
 
 {-|
 Map a key index to a command key in command mode.

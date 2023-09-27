@@ -43,7 +43,7 @@ lsCommands =
     , ("{*!}"         , "F-"  ) -- retroactively delete space
     , ("{^.}{-|}"     , "+-"  ) -- full stop: attach period and capitalize next word
     , ("{^:}"         , "M-"  ) -- attach colon
-    , ("{^:}{-|}"     , "NM-" ) -- attach colon and capitalize next word
+    , ("{^:}{-|}"     , "SM-" ) -- attach colon and capitalize next word
     , ("{^?}{-|}"     , "N+-" ) -- attach question mark and capitalize next word
     , ("{^!}{-|}"     , "NL"  ) -- attach exclamation mark and capitalize next word
     , ("{\\#^}"       , "N+-" ) -- hashtag with next word attached
@@ -55,19 +55,25 @@ lsCommands =
     , ("—"            , "~Ü"  ) -- em dash/Geviertstrich
     , ("{^s^}"        , "s"   ) -- attach s and attach next word
 
-    -- parentheses
+    -- opening and closing
     , ("{«^}"  , "-MG" ) -- guillemet: attach to next word
-    , ("{^»}"  , "-ʃn") --            attach
-    , ("{„^}"  , "-+" ) -- german quotation marks: attach to next word
-    , ("{^“}"  , "-N" ) --                         attach
-    , ("{‹^}"  , "-L" ) -- chevron: attach to next word
-    , ("{^›}"  , "-B" ) --          attach
-    , ("{[^}"  , "-F"  ) -- square brackets: attach to next word
-    , ("{^]}"  , "n"  ) --                  attach
-    , ("{(^}"  , "-S" ) -- parenthesis: attach to next word
-    , ("{^)}"  , "-D" ) --              attach
+    , ("{^»}"  , "-ʃn" ) --            attach
+    , ("{„^}"  , "-+"  ) -- german quotation marks: attach to next word
+    , ("{^“}"  , "-N"  ) --                         attach
+    , ("{‹^}"  , "-L"  ) -- chevron: attach to next word
+    , ("{^›}"  , "-B"  ) --          attach
+    , ("{[^}"  , "-ʃ"  ) -- square brackets: attach to next word
+    , ("{^]}"  , "n"   ) --                  attach
+    , ("{(^}"  , "-S"  ) -- parenthesis: attach to next word
+    , ("{^)}"  , "-D"  ) --              attach
     , ("{\\{^}", "-M"  ) -- brackets: attach to next word
-    , ("{^\\}}", "-G" ) --           attach
+    , ("{^\\}}", "-G"  ) --           attach
+    , ("{\"^}" , "-+N" ) -- double quotes: attach to next word
+    , ("{^\"}" , "-SD" ) --                attach
+    , ("{'^}"  , "-LB" ) -- single quotes: attach to next word
+    , ("{^'}"  , "-Fs" ) --                attach
+    , ("{`^}"  , "-+NS") -- backticks: attach to next word
+    , ("{^`}"  , "-NSD") --            attach
 
     -- ascii smileys
     , ("¯\\_(ツ)_/¯"   , "v-+NSD" )
@@ -84,14 +90,15 @@ lsCommands =
     , ("(ᵔᴥᵔ)"         , "L-+NSD" )
 
     -- plover
+    -- https://github.com/openstenoproject/plover/wiki/Dictionary-Format
     , ("=undo"                   , "I+NSD" ) -- undo last input
     , ("{PLOVER:TOGGLE}"         , "DSN++D")
     , ("{PLOVER:ADD_TRANSLATION}", "DSN+A" )
     , ("{PLOVER:LOOKUP}"         , "DSN+-L") -- plover search dialogue
     , ("{PLOVER:SUGGESTIONS}"    , "DSN+-S") -- plover suggestions window
-    , ("{PLOVER:FOCUS}"          , "DSN+-F") -- focus plvoer main window
+    , ("{PLOVER:FOCUS}"          , "DSN+-F") -- focus plover main window
     , ("{PLOVER:CONFIGURE}"      , "DSN+-G") -- plover configuration window
-    , ("{PLOVER:CONFIGURE}"      , "DSN++G") -- quit plover
+    , ("{PLOVER:QUIT}"           , "DSN++G") -- quit plover
     ]
 
 dictPlover :: [(KIChord, Text)]
